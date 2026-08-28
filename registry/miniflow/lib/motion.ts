@@ -119,6 +119,15 @@ export const draw: Transition = {
  * and the app-level data-motion="off" switch on <html>.
  */
 export function useMotionEnabled(): boolean {
+  /*
+   * Starts optimistic and is corrected on mount, which is the only option that
+   * hydrates cleanly: the server cannot know the reader's motion preference,
+   * so a first client render that disagreed with it would be a mismatch.
+   *
+   * The consequence is that this value is only trustworthy AFTER mount. Never
+   * let it decide whether content is visible - see components/site/demo-stage
+   * for the pattern that keeps an entrance animation hydration-safe.
+   */
   const [enabled, setEnabled] = useState(true);
 
   useEffect(() => {

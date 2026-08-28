@@ -24,6 +24,11 @@ export interface ComponentDoc {
   description: string;
   /** Where this belongs in a real interface. */
   whereToUse: string[];
+  /**
+   * Let the page use the full content column instead of the prose measure.
+   * For components whose width is load-bearing, such as a seven column week.
+   */
+  wide?: boolean;
   variants: VariantDoc[];
 }
 
