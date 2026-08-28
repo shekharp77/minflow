@@ -64,8 +64,8 @@ export function Switch({
         onCheckedChange?.(next);
       }}
       className={cn(
-        "relative inline-flex h-5 w-8 shrink-0 items-center rounded-full px-0.5 outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50",
-        on ? "bg-fg" : "bg-border-strong",
+        "hit-target relative inline-flex h-5 w-8 shrink-0 items-center rounded-full px-0.5 outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50",
+        on ? "bg-fg" : "bg-control-edge",
         className
       )}
       {...props}

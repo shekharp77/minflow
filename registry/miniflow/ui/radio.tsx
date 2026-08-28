@@ -96,7 +96,7 @@ export function Radio({ value, label, disabled }: RadioProps) {
         aria-hidden
         className={cn(
           "flex size-4.5 shrink-0 items-center justify-center rounded-full border transition-colors duration-150 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent",
-          on ? "border-fg" : "border-border-strong"
+          on ? "border-fg" : "border-control-edge"
         )}
       >
         <motion.span

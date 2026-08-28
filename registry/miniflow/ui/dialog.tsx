@@ -56,7 +56,7 @@ export function Dialog({ open, onClose, title, className, children }: DialogProp
         {open && (
           <React.Fragment key="dialog">
             <Scrim onClick={onClose} />
-            <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-6">
+            <div className="pointer-events-none fixed inset-0 z-overlay flex items-center justify-center p-6">
               <motion.div
                 ref={panelRef}
                 role="dialog"

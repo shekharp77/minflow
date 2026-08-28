@@ -36,6 +36,13 @@ export const durations = {
    * allowed to take most of a second.
    */
   bloom: 0.8,
+  /**
+   * Ambient loops only -- a device mock-up breathing, a shimmer cycling.
+   * Measured in seconds because it is scenery, never a transition a reader is
+   * waiting on. It lives here so that "slow" is still one number the library
+   * owns rather than a literal typed into whichever component needed it.
+   */
+  ambient: 6,
 } as const;
 
 /** Expo-out. Fast start, long glide to rest. The house entry curve. */

@@ -40,7 +40,7 @@ export function FieldBoundary({
       transition={roll}
       className={cn(
         "pointer-events-none absolute inset-0 rounded-control border",
-        invalid ? "border-err" : "border-border-strong"
+        invalid ? "border-err" : "border-control-edge"
       )}
     />
   );

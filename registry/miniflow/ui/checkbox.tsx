@@ -69,7 +69,7 @@ export function Checkbox({
         transition={springSnap}
         className={cn(
           "flex size-4.5 shrink-0 items-center justify-center rounded-control border transition-colors duration-150 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent",
-          on ? "border-fg bg-fg" : "border-border-strong bg-transparent"
+          on ? "border-fg bg-fg" : "border-control-edge bg-transparent"
         )}
       >
         <motion.svg

@@ -92,7 +92,7 @@ export function Carousel({ items, className }: CarouselProps) {
             aria-label={`Slide ${i + 1}`}
             aria-current={i === index}
             onClick={() => goTo(i)}
-            className="group/dot flex h-6 items-center px-1 outline-none"
+            className="group/dot flex h-6 min-w-6 items-center justify-center px-1 outline-none"
           >
             {i === index ? (
               <motion.span

@@ -4,7 +4,7 @@ import * as React from "react";
 import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight, Lock, RotateCw } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { blurRise, durations, easeEnter, useMotionEnabled } from "@/lib/motion";
+import { blurRise, durations, easeEnter, easeSoft, useMotionEnabled } from "@/lib/motion";
 
 /*
  * Frames for showing an interface inside the thing it runs on.
@@ -69,7 +69,7 @@ export function DeviceMockup({
         }
         transition={
           motionOn && float
-            ? { duration: 6, repeat: Infinity, ease: "easeInOut" }
+            ? { duration: durations.ambient, repeat: Infinity, ease: easeSoft }
             : undefined
         }
         style={{ aspectRatio: natural.ratio }}
@@ -197,7 +197,7 @@ function BrowserBar({ url }: { url: string }) {
         <Lock aria-hidden className="text-fg-2" />
         <span className="truncate">{url}</span>
       </motion.span>
-      <span aria-hidden className="flex text-fg-2/50 [&_svg]:size-3.5">
+      <span aria-hidden className="flex text-fg-2/50 [&_svg]:size-4">
         <RotateCw />
       </span>
     </div>

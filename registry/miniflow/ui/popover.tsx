@@ -4,7 +4,7 @@ import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Info } from "lucide-react";
 import { IconButton } from "@/components/ui/icon-button";
-import { useDismiss } from "@/components/ui/overlay";
+import { Portal, useAnchoredPosition, useDismiss } from "@/components/ui/overlay";
 import { enter, exit as exitT, useMotionEnabled } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -43,9 +43,14 @@ export function Popover({
     [isControlled, onOpenChange]
   );
   const rootRef = React.useRef<HTMLSpanElement>(null);
+  const panelRef = React.useRef<HTMLDivElement>(null);
   const close = React.useCallback(() => setOpen(false), [setOpen]);
-  useDismiss(open, close, [rootRef]);
+  /* The panel is portalled, so it is no longer a descendant of the trigger.
+     It has to be named here or a press inside it reads as "outside" and the
+     popover closes under the reader's own click. */
+  useDismiss(open, close, [rootRef, panelRef]);
   const motionOk = useMotionEnabled();
+  const { style, origin } = useAnchoredPosition(open, rootRef, panelRef, { side, align });
 
   return (
     <span ref={rootRef} className="relative inline-flex">
@@ -56,9 +61,11 @@ export function Popover({
         },
         "aria-expanded": open,
       })}
+      <Portal>
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={panelRef}
             role="dialog"
             /*
              * A panel that ignores the motion switch does not merely animate
@@ -74,13 +81,9 @@ export function Popover({
                 : undefined
             }
             transition={motionOk ? enter : { duration: 0 }}
-            style={{
-              transformOrigin: `${side === "bottom" ? "top" : "bottom"} ${align === "start" ? "left" : "right"}`,
-            }}
+            style={{ ...style, transformOrigin: origin }}
             className={cn(
-              "absolute z-50 min-w-44 rounded-overlay bg-bg-2 p-3 shadow-overlay ring-1 ring-border",
-              side === "bottom" ? "top-full mt-2" : "bottom-full mb-2",
-              align === "start" ? "left-0" : "right-0",
+              "z-anchored min-w-44 overflow-y-auto rounded-overlay bg-bg-2 p-3 shadow-overlay ring-1 ring-border",
               className
             )}
           >
@@ -88,6 +91,7 @@ export function Popover({
           </motion.div>
         )}
       </AnimatePresence>
+      </Portal>
     </span>
   );
 }

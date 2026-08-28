@@ -179,7 +179,7 @@ export function Toaster() {
   return (
     <div
       aria-live="polite"
-      className="pointer-events-none fixed bottom-20 right-6 z-[60] flex w-72 flex-col gap-2"
+      className="pointer-events-none fixed bottom-20 right-6 z-toast flex w-72 flex-col gap-2"
     >
       {/*
         `popLayout` takes a leaving toast out of the flow before the survivors

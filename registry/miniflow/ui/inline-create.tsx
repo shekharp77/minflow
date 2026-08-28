@@ -87,7 +87,7 @@ export function InlineCreate({
             className="overflow-hidden"
           >
             <div className={cn(row, "hover:bg-hover")}>
-              <span aria-hidden className="shrink-0 text-fg-2 [&_svg]:size-3.5">
+              <span aria-hidden className="shrink-0 text-fg-2 [&_svg]:size-4">
                 {icon}
               </span>
               <span className="truncate text-body font-medium text-text">
@@ -128,7 +128,7 @@ export function InlineCreate({
               exit={{ opacity: 0, transition: exit }}
             >
               <div className={cn(row, "bg-hover")}>
-                <span aria-hidden className="shrink-0 text-fg-2 [&_svg]:size-3.5">
+                <span aria-hidden className="shrink-0 text-fg-2 [&_svg]:size-4">
                   {icon}
                 </span>
                 {/*
@@ -173,7 +173,7 @@ export function InlineCreate({
                 "w-full text-left text-body text-text-2 opacity-45 transition-opacity duration-150 outline-none hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
               )}
             >
-              <Plus aria-hidden className="size-3.5 shrink-0" />
+              <Plus aria-hidden className="size-4 shrink-0" />
               {noun}
             </motion.button>
           )}

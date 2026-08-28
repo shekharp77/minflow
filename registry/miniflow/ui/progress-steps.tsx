@@ -145,7 +145,7 @@ function Marker({
           <motion.svg
             key="tick"
             viewBox="0 0 24 24"
-            className="size-3.5"
+            className="size-4"
             initial={motionOn ? { opacity: 0 } : false}
             animate={{ opacity: 1 }}
             exit={motionOn ? { opacity: 0 } : undefined}

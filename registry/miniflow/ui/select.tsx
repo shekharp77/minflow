@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { useDismiss } from "@/components/ui/overlay";
+import { Portal, useAnchoredPosition, useDismiss } from "@/components/ui/overlay";
 import {
   FieldBoundary,
   FieldChevron,
@@ -50,7 +50,14 @@ export function Select({
   const motionOk = useMotionEnabled();
   const rootRef = React.useRef<HTMLDivElement>(null);
   const close = React.useCallback(() => setOpen(false), []);
-  useDismiss(open, close, [rootRef]);
+  const panelRef = React.useRef<HTMLUListElement>(null);
+  /* Portalled panel: name it here or a click on an option counts as outside. */
+  useDismiss(open, close, [rootRef, panelRef]);
+  /* matchWidth: a list field's panel is the field, opened. Any other width
+     makes the panel read as a separate object that happened to appear. */
+  const { style: panelStyle, origin } = useAnchoredPosition(open, rootRef, panelRef, {
+    matchWidth: true,
+  });
 
   const selected = options.find((o) => o.value === current);
 
@@ -90,7 +97,7 @@ export function Select({
         aria-expanded={open}
         aria-label={label}
         onClick={() => setOpen((v) => !v)}
-        className={cn(fieldBoxRow, "border border-border")}
+        className={cn(fieldBoxRow, "border border-control-edge")}
       >
         <FieldValue filled={!!selected}>
           {selected?.label ?? placeholder}
@@ -98,17 +105,19 @@ export function Select({
         <FieldChevron open={open} />
         <FieldBoundary active={open} />
       </button>
-      <AnimatePresence>
-        {open && (
-          <motion.ul
-            role="listbox"
-            variants={panel(0.022)}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            style={{ transformOrigin: "top left" }}
-            className="absolute top-full z-50 mt-2 w-full rounded-overlay bg-bg-2 p-1 shadow-overlay ring-1 ring-border"
-          >
+      <Portal>
+        <AnimatePresence>
+          {open && (
+            <motion.ul
+              ref={panelRef}
+              role="listbox"
+              variants={panel(0.022)}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              style={{ ...panelStyle, transformOrigin: origin }}
+              className="z-anchored overflow-y-auto rounded-overlay bg-bg-2 p-1 shadow-overlay ring-1 ring-border"
+            >
             {options.map((option, index) => {
               const isSelected = option.value === current;
               return (
@@ -132,7 +141,7 @@ export function Select({
                       strokeWidth={1.75}
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="size-3.5 stroke-fg"
+                      className="size-4 stroke-fg"
                     >
                       <motion.path
                         d="M3.5 8.5 6.5 11.5 12.5 4.5"
@@ -148,9 +157,10 @@ export function Select({
                 </motion.li>
               );
             })}
-          </motion.ul>
-        )}
-      </AnimatePresence>
+            </motion.ul>
+          )}
+        </AnimatePresence>
+      </Portal>
     </div>
   );
 }

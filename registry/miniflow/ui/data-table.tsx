@@ -108,7 +108,7 @@ export function DataTable<T extends { id: string }>({
                   type="button"
                   onClick={() => toggle(col.id)}
                   className={cn(
-                    "inline-flex items-center gap-1 text-caption font-medium uppercase tracking-[0.08em] outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                    "inline-flex min-h-6 items-center gap-1 text-caption font-medium uppercase tracking-[0.08em] outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
                     sort?.id === col.id ? "text-text" : "text-text-2"
                   )}
                 >
@@ -124,7 +124,7 @@ export function DataTable<T extends { id: string }>({
                       opacity: sort?.id === col.id ? 1 : 0,
                     }}
                     transition={{ duration: motionOn ? durations.micro : 0, ease: easeSoft }}
-                    className="flex [&_svg]:size-3.5"
+                    className="flex [&_svg]:size-4"
                   >
                     <ChevronUp />
                   </motion.span>

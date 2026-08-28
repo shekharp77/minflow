@@ -34,7 +34,7 @@ function Pill({ icon, className, children, ...props }: PillProps) {
     <button
       type="button"
       className={cn(
-        "inline-flex h-6 items-center gap-1 rounded-full border border-border-strong px-2 text-caption font-medium text-text-2 outline-none transition-colors duration-150 hover:bg-hover hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-3.5 [&_svg]:shrink-0",
+        "inline-flex h-6 items-center gap-1 rounded-full border border-border-strong px-2 text-caption font-medium text-text-2 outline-none transition-colors duration-150 hover:bg-hover hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4 [&_svg]:shrink-0",
         className
       )}
       {...props}
@@ -108,7 +108,7 @@ export function Composer({
         className="w-full bg-transparent font-sans text-body text-text outline-none placeholder:text-text-2/70"
       />
       <div className="flex flex-wrap items-center gap-2">
-        <span className="inline-flex items-center gap-1.5 text-caption text-text-2 [&_svg]:size-3.5">
+        <span className="inline-flex items-center gap-1.5 text-caption text-text-2 [&_svg]:size-4">
           <Zap aria-hidden />
           Suggested
         </span>
@@ -119,7 +119,7 @@ export function Composer({
         ))}
       </div>
       <div className="flex flex-wrap items-center gap-1.5">
-        <span className="inline-flex h-6 items-center gap-1 rounded-full bg-id-1/12 px-2 text-caption font-medium text-id-1 [&_svg]:size-3.5">
+        <span className="inline-flex h-6 items-center gap-1 rounded-full bg-id-1/12 px-2 text-caption font-medium text-id-1 [&_svg]:size-4">
           <Box aria-hidden />
           {team}
         </span>

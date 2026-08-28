@@ -61,10 +61,21 @@ export function DemoStage({
       animate={animated && !inView ? "hidden" : "visible"}
       transition={{ duration: durations.view, ease: easeEnter }}
       className={
-        "relative isolate overflow-hidden rounded-overlay bg-stage " +
+        /*
+         * NOT `overflow-hidden`. The stage used to clip, and a clipping stage
+         * guillotines exactly the thing a reader came to look at: a select
+         * panel, a menu, a date picker. Overlays now portal out to the body so
+         * nothing here can crop them, and the stage keeps no clip of its own
+         * so that any specimen still positioned in flow stays whole too.
+         *
+         * `isolate` also had to go with it: a new stacking context would trap
+         * an in-flow layer beneath the next stage down the page.
+         */
+        "relative rounded-overlay bg-stage " +
         /* Generous and asymmetric: more air above and below than beside, so a
-         * short specimen still occupies a stage rather than hugging an edge. */
-        "px-5 py-8 sm:px-10 sm:py-12 " +
+         * short specimen still occupies a stage rather than hugging an edge.
+         * The floor is what gives an opening panel somewhere to go. */
+        "min-h-44 px-5 py-10 sm:px-10 sm:py-14 " +
         (className ?? "")
       }
     >

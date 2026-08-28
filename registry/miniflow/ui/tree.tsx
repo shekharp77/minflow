@@ -84,7 +84,7 @@ export function Tree({
                   onSelect?.(node.id);
                   if (hasChildren) toggle(node.id);
                 }}
-                className="flex min-w-0 flex-1 items-center gap-1.5 rounded-control text-left text-body outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+                className="flex min-h-6 min-w-0 flex-1 items-center gap-1.5 rounded-control text-left text-body outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
               >
                 {hasChildren ? (
                   <motion.span
@@ -94,7 +94,7 @@ export function Tree({
                     transition={roll}
                     className="flex size-4 shrink-0 items-center justify-center text-fg-2"
                   >
-                    <ChevronRight className="size-3.5" />
+                    <ChevronRight className="size-4" />
                   </motion.span>
                 ) : (
                   <span aria-hidden className="size-4 shrink-0" />

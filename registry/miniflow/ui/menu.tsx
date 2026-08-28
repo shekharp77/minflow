@@ -4,6 +4,7 @@ import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronRight } from "lucide-react";
 import { Popover } from "@/components/ui/popover";
+import { Portal, useAnchoredPosition } from "@/components/ui/overlay";
 import {
   cascade,
   fadeRise,
@@ -177,8 +178,17 @@ export function Submenu({
 
   React.useEffect(() => () => window.clearTimeout(timer.current), []);
 
+  const rowRef = React.useRef<HTMLDivElement>(null);
+  const flyoutRef = React.useRef<HTMLDivElement>(null);
+  /* Beside the row, flipping across it when the right edge runs out. */
+  const { style: flyoutStyle, origin } = useAnchoredPosition(open, rowRef, flyoutRef, {
+    side: "right",
+    offset: 4,
+  });
+
   return (
     <div
+      ref={rowRef}
       className="group/sub relative"
       onPointerEnter={() => schedule(true)}
       onPointerLeave={() => schedule(false)}
@@ -213,29 +223,43 @@ export function Submenu({
           <ChevronRight aria-hidden />
         </motion.span>
       </div>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            role="menu"
-            variants={panel(0.018)}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            /*
-             * The flyout grows out of the edge it is attached to, so the eye
-             * is told where it came from rather than having to find it.
-             */
-            style={{ transformOrigin: "top left" }}
-            className="absolute left-full top-0 z-50 ml-1 min-w-40 rounded-overlay bg-bg-2 p-1 shadow-overlay ring-1 ring-border"
-          >
+      <Portal>
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              ref={flyoutRef}
+              role="menu"
+              /*
+               * The flyout is portalled, so the pointer crossing from the row
+               * into it fires the row's `pointerleave`. These two handlers are
+               * what turn that into a no-op: entering the flyout cancels the
+               * scheduled close before SUBMENU_CLOSE_MS elapses.
+               */
+              onPointerEnter={() => {
+                window.clearTimeout(timer.current);
+                setOpen(true);
+              }}
+              onPointerLeave={() => schedule(false)}
+              variants={panel(0.018)}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              /*
+               * The flyout grows out of the edge it is attached to, so the eye
+               * is told where it came from rather than having to find it.
+               */
+              style={{ ...flyoutStyle, transformOrigin: origin }}
+              className="z-anchored min-w-40 overflow-y-auto rounded-overlay bg-bg-2 p-1 shadow-overlay ring-1 ring-border"
+            >
             {/* Rows inherit the panel's variant state directly: MenuItem is
                 itself a motion element carrying `fadeRise`, so no wrapper is
                 needed -- and a role-less div here would sever the ARIA
                 ownership between role="menu" and its role="menuitem" rows. */}
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
+              {children}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Portal>
     </div>
   );
 }

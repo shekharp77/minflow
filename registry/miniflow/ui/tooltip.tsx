@@ -31,7 +31,7 @@ export function Tooltip({ label, side = "top", className, children }: TooltipPro
            * property that ever changes -- colour, shadow, the lot -- and takes
            * each of them off the compositor to do it.
            */
-          "pointer-events-none absolute left-1/2 z-50 -translate-x-1/2 whitespace-nowrap rounded-overlay bg-fg px-2 py-1 text-caption font-medium text-bg opacity-0 shadow-overlay transition-[opacity,transform] duration-150 ease-out delay-0",
+          "pointer-events-none absolute left-1/2 z-anchored -translate-x-1/2 whitespace-nowrap rounded-overlay bg-fg px-2 py-1 text-caption font-medium text-bg opacity-0 shadow-overlay transition-[opacity,transform] duration-150 ease-out delay-0",
           side === "top"
             ? "bottom-full mb-1.5 translate-y-0.5"
             : "top-full mt-1.5 -translate-y-0.5",

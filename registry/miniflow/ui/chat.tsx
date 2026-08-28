@@ -112,7 +112,7 @@ export function ChatWindow({
             exit={{ opacity: 0, scale: 0.96, y: 16, filter: "blur(4px)" }}
             transition={spring}
             style={{ transformOrigin: "bottom right" }}
-            className="fixed bottom-6 right-6 z-[75] flex h-[540px] max-h-[78vh] w-[360px] max-w-[calc(100vw-3rem)] flex-col rounded-overlay bg-bg shadow-overlay ring-1 ring-border"
+            className="fixed bottom-6 right-6 z-overlay flex h-[540px] max-h-[78vh] w-[360px] max-w-[calc(100vw-3rem)] flex-col rounded-overlay bg-bg shadow-overlay ring-1 ring-border"
           >
             <div className="flex h-11 shrink-0 items-center gap-1 pl-4 pr-2">
               <span className="text-body font-medium text-text">{title}</span>
@@ -187,7 +187,7 @@ export function ChatWindow({
 
             <div className="shrink-0 px-3 pb-3">
               <div className="mb-2 flex px-1">
-                <span className="inline-flex h-6 items-center gap-1 rounded-full bg-id-1/12 px-2 text-caption font-medium text-id-1 [&_svg]:size-3.5">
+                <span className="inline-flex h-6 items-center gap-1 rounded-full bg-id-1/12 px-2 text-caption font-medium text-id-1 [&_svg]:size-4">
                   <Box aria-hidden />
                   {context}
                 </span>
@@ -207,7 +207,7 @@ export function ChatWindow({
                   trigger={
                     <button
                       type="button"
-                      className="inline-flex h-8 items-center gap-1 rounded-control px-1.5 text-caption text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-3.5"
+                      className="inline-flex h-8 items-center gap-1 rounded-control px-1.5 text-caption text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4"
                     >
                       <Layers aria-hidden />
                       Tools

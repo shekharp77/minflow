@@ -45,7 +45,7 @@ export function Breadcrumbs({
               {last ? (
                 <span
                   aria-current="page"
-                  className="flex items-center gap-1.5 text-body font-medium text-text [&_svg]:size-3.5 [&_svg]:text-fg"
+                  className="flex items-center gap-1.5 text-body font-medium text-text [&_svg]:size-4 [&_svg]:text-fg"
                 >
                   {item.icon}
                   {item.label}
@@ -55,14 +55,14 @@ export function Breadcrumbs({
                   <a
                     href={item.href ?? "#"}
                     className={cn(
-                      "flex items-center gap-1.5 rounded-control text-body text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-                      "[&_svg]:size-3.5 [&_svg]:text-fg-2 [&_svg]:transition-colors [&_svg]:duration-150 hover:[&_svg]:text-fg"
+                      "flex min-h-6 items-center gap-1.5 rounded-control text-body text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                      "[&_svg]:size-4 [&_svg]:text-fg-2 [&_svg]:transition-colors [&_svg]:duration-150 hover:[&_svg]:text-fg"
                     )}
                   >
                     {item.icon}
                     {item.label}
                   </a>
-                  <ChevronRight aria-hidden className="size-3.5 text-fg-2/60" />
+                  <ChevronRight aria-hidden className="size-4 text-fg-2/60" />
                 </>
               )}
             </motion.li>

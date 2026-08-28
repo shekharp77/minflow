@@ -59,7 +59,7 @@ export function AppBar({
   return (
     <header
       className={cn(
-        "sticky top-0 z-30 flex h-12 items-center gap-2 px-3 transition-[background-color,backdrop-filter] duration-300",
+        "sticky top-0 z-sticky flex h-12 items-center gap-2 px-3 transition-[background-color,backdrop-filter] duration-300",
         condensed ? "bg-bg/85 backdrop-blur" : "bg-transparent",
         className
       )}

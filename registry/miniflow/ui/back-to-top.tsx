@@ -32,7 +32,7 @@ export function BackToTop({ threshold = 600 }: { threshold?: number }) {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 8, scale: 0.95 }}
           transition={enter}
-          className="fixed bottom-6 right-6 z-40"
+          className="fixed bottom-6 right-6 z-header"
         >
           <Tooltip label="Back to top">
             <motion.button

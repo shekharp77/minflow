@@ -57,7 +57,7 @@ export function FullscreenLoader({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: exit }}
             transition={{ duration: durations.bloom }}
-            className="fixed inset-0 z-[80] flex items-center justify-center bg-bg"
+            className="fixed inset-0 z-fullscreen flex items-center justify-center bg-bg"
           >
             <div className="w-72">
               <h2 className="font-display text-title font-bold text-text">

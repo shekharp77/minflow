@@ -127,7 +127,7 @@ export function Sheet({
               dragTransition={{ bounceStiffness: 520, bounceDamping: 46 }}
               style={{ touchAction: fromRight ? "pan-y" : "auto" }}
               className={cn(
-                "fixed z-50 bg-bg-2 shadow-overlay",
+                "fixed z-overlay bg-bg-2 shadow-overlay",
                 fromRight
                   ? "inset-y-0 right-0 w-80 max-w-[85vw] p-6 ring-1 ring-border"
                   : "inset-x-0 bottom-0 max-h-[70vh] rounded-t-overlay p-6 pt-3 ring-1 ring-border",

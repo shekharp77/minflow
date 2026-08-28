@@ -114,7 +114,7 @@ export function Rating({
                 delay: motionOn && on ? (n - 1) * 0.03 : 0,
               }}
               className={cn(
-                "inline-flex items-center justify-center p-0.5 outline-none",
+                "hit-target inline-flex items-center justify-center p-0.5 outline-none",
                 readOnly ? "cursor-default" : "cursor-pointer",
                 on ? "text-warn" : "text-fg-2"
               )}

@@ -394,7 +394,7 @@ function EventInspector({
             exit={motionOk ? { opacity: 0, scale: 0.97, y: -2, transition: exit } : undefined}
             transition={motionOk ? enter : { duration: 0 }}
             style={{ ...place(), width: PANEL_W, transformOrigin: "top left" }}
-            className="fixed z-[70] rounded-overlay bg-bg-2 p-4 shadow-overlay ring-1 ring-border"
+            className="fixed z-anchored rounded-overlay bg-bg-2 p-4 shadow-overlay ring-1 ring-border"
           >
             <motion.div variants={cascade(0.05)} initial={motionOk ? "hidden" : false} animate="visible">
               <motion.p
@@ -512,7 +512,7 @@ function DayChip({ event, resource, selected, onSelect }: ChipProps) {
       type="button"
       onClick={(e) => onSelect(event, e.currentTarget)}
       className={cn(
-        "flex w-full items-center gap-1.5 rounded-control px-1.5 py-0.5 text-left outline-none transition-colors duration-150",
+        "flex min-h-6 w-full items-center gap-1.5 rounded-control px-1.5 py-0.5 text-left outline-none transition-colors duration-150",
         "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
         selected ? "bg-fg text-bg" : "text-text hover:bg-hover"
       )}
@@ -811,7 +811,7 @@ function MonthView({
                 onClick={() => onOpenDay(day)}
                 aria-label={`Open ${fmt.weekdayLong.format(day)} ${fmt.dayMonth.format(day)}`}
                 className={cn(
-                  "mb-1 rounded-control px-1 text-body outline-none transition-colors duration-150",
+                  "mb-1 inline-flex min-h-6 min-w-6 items-center justify-center rounded-control px-1 text-body outline-none transition-colors duration-150",
                   "hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
                   isToday ? "font-semibold text-accent" : "text-text"
                 )}

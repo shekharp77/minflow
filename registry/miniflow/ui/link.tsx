@@ -16,7 +16,7 @@ export function Link({ external, className, children, ...props }: LinkProps) {
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
       className={cn(
-        "group/link inline-flex items-center gap-0.5 bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-[position:0_100%] bg-no-repeat text-body text-text outline-none transition-[background-size] duration-150 hover:bg-[length:100%_1px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+        "group/link inline-flex min-h-6 items-center gap-0.5 bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-[position:0_100%] bg-no-repeat text-body text-text outline-none transition-[background-size] duration-150 hover:bg-[length:100%_1px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
         className
       )}
       {...props}
@@ -25,7 +25,7 @@ export function Link({ external, className, children, ...props }: LinkProps) {
       {external && (
         <ArrowUpRight
           aria-hidden
-          className="size-3.5 text-fg-2 transition-transform duration-150 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
+          className="size-4 text-fg-2 transition-transform duration-150 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
         />
       )}
     </a>

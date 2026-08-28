@@ -67,6 +67,66 @@ Then verify in the browser: the component appears on the homepage grid and in
 the docs sidebar, `/minimilist-<name>` renders every variant, and the prose is
 present in `curl -s localhost:3000/minimilist-<name>` with no JavaScript.
 
+## The scales (audited; do not invent a value outside them)
+
+Every number below is measured and enforced. If none fits, add a token to the
+scale and say why in the same commit; never write a one-off literal.
+
+- **Radius**: `rounded-control` (6px), `rounded-overlay` (10px), `rounded-full`.
+  Three, and that is the list. They are concentric on purpose: a control inside
+  an overlay padded `p-1` is 10 - 4 = 6, so `control` inside `overlay` lines up
+  around the corner. The device mock-up's `rounded-[2rem]` family is the one
+  exception, because a phone bezel is a depicted object rather than UI chrome.
+- **Icons**: 16 / 20 / 24 only, and nothing else — 14 is not on the 4px grid.
+  A *shape* is not an icon: a slider thumb, a checkbox tick, a matrix dot may be
+  any size, because they are the control, not a glyph inside it.
+- **Control height**: `--size-chip` 24, `--size-control-sm/md/lg` 28/32/36,
+  `--size-touch` 40, `--size-fab` 48. `sm/md/lg` mean the same three numbers for
+  a button as for an input, which is what lets them share a row.
+- **Spacing**: the 4px grid, with 2px half-steps (`p-1.5`, `gap-2.5`) allowed for
+  dense inline chrome only. `gap-2` is the default rhythm.
+- **Type**: 6 steps, `caption` 12 / `body` 13 / `emphasis` 14 / `section` 16 /
+  `title` 20 / `display` 24. The ratio is intentionally not constant — ~1.08x
+  across the dense range so UI text differentiates without breaking the line
+  grid, 1.25x/1.2x across headings so they differentiate by leaping.
+- **Layers**: name the rung (`z-anchored`, `z-overlay`, `z-toast`, …), never a
+  number. Anchored layers sit *above* dialogs, because a select opened inside a
+  dialog must open over it.
+- **Motion**: every duration and curve from `@/lib/motion`. `durations.ambient`
+  is the only one measured in seconds and is for scenery loops only.
+
+## Contrast: which token to reach for
+
+Measured in both themes with a canvas probe; the numbers are in
+`.harness/findings.md` (F43 to F46).
+
+- `border` (1.24:1) and `border-strong` (1.48:1) are **decoration** — separators,
+  panel rings, hairlines beside a visible label. WCAG 1.4.11 does not apply to
+  them and they are deliberately quiet.
+- `control-edge` (>= 3.2:1 both themes) is for a boundary that is a control's
+  **only** identity: an unchecked checkbox or radio, a switch track, a list
+  field that is transparent inside. Reach for this one whenever removing the
+  border would leave nothing that says "this is a control".
+- `fg-2` is the icon colour and clears 3:1 on all three surfaces. `text-2`
+  clears 4.5:1. Check any new colour against `stage`, not against `bg` — `stage`
+  is the darkest of the three and is where every previous failure hid.
+- Targets are 24x24 minimum (WCAG 2.2 SC 2.5.8). A control that *paints* smaller
+  keeps its look and adds `.hit-target`, which grows the catch area only.
+
+## Overlays must never position themselves in flow
+
+A menu, select panel, popover or submenu is anchored to a control but does not
+belong to it. Use `useAnchoredPosition` from `@/components/ui/overlay` inside a
+`Portal`. Positioning one with `absolute` inside the trigger's own box makes
+every ancestor a potential guillotine — one `overflow: hidden` anywhere up the
+tree silently crops it, which is exactly the bug that ate two thirds of the
+select's options. Two things to remember when you do:
+
+- Add the panel's ref to `useDismiss`, or a click *inside* the portalled panel
+  counts as "outside" and closes it under the reader's own pointer.
+- If the layer opens on hover, put the hover handlers on the portalled panel
+  too: the pointer crossing from trigger to panel now fires `pointerleave`.
+
 ## Things that are easy to get wrong here
 
 - **Do not animate a property that a CSS class also controls.** Motion writes

@@ -36,7 +36,7 @@ export function SiteHeader() {
       : pathname === href;
 
   return (
-    <header className="sticky top-0 z-40 bg-bg/85 backdrop-blur">
+    <header className="sticky top-0 z-header bg-bg/85 backdrop-blur">
       {/*
         * The gap tightens on narrow viewports: at 390px the wordmark, both
         * destinations and three 40px controls do not fit at the desktop gap,

@@ -30,11 +30,38 @@ export interface SpeedDialProps {
   className?: string;
 }
 
+/*
+ * `place` positions the fan against the trigger's own box rather than beside
+ * it in flow. That distinction is the whole fix: a fan that is a flow sibling
+ * of the trigger grows the shared container when it mounts, which shoves the
+ * trigger to a new position at the exact moment the reader is aiming at it.
+ * Out of flow, the trigger cannot move, so the second click always lands.
+ *
+ * The cross-axis is centred on the trigger so the fan is symmetric wherever
+ * the control sits, and `stack` keeps the nearest action closest to the
+ * trigger on every axis.
+ */
 const AXIS = {
-  up: { stack: "flex-col-reverse", from: { y: 12 } },
-  down: { stack: "flex-col", from: { y: -12 } },
-  left: { stack: "flex-row-reverse", from: { x: 12 } },
-  right: { stack: "flex-row", from: { x: -12 } },
+  up: {
+    stack: "flex-col-reverse items-center",
+    from: { y: 12 },
+    place: "bottom-full left-1/2 mb-2 -translate-x-1/2",
+  },
+  down: {
+    stack: "flex-col items-center",
+    from: { y: -12 },
+    place: "top-full left-1/2 mt-2 -translate-x-1/2",
+  },
+  left: {
+    stack: "flex-row-reverse items-center",
+    from: { x: 12 },
+    place: "right-full top-1/2 mr-2 -translate-y-1/2",
+  },
+  right: {
+    stack: "flex-row items-center",
+    from: { x: -12 },
+    place: "left-full top-1/2 ml-2 -translate-y-1/2",
+  },
 } as const;
 
 export function SpeedDial({
@@ -47,7 +74,6 @@ export function SpeedDial({
   const [open, setOpen] = React.useState(false);
   const root = React.useRef<HTMLDivElement>(null);
   const axis = AXIS[direction];
-  const vertical = direction === "up" || direction === "down";
 
   /* Escape and outside-press both close, because a fan of actions left open
      over content is worse than the click it saved. */
@@ -68,12 +94,9 @@ export function SpeedDial({
   return (
     <div
       ref={root}
-      className={cn(
-        "inline-flex items-center gap-2",
-        axis.stack,
-        vertical ? "items-end" : "items-center",
-        className
-      )}
+      /* Sized by the trigger alone. Nothing the fan does can change this box,
+         which is what keeps the trigger still. */
+      className={cn("relative inline-flex", className)}
     >
       <motion.button
         type="button"
@@ -98,9 +121,9 @@ export function SpeedDial({
         {open && (
           <motion.ul
             className={cn(
-              "flex list-none gap-2",
+              "absolute z-anchored flex w-max list-none gap-2",
               axis.stack,
-              vertical ? "items-end" : "items-center"
+              axis.place
             )}
           >
             {actions.map((action, i) => (

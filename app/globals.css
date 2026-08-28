@@ -11,15 +11,31 @@
   --bg: #ffffff;
   --bg-2: #f7f8f8;
   --fg: #0f1011;
-  --fg-2: #8a8f98;
+  /*
+   * fg-2 is the icon colour, and an icon that carries meaning is a
+   * "graphical object" under WCAG 1.4.11, so it owes 3:1 against every surface
+   * it can land on - including `stage`, the darkest of the three. The previous
+   * #8a8f98 measured 2.87:1 there and failed.
+   */
+  --fg-2: oklch(0.6 0.012 264);
   --text: #0f1011;
-  --text-2: #6b6f76;
+  /* 4.5:1 body text on all three surfaces; the old #6b6f76 measured 4.46 on stage */
+  --text-2: #666a71;
 
   /* derived */
   --accent: #5e6ad2;
   --on-accent: #ffffff;
   --border: color-mix(in oklab, var(--text) 10%, transparent);
   --border-strong: color-mix(in oklab, var(--text) 18%, transparent);
+  /*
+   * The boundary of a control that has no other identity - an unchecked
+   * checkbox or radio, a switch track, a list field that is transparent
+   * inside. WCAG 1.4.11 asks 3:1 of exactly this edge, and `border` (1.24:1)
+   * and `border-strong` (1.48:1) are both far below it. Those two remain what
+   * they were, because a separator or a panel ring is decoration and is
+   * explicitly out of scope for 1.4.11; this token is not.
+   */
+  --control-edge: color-mix(in oklab, var(--text) 48%, transparent);
   --hover: color-mix(in oklab, var(--text) 5%, transparent);
 
   /*
@@ -32,9 +48,13 @@
    */
   --stage: color-mix(in oklab, var(--fg-2) 12%, var(--bg));
 
-  /* fixed status, never decorative */
-  --ok: #16a34a;
-  --warn: #d97706;
+  /*
+   * Fixed status, never decorative. These are graphical objects under 1.4.11,
+   * so they owe 3:1 on the darkest surface they can land on. The previous
+   * green/amber measured 2.91 and 2.82 on `stage` and failed there.
+   */
+  --ok: #15803d;
+  --warn: #b45309;
   --err: #dc2626;
 
   /* component identity tones: one hue per component type, app-wide */
@@ -56,6 +76,10 @@
   --accent: oklch(0.68 0.135 277);
   --on-accent: oklch(0.13 0.005 264);
 
+  /* Dark needs less mix to clear 3:1 than light does: 38% already measures
+     3.14 here, so 40% carries the same headroom 48% buys in light. */
+  --control-edge: color-mix(in oklab, var(--text) 40%, transparent);
+
   --ok: #22c55e;
   --warn: #f59e0b;
   --err: #ef4444;
@@ -76,6 +100,7 @@
   --color-on-accent: var(--on-accent);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
+  --color-control-edge: var(--control-edge);
   --color-hover: var(--hover);
   --color-stage: var(--stage);
   --color-ok: var(--ok);
@@ -96,8 +121,56 @@
   /* radius vocabulary: controls, overlays, pills (rounded-full). Whole list. */
   --radius-control: 6px;
   --radius-overlay: 10px;
+  /*
+   * Concentric nesting. When a control sits inside an overlay with `p-1` (4px),
+   * the inner radius must be the outer minus the gap or the corners read as
+   * off-centre: 10 - 4 = 6, which is exactly `control` inside `overlay`. That
+   * relationship is why the vocabulary is two steps and not three, and it is
+   * the reason to reach for these rather than a new number.
+   */
 
-  /* compact type scale; when in doubt take the smaller size */
+  /*
+   * Layer ladder. Every fixed or absolute surface names its rung here instead
+   * of inventing a number, because the only thing that matters about a z-index
+   * is what it sits above, and an arbitrary `z-[75]` does not say.
+   */
+  --z-index-raised: 10;
+  --z-index-sticky: 30;
+  --z-index-header: 40;
+  --z-index-scrim: 50;
+  --z-index-overlay: 60;
+  /* Anchored layers ride ABOVE dialogs: a select inside a dialog must open
+     over it, never behind it. */
+  --z-index-anchored: 70;
+  --z-index-toast: 80;
+  --z-index-fullscreen: 90;
+
+  /*
+   * Control height ramp. Every interactive control picks one of these; there
+   * is no other height. `sm/md/lg` are the same three numbers for a button and
+   * for an input, which is what lets the two sit on one row without a shim.
+   *
+   * All are multiples of 4, and `chip` at 24 is deliberately the floor: WCAG
+   * 2.2 SC 2.5.8 asks 24x24 of a pointer target, so nothing in the ramp is
+   * allowed below it. Controls that PAINT smaller than 24 (switch, slider
+   * thumb, star) keep their small look and buy the target back with
+   * `.hit-target` instead.
+   */
+  --size-chip: 24px;
+  --size-control-sm: 28px;
+  --size-control-md: 32px;
+  --size-control-lg: 36px;
+  --size-touch: 40px;
+  --size-fab: 48px;
+
+  /*
+   * Type scale, 6 steps, and the ratio is deliberately not constant.
+   * 12 -> 13 -> 14 are 1.08x apart because dense UI text has to differentiate
+   * without changing the line grid; 16 -> 20 -> 24 are 1.25x/1.2x apart
+   * because headings differentiate by leaping. A single ratio across both
+   * ranges gives either headings that do not lead or body sizes that collide.
+   * When in doubt take the smaller size.
+   */
   --text-caption: 0.75rem;
   --text-caption--line-height: 1.4;
   --text-body: 0.8125rem;
@@ -160,6 +233,28 @@ input[type="color"]:not(:disabled) {
 
 ::selection {
   background: color-mix(in oklab, var(--accent) 22%, transparent);
+}
+
+/*
+ * WCAG 2.2 SC 2.5.8 asks every pointer target to be at least 24x24 CSS px.
+ * A minimalist library cannot answer that by drawing bigger controls - a 24px
+ * switch knob or a 24px slider thumb is a different design - so it answers it
+ * by separating the two things the criterion never conflates: the pixels the
+ * control PAINTS and the pixels it CATCHES. This grows only the second. The
+ * pseudo-element is deliberately not `pointer-events: none`, because catching
+ * the pointer is its entire job.
+ */
+.hit-target {
+  position: relative;
+}
+.hit-target::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, 24px);
+  height: max(100%, 24px);
+  transform: translate(-50%, -50%);
 }
 
 /* transient crossfade while the palette flips (theme toggle, theme reset) */

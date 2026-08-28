@@ -29,7 +29,7 @@ export interface PropertyProps {
 }
 
 const valueRow =
-  "flex min-w-0 items-center gap-2 rounded-control text-left text-body outline-none transition-colors duration-150 [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-fg-2";
+  "flex min-h-6 min-w-0 items-center gap-2 rounded-control text-left text-body outline-none transition-colors duration-150 [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-fg-2";
 const valueInteractive =
   "cursor-pointer hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
@@ -114,7 +114,7 @@ export function PropertyList({
           type="button"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex items-center gap-1 rounded-control text-caption font-medium text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="flex min-h-6 items-center gap-1 rounded-control text-caption font-medium text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           {title}
           <motion.span
@@ -123,7 +123,7 @@ export function PropertyList({
             animate={{ rotate: open ? 0 : -90 }}
             transition={roll}
           >
-            <ChevronDown className="size-3.5" />
+            <ChevronDown className="size-4" />
           </motion.span>
         </button>
         {onAdd && (

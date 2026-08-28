@@ -160,7 +160,7 @@ export function DatePicker({
       trigger={
         <button
           type="button"
-          className={cn(fieldBoxRow, "w-44 border border-border", className)}
+          className={cn(fieldBoxRow, "w-44 border border-control-edge", className)}
         >
           <FieldValue filled={!!date}>
             {date

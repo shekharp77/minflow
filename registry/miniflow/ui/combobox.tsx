@@ -4,9 +4,9 @@ import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Input } from "@/components/ui/input";
-import { useDismiss } from "@/components/ui/overlay";
+import { Portal, useAnchoredPosition, useDismiss } from "@/components/ui/overlay";
 import { FieldChevron } from "@/registry/miniflow/ui/field";
-import { panel } from "@/lib/motion";
+import { durations, panel } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -36,9 +36,14 @@ export function Combobox({
   const [open, setOpen] = React.useState(false);
   const [hi, setHi] = React.useState(0);
   const rootRef = React.useRef<HTMLDivElement>(null);
-  const [listRef] = useAutoAnimate<HTMLUListElement>({ duration: 200 });
+  const [listRef] = useAutoAnimate<HTMLUListElement>({ duration: durations.view * 1000 });
   const close = React.useCallback(() => setOpen(false), []);
-  useDismiss(open, close, [rootRef]);
+  const panelRef = React.useRef<HTMLDivElement>(null);
+  /* Portalled panel: name it here or a click on an option counts as outside. */
+  useDismiss(open, close, [rootRef, panelRef]);
+  const { style: panelStyle, origin } = useAnchoredPosition(open, rootRef, panelRef, {
+    matchWidth: true,
+  });
 
   const filtered = options.filter((o) =>
     o.toLowerCase().includes(query.toLowerCase())
@@ -92,16 +97,18 @@ export function Combobox({
           <FieldChevron open={open} />
         </span>
       </div>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            variants={panel()}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            style={{ transformOrigin: "top left" }}
-            className="absolute top-full z-50 mt-2 w-full rounded-overlay bg-bg-2 p-1 shadow-overlay ring-1 ring-border"
-          >
+      <Portal>
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              ref={panelRef}
+              variants={panel()}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              style={{ ...panelStyle, transformOrigin: origin }}
+              className="z-anchored overflow-y-auto rounded-overlay bg-bg-2 p-1 shadow-overlay ring-1 ring-border"
+            >
             <ul ref={listRef} role="listbox">
               {filtered.map((option, index) => (
                 <li key={option}>
@@ -127,9 +134,10 @@ export function Combobox({
                 </li>
               )}
             </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Portal>
     </div>
   );
 }

@@ -49,7 +49,7 @@ export function ContextMenu({ content, className, children }: ContextMenuProps) 
               transition={enter}
               style={{ left: pos.x, top: pos.y, transformOrigin: "top left" }}
               className={cn(
-                "fixed z-[70] min-w-44 rounded-overlay bg-bg-2 p-1 shadow-overlay ring-1 ring-border"
+                "fixed z-anchored min-w-44 rounded-overlay bg-bg-2 p-1 shadow-overlay ring-1 ring-border"
               )}
             >
               {content}

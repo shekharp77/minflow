@@ -51,7 +51,7 @@ export function Listbox({
       aria-multiselectable={multiple}
       aria-label={label}
       className={cn(
-        "max-h-44 w-56 overflow-auto overscroll-contain rounded-control border border-border bg-transparent p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        "max-h-44 w-56 overflow-auto overscroll-contain rounded-control border border-control-edge bg-transparent p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         className
       )}
     >
@@ -77,7 +77,7 @@ export function Listbox({
                 strokeWidth={1.75}
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="size-3.5 stroke-fg"
+                className="size-4 stroke-fg"
               >
                 <motion.path
                   d="M3.5 8.5 6.5 11.5 12.5 4.5"

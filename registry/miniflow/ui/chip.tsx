@@ -67,7 +67,7 @@ export function Chip({
       exit="exit"
       whileTap={motionOk && pressable ? { scale: pressScale } : undefined}
       className={cn(
-        "inline-flex h-6 items-center gap-1 whitespace-nowrap rounded-full px-2 text-caption font-medium transition-colors duration-150 [&_svg]:size-3.5 [&_svg]:shrink-0",
+        "inline-flex h-6 items-center gap-1 whitespace-nowrap rounded-full px-2 text-caption font-medium transition-colors duration-150 [&_svg]:size-4 [&_svg]:shrink-0",
         variant === "tint" ? tint[tone] : outline[tone],
         className
       )}

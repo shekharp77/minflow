@@ -54,7 +54,7 @@ export function Lightbox({ artwork, label = "Expand", thumbClassName }: Lightbox
             <React.Fragment key="lightbox">
               <Scrim onClick={() => setOpen(false)} />
               <div
-                className="fixed inset-0 z-50 flex items-center justify-center p-10"
+                className="fixed inset-0 z-overlay flex items-center justify-center p-10"
                 onClick={() => setOpen(false)}
               >
                 <motion.div

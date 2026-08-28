@@ -103,7 +103,7 @@ export function Slider({
         animate={{ scale: active ? 1.25 : 1 }}
         transition={springSnap}
         style={{ left: `${pct}%` }}
-        className="absolute size-3.5 -translate-x-1/2 rounded-full bg-fg outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="hit-target absolute size-3.5 -translate-x-1/2 rounded-full bg-fg outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       />
       <AnimatePresence>
         {active && (

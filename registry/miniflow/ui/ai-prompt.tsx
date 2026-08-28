@@ -270,7 +270,7 @@ export function AiPrompt({
                   <Pill>
                     {opt.icon}
                     {picked[opt.id] ?? opt.label}
-                    <ChevronDown className="!size-3.5 opacity-60" />
+                    <ChevronDown className="!size-4 opacity-60" />
                   </Pill>
                 }
               >
@@ -332,7 +332,7 @@ export function AiPrompt({
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="mt-3 flex items-center gap-2 px-1 text-caption text-text-2 [&_svg]:size-3.5"
+            className="mt-3 flex items-center gap-2 px-1 text-caption text-text-2 [&_svg]:size-4"
           >
             <Sparkles aria-hidden className="text-accent" />
             Sent - &ldquo;{sent}&rdquo;
