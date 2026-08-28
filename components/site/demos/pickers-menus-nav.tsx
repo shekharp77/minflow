@@ -168,7 +168,7 @@ function ContextRows() {
             </>
           }
         >
-          <div className="flex h-9 items-center gap-2 rounded-control px-2 text-body text-text-2 transition-colors duration-300 hover:bg-hover hover:text-text [&_svg]:size-4 [&_svg]:text-fg-2">
+          <div className="flex h-9 items-center gap-2 rounded-control px-2 text-body text-text-2 transition-colors duration-150 hover:bg-hover hover:text-text [&_svg]:size-4 [&_svg]:text-fg-2">
             <FileText />
             {name}
           </div>

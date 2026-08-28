@@ -95,7 +95,7 @@ const Pill = React.forwardRef<HTMLButtonElement, React.ComponentProps<"button">>
         ref={ref}
         type="button"
         className={cn(
-          "inline-flex h-7 items-center gap-1.5 rounded-full px-2 text-caption font-medium text-text-2 outline-none transition-colors duration-200 hover:bg-hover hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4 [&_svg]:shrink-0",
+          "inline-flex h-7 items-center gap-1.5 rounded-full px-2 text-caption font-medium text-text-2 outline-none transition-colors duration-150 hover:bg-hover hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4 [&_svg]:shrink-0",
           className
         )}
         {...props}
@@ -373,10 +373,10 @@ export function AiPrompt({
                   <button
                     type="button"
                     onClick={() => take(hint)}
-                    className="group flex w-full flex-col items-start gap-1 rounded-control px-3 py-3 text-left outline-none transition-colors duration-200 hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    className="group flex w-full flex-col items-start gap-1 rounded-control px-3 py-3 text-left outline-none transition-colors duration-150 hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                   >
                     <span className="flex items-center gap-2 text-body font-medium text-text [&_svg]:size-4 [&_svg]:shrink-0">
-                      <span className="text-fg-2 transition-colors duration-200 group-hover:text-accent">
+                      <span className="text-fg-2 transition-colors duration-150 group-hover:text-accent">
                         {hint.icon}
                       </span>
                       {hint.title}

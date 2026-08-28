@@ -163,7 +163,7 @@ export function WheelPicker({
               }}
               transition={morph}
               className={cn(
-                "absolute inset-x-0 flex cursor-pointer items-center justify-center text-body transition-colors duration-300",
+                "absolute inset-x-0 flex cursor-pointer items-center justify-center text-body transition-colors duration-150",
                 i === index ? "font-medium text-text" : "text-text-2"
               )}
               style={{ height: ROW }}

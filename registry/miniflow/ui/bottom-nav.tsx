@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { durations, easeEnter, easeSoft, useMotionEnabled } from "@/lib/motion";
+import { durations, easeEnter, easeSoft, pressScale, useMotionEnabled } from "@/lib/motion";
 
 /*
  * The primary navigation of a phone app: three to five destinations, always
@@ -61,13 +61,14 @@ export function BottomNav({
       {items.map((item) => {
         const on = item.id === active;
         return (
-          <button
+          <motion.button
             key={item.id}
             type="button"
             aria-current={on ? "page" : undefined}
+            whileTap={motionOn ? { scale: pressScale } : undefined}
             onClick={() => pick(item.id)}
             className={cn(
-              "relative inline-flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full px-2 py-2 outline-none transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+              "relative inline-flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full px-2 py-2 outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
               on ? "text-text" : "text-text-2 hover:text-text"
             )}
           >
@@ -109,7 +110,7 @@ export function BottomNav({
             >
               {item.label}
             </motion.span>
-          </button>
+          </motion.button>
         );
       })}
     </nav>

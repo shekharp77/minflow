@@ -101,7 +101,7 @@ export function Carousel({ items, className }: CarouselProps) {
                 className="h-1.5 w-4 rounded-full bg-fg"
               />
             ) : (
-              <span className="size-1.5 rounded-full bg-border-strong transition-colors duration-200 group-hover/dot:bg-fg-2" />
+              <span className="size-1.5 rounded-full bg-border-strong transition-colors duration-150 group-hover/dot:bg-fg-2" />
             )}
           </button>
         ))}

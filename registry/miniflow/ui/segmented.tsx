@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "motion/react";
-import { morph } from "@/lib/motion";
+import { morph, pressScale, useMotionEnabled } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -38,6 +38,7 @@ export function Segmented({
   const isControlled = value !== undefined;
   const current = isControlled ? value : internal;
   const id = React.useId();
+  const motionOk = useMotionEnabled();
 
   return (
     <div
@@ -51,17 +52,18 @@ export function Segmented({
       {options.map((option) => {
         const active = option.value === current;
         return (
-          <button
+          <motion.button
             key={option.value}
             type="button"
             role="radio"
+            whileTap={motionOk ? { scale: pressScale } : undefined}
             aria-checked={active}
             onClick={() => {
               if (!isControlled) setInternal(option.value);
               onValueChange?.(option.value);
             }}
             className={cn(
-              "relative h-7 rounded-control px-2.5 text-body font-medium outline-none transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+              "relative h-7 rounded-control px-2.5 text-body font-medium outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
               active ? "text-text" : "text-text-2 hover:text-text"
             )}
           >
@@ -73,7 +75,7 @@ export function Segmented({
               />
             )}
             <span className="relative z-10">{option.label}</span>
-          </button>
+          </motion.button>
         );
       })}
     </div>

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Portal, Scrim, useBodyLock } from "@/components/ui/overlay";
-import { morph } from "@/lib/motion";
+import { morph, pressScale } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -39,7 +39,7 @@ export function Lightbox({ artwork, label = "Expand", thumbClassName }: Lightbox
         aria-label={label}
         layoutId={id}
         onClick={() => setOpen(true)}
-        whileTap={{ scale: 0.98 }}
+        whileTap={{ scale: pressScale }}
         className={cn(
           "block h-24 w-36 overflow-hidden rounded-overlay outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
           open && "invisible",

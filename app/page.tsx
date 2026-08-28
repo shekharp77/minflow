@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import Link from "next/link";
 import { CATEGORIES, COMPONENTS } from "@/lib/catalog";
 import { SiteHeader } from "@/components/site/site-header";
@@ -51,11 +52,21 @@ export default function Home() {
                     <li key={c.slug}>
                       <Link
                         href={`/${c.slug}`}
-                        className="group/card -m-3 flex flex-col gap-1 rounded-control p-3 outline-none transition-colors duration-300 hover:bg-hover focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+                        className="group/card -m-3 flex flex-col gap-1 rounded-control p-3 outline-none transition-colors duration-150 hover:bg-hover focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
                       >
-                        <span className="text-body font-medium text-text">
-                          {c.name}
-                        </span>
+                        {/*
+                          The card's name and the page's heading are the same
+                          object seen twice, so they carry the same transition
+                          name and the browser morphs one into the other. It
+                          replaces the usual cut -- where a card vanishes and
+                          an unrelated heading appears -- with a single element
+                          that travels and grows into place.
+                        */}
+                        <ViewTransition name={`title-${c.slug}`}>
+                          <span className="text-body font-medium text-text">
+                            {c.name}
+                          </span>
+                        </ViewTransition>
                         <span className="text-caption text-text-2">
                           {c.summary}
                         </span>

@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Plus } from "lucide-react";
 import { Tooltip } from "@/components/ui/tooltip";
 import { useDismiss } from "@/components/ui/overlay";
-import { enter, roll } from "@/lib/motion";
+import { enter, exit as exitT, pressScaleSmall, roll } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -52,7 +52,7 @@ export function PieMenu({
             return (
               <motion.span
                 key={item.label}
-                initial={{ x: 0, y: 0, scale: 0, opacity: 0 }}
+                initial={{ x: 0, y: 0, scale: 0.85, opacity: 0 }}
                 animate={{
                   x,
                   y,
@@ -63,12 +63,11 @@ export function PieMenu({
                 exit={{
                   x: 0,
                   y: 0,
-                  scale: 0,
+                  scale: 0.85,
                   opacity: 0,
                   transition: {
+                    ...exitT,
                     delay: 0.025 * (items.length - 1 - i),
-                    duration: 0.3,
-                    ease: [0.55, 0, 1, 0.45],
                   },
                 }}
                 className="absolute"
@@ -81,7 +80,7 @@ export function PieMenu({
                       item.onSelect?.();
                       setOpen(false);
                     }}
-                    className="flex size-10 items-center justify-center rounded-full bg-bg-2 text-fg-2 shadow-overlay ring-1 ring-border outline-none transition-colors duration-200 hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4"
+                    className="flex size-10 items-center justify-center rounded-full bg-bg-2 text-fg-2 shadow-overlay ring-1 ring-border outline-none transition-colors duration-150 hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4"
                   >
                     {item.icon}
                   </button>
@@ -96,7 +95,7 @@ export function PieMenu({
           aria-label={open ? "Close" : label}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          whileTap={{ scale: 0.94 }}
+          whileTap={{ scale: pressScaleSmall }}
           animate={{ rotate: open ? 45 : 0 }}
           transition={roll}
           className="relative z-10 flex size-12 items-center justify-center rounded-full bg-fg text-bg shadow-overlay outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-5"

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import { notFound } from "next/navigation";
 import { COMPONENTS } from "@/lib/catalog";
 import { Demo } from "@/components/site/demos";
@@ -55,9 +56,11 @@ export default async function ComponentPage({
       <p className="text-caption font-medium uppercase tracking-[0.08em] text-text-2">
         {doc.category}
       </p>
-      <h1 className="mt-3 font-display text-display font-bold text-text">
-        {doc.name}
-      </h1>
+      <ViewTransition name={`title-${doc.slug}`}>
+        <h1 className="mt-3 font-display text-display font-bold text-text">
+          {doc.name}
+        </h1>
+      </ViewTransition>
       <p className="mt-4 max-w-[62ch] text-emphasis text-text-2">
         {doc.description}
       </p>

@@ -109,7 +109,7 @@ export function Calendar({ value, onChange, className }: CalendarProps) {
                     )
                   }
                   className={cn(
-                    "mx-auto flex size-8 items-center justify-center rounded-full text-body outline-none transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
+                    "mx-auto flex size-8 items-center justify-center rounded-full text-body outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
                     sameDay(value, new Date(month.getFullYear(), month.getMonth(), day))
                       ? "bg-fg font-medium text-bg"
                       : cn(

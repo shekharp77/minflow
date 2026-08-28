@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
 import { IconButton } from "@/components/ui/icon-button";
 import { Portal, Scrim, useBodyLock, useDismiss } from "@/components/ui/overlay";
-import { enter } from "@/lib/motion";
+import { enterFocal, exit as exitT } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -65,8 +65,8 @@ export function Dialog({ open, onClose, title, className, children }: DialogProp
                 onKeyDown={trapTab}
                 initial={{ opacity: 0, scale: 0.96, y: 8 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.97, y: 6 }}
-                transition={enter}
+                exit={{ opacity: 0, scale: 0.98, y: 4, transition: exitT }}
+                transition={enterFocal}
                 className={cn(
                   "pointer-events-auto w-full max-w-md rounded-overlay bg-bg-2 p-6 shadow-overlay ring-1 ring-border outline-none",
                   className

@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
  * boxed   - the one bounded variant: hairline all around, still no fill.
  */
 const inputVariants = cva(
-  "peer w-full min-w-0 bg-transparent font-sans outline-none transition-colors duration-300 placeholder:text-text-2/70 disabled:pointer-events-none disabled:opacity-50 aria-invalid:text-err",
+  "peer w-full min-w-0 bg-transparent font-sans outline-none transition-colors duration-150 placeholder:text-text-2/70 disabled:pointer-events-none disabled:opacity-50 aria-invalid:text-err",
   {
     variants: {
       variant: {

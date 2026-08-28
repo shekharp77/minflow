@@ -102,7 +102,7 @@ export function InlineCreate({
                   trigger={
                     <IconButton
                       label={`Actions for ${committed}`}
-                      className="size-6 shrink-0 opacity-0 transition-opacity duration-300 group-hover/row:opacity-100"
+                      className="size-6 shrink-0 opacity-0 transition-opacity duration-150 group-hover/row:opacity-100"
                     >
                       <Ellipsis />
                     </IconButton>
@@ -170,7 +170,7 @@ export function InlineCreate({
               exit={{ opacity: 0, transition: exit }}
               className={cn(
                 row,
-                "w-full text-left text-body text-text-2 opacity-45 transition-opacity duration-300 outline-none hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+                "w-full text-left text-body text-text-2 opacity-45 transition-opacity duration-150 outline-none hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
               )}
             >
               <Plus aria-hidden className="size-3.5 shrink-0" />

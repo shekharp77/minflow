@@ -28,7 +28,7 @@ function Row({ href, label }: { href: string; label: string }) {
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "relative flex h-8 items-center rounded-control pl-3 pr-2 text-body outline-none transition-colors duration-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent",
+        "relative flex h-8 items-center rounded-control pl-3 pr-2 text-body outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent",
         active ? "font-medium text-text" : "text-text-2 hover:text-text"
       )}
     >

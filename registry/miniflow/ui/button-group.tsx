@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { durations, easeSoft, useMotionEnabled } from "@/lib/motion";
+import { durations, easeSoft, pressScale, useMotionEnabled } from "@/lib/motion";
 
 /*
  * Actions that belong together, joined by behaviour instead of by a border.
@@ -54,16 +54,17 @@ export function ButtonGroup({
       )}
     >
       {items.map((item) => (
-        <button
+        <motion.button
           key={item.id}
           type="button"
           disabled={item.disabled}
+          whileTap={motionOn && !item.disabled ? { scale: pressScale } : undefined}
           onPointerEnter={() => !item.disabled && setNear(item.id)}
           onFocus={() => !item.disabled && setNear(item.id)}
           onBlur={() => setNear(null)}
           onClick={item.onSelect}
           className={cn(
-            "relative inline-flex h-8 items-center justify-center gap-1.5 rounded-control px-2.5 text-body font-medium outline-none transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4 [&_svg]:shrink-0",
+            "relative inline-flex h-8 items-center justify-center gap-1.5 rounded-control px-2.5 text-body font-medium outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4 [&_svg]:shrink-0",
             near === item.id ? "text-text" : "text-text-2"
           )}
         >
@@ -77,7 +78,7 @@ export function ButtonGroup({
           )}
           {item.icon}
           {item.label}
-        </button>
+        </motion.button>
       ))}
     </div>
   );

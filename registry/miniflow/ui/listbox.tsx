@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "motion/react";
-import { draw } from "@/lib/motion";
+import { draw, pressScale, useMotionEnabled } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -32,6 +32,7 @@ export function Listbox({
   const [internal, setInternal] = React.useState<string[]>(defaultValue ?? []);
   const isControlled = value !== undefined;
   const current = isControlled ? value : internal;
+  const motionOk = useMotionEnabled();
 
   const toggle = (option: string) => {
     let next: string[];
@@ -58,10 +59,11 @@ export function Listbox({
         const selected = current.includes(option);
         return (
           <li key={option}>
-            <button
+            <motion.button
               type="button"
               role="option"
               aria-selected={selected}
+              whileTap={motionOk ? { scale: pressScale } : undefined}
               onClick={() => toggle(option)}
               className={cn(
                 "flex h-8 w-full items-center justify-between rounded-control px-2 text-body text-text outline-none transition-colors duration-150 hover:bg-hover focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent",
@@ -87,7 +89,7 @@ export function Listbox({
                   transition={draw}
                 />
               </svg>
-            </button>
+            </motion.button>
           </li>
         );
       })}

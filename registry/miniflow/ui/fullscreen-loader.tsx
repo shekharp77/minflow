@@ -4,7 +4,7 @@ import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { LoaderCircle } from "lucide-react";
 import { Portal, useBodyLock } from "@/components/ui/overlay";
-import { draw, durations, enter, exit, roll } from "@/lib/motion";
+import { draw, durations, easeSoft, enter, exit, roll } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -17,6 +17,19 @@ import { cn } from "@/lib/utils";
  * finished steps sink out of focus with progressive blur, and the connecting
  * spine fills from secondary to primary as work completes.
  */
+/*
+ * The recede: a finished step sinks out of focus rather than vanishing, so the
+ * list keeps its history without competing with the step in hand. It is CSS
+ * rather than Motion because it rides `filter`, which is a paint property with
+ * no compositor path -- there is nothing for a JS animation to buy here.
+ *
+ * Derived from the token layer rather than hand-typed, so it cannot drift away
+ * from the rest of the system the way two loose "450ms ease" strings did.
+ */
+const RECEDE_MS = Math.round(durations.focal * 1000);
+const CUBIC = `cubic-bezier(${easeSoft.join(",")})`;
+const RECEDE = `filter ${RECEDE_MS}ms ${CUBIC}, opacity ${RECEDE_MS}ms ${CUBIC}`;
+
 export interface FullscreenLoaderProps {
   open: boolean;
   steps: string[];
@@ -43,7 +56,7 @@ export function FullscreenLoader({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: exit }}
-            transition={{ duration: durations.ceiling }}
+            transition={{ duration: durations.bloom }}
             className="fixed inset-0 z-[80] flex items-center justify-center bg-bg"
           >
             <div className="w-72">
@@ -68,7 +81,7 @@ export function FullscreenLoader({
                           style={{
                             filter: `blur(${blur}px)`,
                             opacity: doneOpacity,
-                            transition: "filter 450ms ease, opacity 450ms ease",
+                            transition: RECEDE,
                           }}
                         >
                           {isDone ? (
@@ -89,7 +102,7 @@ export function FullscreenLoader({
                             </svg>
                           ) : isCurrent ? (
                             <motion.span
-                              initial={{ scale: 0.6, opacity: 0 }}
+                              initial={{ scale: 0.85, opacity: 0 }}
                               animate={{ scale: 1, opacity: 1 }}
                               transition={roll}
                             >
@@ -123,8 +136,7 @@ export function FullscreenLoader({
                             ? {
                                 filter: `blur(${blur}px)`,
                                 opacity: doneOpacity,
-                                transition:
-                                  "filter 450ms ease, opacity 450ms ease, color 300ms",
+                                transition: RECEDE,
                               }
                             : undefined
                         }

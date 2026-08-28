@@ -9,7 +9,7 @@ import {
   FieldValue,
   fieldBoxRow,
 } from "@/registry/miniflow/ui/field";
-import { draw, fadeRise, panel } from "@/lib/motion";
+import { draw, fadeRise, panel, pressScale, useMotionEnabled } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -47,6 +47,7 @@ export function Select({
   const current = isControlled ? value : internal;
   const [open, setOpen] = React.useState(false);
   const [hi, setHi] = React.useState(0);
+  const motionOk = useMotionEnabled();
   const rootRef = React.useRef<HTMLDivElement>(null);
   const close = React.useCallback(() => setOpen(false), []);
   useDismiss(open, close, [rootRef]);
@@ -101,7 +102,7 @@ export function Select({
         {open && (
           <motion.ul
             role="listbox"
-            variants={panel(0.045)}
+            variants={panel(0.022)}
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -112,10 +113,11 @@ export function Select({
               const isSelected = option.value === current;
               return (
                 <motion.li key={option.value} variants={fadeRise}>
-                  <button
+                  <motion.button
                     type="button"
                     role="option"
                     aria-selected={isSelected}
+                    whileTap={motionOk ? { scale: pressScale } : undefined}
                     onClick={() => choose(option.value)}
                     onMouseEnter={() => setHi(index)}
                     className={cn(
@@ -142,7 +144,7 @@ export function Select({
                         transition={draw}
                       />
                     </svg>
-                  </button>
+                  </motion.button>
                 </motion.li>
               );
             })}

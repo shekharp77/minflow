@@ -25,7 +25,7 @@ export function SplitButton({ children, onClick, menu, className }: SplitButtonP
   return (
     <span
       className={cn(
-        "group/split inline-flex items-center rounded-control transition-colors duration-300 hover:bg-hover",
+        "group/split inline-flex items-center rounded-control transition-colors duration-150 hover:bg-hover",
         open && "bg-hover",
         className
       )}

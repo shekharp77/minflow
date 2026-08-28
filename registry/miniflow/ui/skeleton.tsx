@@ -14,7 +14,7 @@ export function Skeleton({ className }: { className?: string }) {
         className
       )}
     >
-      <span className="absolute inset-0 animate-[shimmer_1.8s_ease-in-out_infinite] bg-[linear-gradient(90deg,transparent,color-mix(in_oklab,var(--text)_7%,transparent),transparent)]" />
+      <span className="absolute inset-0 animate-[shimmer_1.4s_linear_infinite] bg-[linear-gradient(90deg,transparent,color-mix(in_oklab,var(--text)_7%,transparent),transparent)]" />
     </span>
   );
 }
