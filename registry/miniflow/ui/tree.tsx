@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ChevronRight, Ellipsis } from "lucide-react";
 import { IconButton } from "@/components/ui/icon-button";
 import { Menu } from "@/components/ui/menu";
-import { morph, roll } from "@/lib/motion";
+import { enter, exit as exitT, morph, pressScale, roll, useMotionEnabled } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -46,6 +46,7 @@ export function Tree({
   );
   const [selected, setSelected] = React.useState(defaultSelected);
   const [menuFor, setMenuFor] = React.useState<string | null>(null);
+  const motionOk = useMotionEnabled();
 
   const toggle = (id: string) =>
     setExpanded((prev) => {
@@ -69,14 +70,15 @@ export function Tree({
           >
             <div
               className={cn(
-                "group/row flex h-8 items-center gap-1.5 rounded-control px-1.5 transition-colors duration-300",
+                "group/row flex h-8 items-center gap-1.5 rounded-control px-1.5 transition-colors duration-150",
                 selected === node.id
                   ? "bg-hover font-medium text-text"
                   : "text-text-2 hover:bg-hover/60 hover:text-text"
               )}
             >
-              <button
+              <motion.button
                 type="button"
+                whileTap={motionOk ? { scale: pressScale } : undefined}
                 onClick={() => {
                   setSelected(node.id);
                   onSelect?.(node.id);
@@ -104,7 +106,7 @@ export function Tree({
                   {node.icon}
                 </span>
                 <span className="truncate">{node.label}</span>
-              </button>
+              </motion.button>
               {node.menu && (
                 <Menu
                   align="end"
@@ -114,7 +116,7 @@ export function Tree({
                     <IconButton
                       label={`Actions for ${node.label}`}
                       className={cn(
-                        "size-6 shrink-0 transition-opacity duration-300",
+                        "size-6 shrink-0 transition-opacity duration-150",
                         menuFor === node.id
                           ? "opacity-100"
                           : "opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100"
@@ -131,19 +133,32 @@ export function Tree({
             <AnimatePresence initial={false}>
               {hasChildren && open && (
                 <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
+                  initial={{ height: 0 }}
+                  animate={{ height: "auto" }}
+                  exit={{ height: 0 }}
                   transition={morph}
                   className="overflow-hidden"
                 >
-                  <div className="relative ml-[13px] mt-0.5 pl-3.5">
-                    <span
+                  {/*
+                    The branch line draws down from the parent as the children
+                    appear, so an expanding node reads as the tree growing a
+                    limb rather than a block of rows being inserted.
+                  */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0, transition: { ...enter, delay: 0.03 } }}
+                    exit={{ opacity: 0, transition: exitT }}
+                    className="relative ml-[13px] mt-0.5 pl-3.5"
+                  >
+                    <motion.span
                       aria-hidden
-                      className="absolute bottom-1 left-0 top-0 w-px bg-border"
+                      initial={{ scaleY: 0 }}
+                      animate={{ scaleY: 1, transition: morph }}
+                      exit={{ scaleY: 0, transition: exitT }}
+                      className="absolute bottom-1 left-0 top-0 w-px origin-top bg-border"
                     />
                     {renderNodes(node.children!, depth + 1)}
-                  </div>
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>

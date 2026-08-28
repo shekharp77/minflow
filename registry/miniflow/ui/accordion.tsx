@@ -3,7 +3,7 @@
 import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { morph, roll } from "@/lib/motion";
+import { enter, exit as exitT, morph, pressScale, roll, useMotionEnabled } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -27,6 +27,7 @@ export interface AccordionProps {
 
 export function Accordion({ items, defaultOpen, className }: AccordionProps) {
   const [open, setOpen] = React.useState<string | null>(defaultOpen ?? null);
+  const motionOk = useMotionEnabled();
 
   return (
     <div className={cn("flex w-full flex-col", className)}>
@@ -35,12 +36,13 @@ export function Accordion({ items, defaultOpen, className }: AccordionProps) {
         const listStyle = item.icon != null;
         return (
           <div key={item.id}>
-            <button
+            <motion.button
               type="button"
               aria-expanded={expanded}
+              whileTap={motionOk ? { scale: pressScale } : undefined}
               onClick={() => setOpen(expanded ? null : item.id)}
               className={cn(
-                "flex w-full items-center gap-3 rounded-control text-left text-body font-medium text-text outline-none transition-colors duration-200 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent",
+                "flex w-full items-center gap-3 rounded-control text-left text-body font-medium text-text outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent",
                 listStyle ? "h-12" : "h-10 justify-between gap-4"
               )}
             >
@@ -69,24 +71,38 @@ export function Accordion({ items, defaultOpen, className }: AccordionProps) {
                   <ChevronDown className="size-4" />
                 )}
               </motion.span>
-            </button>
+            </motion.button>
             <AnimatePresence initial={false}>
               {expanded && (
                 <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
+                  /*
+                   * The box opens and the words arrive behind it, rather than
+                   * the whole block fading up as one sheet. Splitting the two
+                   * is what stops a reveal reading as a rectangle that grew:
+                   * the height explains the space, the content explains what
+                   * is now in it.
+                   *
+                   * Opacity is deliberately quicker than the height and rides
+                   * on the child, so text is legible well before the box has
+                   * finished settling.
+                   */
+                  initial={{ height: 0 }}
+                  animate={{ height: "auto" }}
+                  exit={{ height: 0 }}
                   transition={morph}
                   className="overflow-hidden"
                 >
-                  <div
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0, transition: { ...enter, delay: 0.04 } }}
+                    exit={{ opacity: 0, transition: exitT }}
                     className={cn(
                       "max-w-[52ch] pb-4 text-body text-text-2",
                       item.icon != null && "pl-11"
                     )}
                   >
                     {item.content}
-                  </div>
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>

@@ -72,7 +72,7 @@ export function ScrollArea({ smooth = true, className, children }: ScrollAreaPro
       <span
         aria-hidden
         style={{ top: thumb.top, height: thumb.height, opacity: thumb.visible ? 1 : 0 }}
-        className="absolute right-0.5 w-1 rounded-full bg-border-strong transition-opacity duration-300"
+        className="absolute right-0.5 w-1 rounded-full bg-border-strong transition-opacity duration-150"
       />
     </div>
   );

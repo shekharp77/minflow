@@ -80,14 +80,14 @@ export function TimelineItem({
         <span
           aria-hidden
           className={cn(
-            "mt-0.5 flex size-4 items-center justify-center transition-colors duration-300 [&_svg]:size-4 [&_svg]:shrink-0",
+            "mt-0.5 flex size-4 items-center justify-center transition-colors duration-150 [&_svg]:size-4 [&_svg]:shrink-0",
             reached ? "text-fg" : "text-fg-2/50"
           )}
         >
           {icon ?? (
             <span
               className={cn(
-                "size-2 rounded-full border transition-colors duration-300",
+                "size-2 rounded-full border transition-colors duration-150",
                 reached ? "border-fg" : "border-fg-2/50"
               )}
             />

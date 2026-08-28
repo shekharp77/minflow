@@ -134,7 +134,7 @@ export function Terminal({
         {title && (
           <span className="truncate font-mono text-caption text-fg-2">{title}</span>
         )}
-        <span className="ml-auto flex items-center opacity-0 transition-opacity duration-200 group-hover/term:opacity-100 focus-within:opacity-100">
+        <span className="ml-auto flex items-center opacity-0 transition-opacity duration-150 group-hover/term:opacity-100 focus-within:opacity-100">
           {!instant && (
             <IconButton
               label="Replay"

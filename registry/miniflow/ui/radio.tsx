@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "motion/react";
-import { enter } from "@/lib/motion";
+import { springSnap } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -95,14 +95,20 @@ export function Radio({ value, label, disabled }: RadioProps) {
       <span
         aria-hidden
         className={cn(
-          "flex size-4.5 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent",
+          "flex size-4.5 shrink-0 items-center justify-center rounded-full border transition-colors duration-150 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent",
           on ? "border-fg" : "border-border-strong"
         )}
       >
         <motion.span
           initial={false}
-          animate={{ scale: on ? 1 : 0, opacity: on ? 1 : 0 }}
-          transition={enter}
+          /*
+           * Never scale(0): a mark that grows from literal nothing has no
+           * physical read. The dot is 8px, so the band that suits a panel
+           * (0.95-0.98) is invisible here -- it lands from 0.6 instead, and
+           * the opacity does the appearing while the spring does the arriving.
+           */
+          animate={{ scale: on ? 1 : 0.6, opacity: on ? 1 : 0 }}
+          transition={springSnap}
           className="size-2 rounded-full bg-fg"
         />
       </span>

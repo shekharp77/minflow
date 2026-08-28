@@ -31,9 +31,16 @@ export function ProgressBar({ value, label = "Progress", className }: ProgressBa
     >
       <motion.span
         initial={false}
-        animate={{ width: `${clamped}%` }}
+        /*
+         * scaleX, not width: width is a layout property, so animating it
+         * reflows and repaints the bar every frame. A transform runs on the
+         * compositor and costs nothing. The track is full-width and the fill
+         * is squeezed from its left edge to match.
+         */
+        animate={{ scaleX: clamped / 100 }}
+        style={{ transformOrigin: "left" }}
         transition={enter}
-        className="absolute inset-y-0 left-0 rounded-full bg-fg"
+        className="absolute inset-y-0 left-0 w-full rounded-full bg-fg"
       />
     </div>
   );

@@ -108,7 +108,7 @@ export function DataTable<T extends { id: string }>({
                   type="button"
                   onClick={() => toggle(col.id)}
                   className={cn(
-                    "inline-flex items-center gap-1 text-caption font-medium uppercase tracking-[0.08em] outline-none transition-colors duration-200 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                    "inline-flex items-center gap-1 text-caption font-medium uppercase tracking-[0.08em] outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
                     sort?.id === col.id ? "text-text" : "text-text-2"
                   )}
                 >
@@ -170,7 +170,7 @@ export function DataTable<T extends { id: string }>({
                   : undefined
               }
               className={cn(
-                "grid items-center gap-x-6 rounded-control px-2 py-2.5 text-body outline-none transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                "grid items-center gap-x-6 rounded-control px-2 py-2.5 text-body outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
                 onRowSelect && "cursor-pointer hover:bg-hover"
               )}
             >

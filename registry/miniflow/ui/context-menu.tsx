@@ -4,7 +4,7 @@ import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { MenuCloseContext } from "@/components/ui/menu";
 import { Portal, useDismiss } from "@/components/ui/overlay";
-import { enter } from "@/lib/motion";
+import { enter, exit as exitT } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -45,7 +45,7 @@ export function ContextMenu({ content, className, children }: ContextMenuProps) 
               role="menu"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.97 }}
+              exit={{ opacity: 0, scale: 0.98, transition: exitT }}
               transition={enter}
               style={{ left: pos.x, top: pos.y, transformOrigin: "top left" }}
               className={cn(

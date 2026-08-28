@@ -34,7 +34,7 @@ function Pill({ icon, className, children, ...props }: PillProps) {
     <button
       type="button"
       className={cn(
-        "inline-flex h-6 items-center gap-1 rounded-full border border-border-strong px-2 text-caption font-medium text-text-2 outline-none transition-colors duration-200 hover:bg-hover hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-3.5 [&_svg]:shrink-0",
+        "inline-flex h-6 items-center gap-1 rounded-full border border-border-strong px-2 text-caption font-medium text-text-2 outline-none transition-colors duration-150 hover:bg-hover hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-3.5 [&_svg]:shrink-0",
         className
       )}
       {...props}

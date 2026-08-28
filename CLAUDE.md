@@ -22,9 +22,21 @@ make it discoverable. Skipping 4 to 6 produces a component nobody can find.
 1. **Build it** at `registry/miniflow/ui/<name>.tsx`.
    - Colours are tokens only (`text-text-2`, `bg-bg-2`, `border-border`, and so
      on). A raw hex or a stock Tailwind palette colour is a defect.
-   - Motion comes from `@/lib/motion`: `roll`, `enter`, `exit`, `morph`, `draw`,
-     `panel`, `cascade`, `fadeRise`, `fadeScale`, `blurRise`. Never write an
-     inline duration or easing array; if none of the tokens fit, add one there.
+   - Motion comes from `@/lib/motion`. Tweens: `roll`, `enter`, `enterFocal`,
+     `exit`, `morph`, `draw`. Variants: `panel`, `cascade`, `fadeRise`,
+     `fadeScale`, `fadeSlide`, `blurRise`, `reveal`, `halo`. Springs, for
+     anything the hand is touching: `spring`, `springSnap`, `springDrag`.
+     Never write an inline duration or easing array; if none of the tokens fit,
+     add one there.
+   - Interface motion lives in 140-360ms (`press` / `micro` / `view` / `focal`).
+     `bloom` (0.8s) is for decorative one-shots only, never a transition the
+     reader is waiting on. Exits are always faster than entrances: put the
+     `exit` token *inside* the exit variant, because a bare `transition` prop
+     is inherited by the exit and will drag it out to the entry duration.
+   - Anything pressable gets `whileTap={{ scale: pressScale }}` (or
+     `pressScaleSmall` for icon-sized targets), never a hand-picked number.
+   - Hover motion that moves, lifts, or grows must be gated on
+     `useHoverCapable()`: touch synthesises a hover on tap that never leaves.
    - Icons are `lucide-react` at stroke width 1.75, sizes 16/20/24 only. This is
      lucide v1, so check the export exists (`LoaderCircle`, `CircleCheck`,
      `CircleX`, `TriangleAlert`, `Ellipsis`).

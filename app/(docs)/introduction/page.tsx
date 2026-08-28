@@ -77,13 +77,13 @@ export default function IntroductionPage() {
         <div className="mt-6 flex gap-6">
           <Link
             href="/installation"
-            className="text-body font-medium text-accent outline-none transition-opacity duration-300 hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="text-body font-medium text-accent outline-none transition-opacity duration-150 hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             Installation
           </Link>
           <Link
             href="/#components"
-            className="text-body text-text-2 outline-none transition-colors duration-300 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="text-body text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             All components
           </Link>

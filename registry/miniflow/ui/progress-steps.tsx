@@ -90,7 +90,7 @@ export function ProgressSteps({
 
               <p
                 className={cn(
-                  "truncate text-body transition-colors duration-300",
+                  "truncate text-body transition-colors duration-150",
                   vertical ? "" : "mt-2 pr-2",
                   done || current ? "font-medium text-text" : "text-text-2"
                 )}
@@ -125,7 +125,7 @@ function Marker({
       animate={{ scale: current ? 1 : 0.92 }}
       transition={{ duration: motionOn ? durations.micro : 0, ease: easeEnter }}
       className={cn(
-        "relative inline-flex size-6 shrink-0 items-center justify-center rounded-full text-caption font-medium transition-colors duration-300",
+        "relative inline-flex size-6 shrink-0 items-center justify-center rounded-full text-caption font-medium transition-colors duration-150",
         done && "bg-fg text-bg",
         current && "bg-bg-2 text-text",
         !done && !current && "bg-bg-2 text-text-2"

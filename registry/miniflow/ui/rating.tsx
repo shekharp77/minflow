@@ -4,7 +4,7 @@ import * as React from "react";
 import { motion } from "motion/react";
 import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { durations, easeEnter, useMotionEnabled } from "@/lib/motion";
+import { durations, easeEnter, pressScaleSmall, useMotionEnabled } from "@/lib/motion";
 
 /*
  * A score you can set with one gesture.
@@ -105,7 +105,7 @@ export function Rating({
               onPointerDown={(e) => e.preventDefault()}
               onClick={() => set(n)}
               animate={{ scale: on ? 1 : 0.88, opacity: on ? 1 : 0.55 }}
-              whileTap={motionOn && !readOnly ? { scale: 0.82 } : undefined}
+              whileTap={motionOn && !readOnly ? { scale: pressScaleSmall } : undefined}
               transition={{
                 duration: motionOn ? durations.micro : 0,
                 ease: easeEnter,

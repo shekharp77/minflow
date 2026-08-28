@@ -199,3 +199,36 @@ html.theme-transition * {
   animation-duration: 0.01ms !important;
   transition-duration: 0.01ms !important;
 }
+
+/*
+ * Shared-element navigation. The component name on a homepage card and the
+ * heading on its page are one object, so the browser morphs between them
+ * instead of cutting. Timing matches the token layer's `view` + `easeSoft`:
+ * this is movement across the screen, which takes the symmetric curve.
+ */
+::view-transition-group(*) {
+  animation-duration: 240ms;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/*
+ * A morph is positional, so it is exactly what reduced motion is for. The
+ * crossfade underneath is left alone: content still resolves, it just stops
+ * travelling. Same for the app's own motion switch, which the stylesheet can
+ * reach here because these pseudo-elements hang off the document root.
+ */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+  }
+}
+
+html[data-motion="off"]::view-transition-group(*),
+html[data-motion="off"]::view-transition-old(*),
+html[data-motion="off"]::view-transition-new(*) {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0s !important;
+}

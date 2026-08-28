@@ -55,8 +55,8 @@ export function Breadcrumbs({
                   <a
                     href={item.href ?? "#"}
                     className={cn(
-                      "flex items-center gap-1.5 rounded-control text-body text-text-2 outline-none transition-colors duration-300 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-                      "[&_svg]:size-3.5 [&_svg]:text-fg-2 [&_svg]:transition-colors [&_svg]:duration-300 hover:[&_svg]:text-fg"
+                      "flex items-center gap-1.5 rounded-control text-body text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                      "[&_svg]:size-3.5 [&_svg]:text-fg-2 [&_svg]:transition-colors [&_svg]:duration-150 hover:[&_svg]:text-fg"
                     )}
                   >
                     {item.icon}

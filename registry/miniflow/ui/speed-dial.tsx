@@ -4,7 +4,7 @@ import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { durations, easeEnter, easeSoft, useMotionEnabled } from "@/lib/motion";
+import { durations, easeEnter, easeSoft, pressScaleSmall, useMotionEnabled } from "@/lib/motion";
 
 /*
  * One primary control that fans out into the handful of things it can start.
@@ -80,8 +80,8 @@ export function SpeedDial({
         aria-label={label}
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        whileTap={motionOn ? { scale: 0.94 } : undefined}
-        className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-fg text-bg outline-none transition-opacity duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        whileTap={motionOn ? { scale: pressScaleSmall } : undefined}
+        className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-fg text-bg outline-none transition-opacity duration-150 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         <motion.span
           /* The rotation IS the close affordance, so it survives motion being
@@ -126,7 +126,7 @@ export function SpeedDial({
                     action.onSelect?.();
                     setOpen(false);
                   }}
-                  className="inline-flex h-10 items-center gap-2 rounded-full bg-bg-2 px-3.5 text-body font-medium text-text outline-none transition-colors duration-200 hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4 [&_svg]:shrink-0"
+                  className="inline-flex h-10 items-center gap-2 rounded-full bg-bg-2 px-3.5 text-body font-medium text-text outline-none transition-colors duration-150 hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4 [&_svg]:shrink-0"
                 >
                   <span className="text-fg-2">{action.icon}</span>
                   {action.label}

@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import { motion, type HTMLMotionProps } from "motion/react";
 import { cn } from "@/lib/utils";
-import { durations, useMotionEnabled } from "@/lib/motion";
+import { durations, pressScale, useMotionEnabled } from "@/lib/motion";
 
 /*
  * Variant ramp, ranked by restraint: `text` is the default for any labeled
@@ -14,7 +14,7 @@ import { durations, useMotionEnabled } from "@/lib/motion";
  * action; two accented elements on one view means neither is primary.
  */
 const buttonVariants = cva(
-  "inline-flex select-none items-center justify-center gap-1.5 whitespace-nowrap rounded-control font-sans font-medium outline-none transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
+  "inline-flex select-none items-center justify-center gap-1.5 whitespace-nowrap rounded-control font-sans font-medium outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -67,7 +67,7 @@ export function Button({
   return (
     <motion.button
       data-slot="button"
-      whileTap={motionOk && !disabled && !loading ? { scale: 0.97 } : undefined}
+      whileTap={motionOk && !disabled && !loading ? { scale: pressScale } : undefined}
       transition={{ duration: durations.press, ease: "easeOut" }}
       className={cn(buttonVariants({ variant, size, accent }), className)}
       disabled={disabled || loading}

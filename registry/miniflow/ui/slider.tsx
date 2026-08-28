@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { enter } from "@/lib/motion";
+import { enter, exit as exitT, springSnap } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -95,17 +95,22 @@ export function Slider({
             commit(max);
           }
         }}
+        /*
+         * The thumb is under the reader's finger while this plays, so it runs
+         * on a spring at press speed. A 240ms tween here reads as the control
+         * lagging the hand -- the one thing a drag handle may never do.
+         */
         animate={{ scale: active ? 1.25 : 1 }}
-        transition={enter}
+        transition={springSnap}
         style={{ left: `${pct}%` }}
         className="absolute size-3.5 -translate-x-1/2 rounded-full bg-fg outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       />
       <AnimatePresence>
         {active && (
           <motion.span
-            initial={{ opacity: 0, y: 6, scale: 0.9 }}
+            initial={{ opacity: 0, y: 6, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 4, scale: 0.95 }}
+            exit={{ opacity: 0, y: 4, scale: 0.97, transition: exitT }}
             transition={enter}
             style={{ left: `${pct}%` }}
             className="pointer-events-none absolute -top-5 -translate-x-1/2 rounded-overlay bg-fg px-1.5 py-0.5 text-caption font-medium text-bg"

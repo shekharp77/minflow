@@ -168,7 +168,7 @@ function TransferColumn({
                   aria-checked={ticked.includes(item.id)}
                   onClick={() => onToggle(item.id)}
                   className={cn(
-                    "flex w-full items-center gap-2 rounded-control px-2 py-1.5 text-left text-body outline-none transition-colors duration-200 hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                    "flex w-full items-center gap-2 rounded-control px-2 py-1.5 text-left text-body outline-none transition-colors duration-150 hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
                     ticked.includes(item.id) ? "text-text" : "text-text-2"
                   )}
                 >

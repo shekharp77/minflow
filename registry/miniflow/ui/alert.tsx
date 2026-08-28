@@ -4,15 +4,7 @@ import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { CircleAlert, CircleCheck, CircleX, Info, X } from "lucide-react";
 import { IconButton } from "@/components/ui/icon-button";
-import {
-  cascade,
-  durations,
-  easeEnter,
-  enter,
-  exit,
-  fadeRise,
-  roll,
-} from "@/lib/motion";
+import { cascade, enter, exit, fadeRise, halo, roll } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -73,9 +65,7 @@ export function Alert({
       >
         <motion.span
           aria-hidden
-          initial={{ scale: 0.4, opacity: 0.45 }}
-          animate={{ scale: 2.4, opacity: 0 }}
-          transition={{ duration: durations.ceiling, ease: easeEnter }}
+          variants={halo}
           className="absolute inset-0 rounded-full bg-current"
         />
         <span aria-hidden className="[&_svg]:size-4">

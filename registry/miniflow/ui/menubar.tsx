@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
+import { motion } from "motion/react";
 import { Menu } from "@/components/ui/menu";
+import { pressScale, useMotionEnabled } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -25,6 +27,7 @@ export interface MenubarProps {
 
 export function Menubar({ sections, className }: MenubarProps) {
   const [open, setOpen] = React.useState<string | null>(null);
+  const motionOk = useMotionEnabled();
 
   return (
     <div role="menubar" className={cn("flex items-center gap-0.5", className)}>
@@ -35,22 +38,23 @@ export function Menubar({ sections, className }: MenubarProps) {
           open={open === section.id}
           onOpenChange={(next) => setOpen(next ? section.id : null)}
           trigger={
-            <button
+            <motion.button
               type="button"
               role="menuitem"
               aria-haspopup="menu"
+              whileTap={motionOk ? { scale: pressScale } : undefined}
               /* Hover only takes over while a menu is already open, so the row
                  is not a minefield when nothing is expanded. */
               onPointerEnter={() => setOpen((cur) => (cur ? section.id : cur))}
               className={cn(
-                "inline-flex h-8 items-center rounded-control px-2.5 text-body font-medium outline-none transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                "inline-flex h-8 items-center rounded-control px-2.5 text-body font-medium outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
                 open === section.id
                   ? "bg-hover text-text"
                   : "text-text-2 hover:bg-hover hover:text-text"
               )}
             >
               {section.label}
-            </button>
+            </motion.button>
           }
         >
           {section.content}

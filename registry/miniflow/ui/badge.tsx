@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { enter } from "@/lib/motion";
+import { exit as exitT, springSnap } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -27,10 +27,10 @@ export function Badge({ count, max = 99, className, children }: BadgeProps) {
         {count > 0 && (
           <motion.span
             key={display}
-            initial={{ scale: 0.4, opacity: 0 }}
+            initial={{ scale: 0.7, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.4, opacity: 0 }}
-            transition={enter}
+            exit={{ scale: 0.8, opacity: 0, transition: exitT }}
+            transition={springSnap}
             className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-fg px-1 text-caption font-medium leading-none text-bg tabular-nums"
           >
             {display}

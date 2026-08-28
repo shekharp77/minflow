@@ -456,7 +456,7 @@ function TimeChip({
       onClick={(e) => onSelect(event, e.currentTarget)}
       style={style}
       className={cn(
-        "group/chip absolute overflow-hidden rounded-control px-1.5 text-left outline-none transition-colors duration-200",
+        "group/chip absolute overflow-hidden rounded-control px-1.5 text-left outline-none transition-colors duration-150",
         "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
         roomy ? "py-1" : "py-0.5",
         /* Ringed in the canvas colour: invisible alone, a clean gap when fanned. */
@@ -473,7 +473,7 @@ function TimeChip({
       {!selected && (
         <span
           aria-hidden
-          className="absolute inset-0 bg-hover transition-colors duration-200 group-hover/chip:bg-border"
+          className="absolute inset-0 bg-hover transition-colors duration-150 group-hover/chip:bg-border"
         />
       )}
       <span
@@ -512,7 +512,7 @@ function DayChip({ event, resource, selected, onSelect }: ChipProps) {
       type="button"
       onClick={(e) => onSelect(event, e.currentTarget)}
       className={cn(
-        "flex w-full items-center gap-1.5 rounded-control px-1.5 py-0.5 text-left outline-none transition-colors duration-200",
+        "flex w-full items-center gap-1.5 rounded-control px-1.5 py-0.5 text-left outline-none transition-colors duration-150",
         "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
         selected ? "bg-fg text-bg" : "text-text hover:bg-hover"
       )}
@@ -811,7 +811,7 @@ function MonthView({
                 onClick={() => onOpenDay(day)}
                 aria-label={`Open ${fmt.weekdayLong.format(day)} ${fmt.dayMonth.format(day)}`}
                 className={cn(
-                  "mb-1 rounded-control px-1 text-body outline-none transition-colors duration-200",
+                  "mb-1 rounded-control px-1 text-body outline-none transition-colors duration-150",
                   "hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
                   isToday ? "font-semibold text-accent" : "text-text"
                 )}
@@ -833,7 +833,7 @@ function MonthView({
                   <button
                     type="button"
                     onClick={() => onOpenDay(day)}
-                    className="rounded-control px-1.5 text-caption text-text-2 outline-none transition-colors duration-200 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent"
+                    className="rounded-control px-1.5 text-caption text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent"
                   >
                     {spare} more
                   </button>
@@ -887,7 +887,7 @@ function YearView({
             <button
               type="button"
               onClick={() => onOpenMonth(first)}
-              className="mb-2 rounded-control font-display text-body font-bold text-text outline-none transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="mb-2 rounded-control font-display text-body font-bold text-text outline-none transition-colors duration-150 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               {fmt.monthLong.format(first)}
             </button>
@@ -914,7 +914,7 @@ function YearView({
                     onClick={() => onOpenDay(day)}
                     aria-label={`${fmt.dayMonth.format(day)}, ${count} events`}
                     className={cn(
-                      "rounded-control text-center text-caption outline-none transition-colors duration-200",
+                      "rounded-control text-center text-caption outline-none transition-colors duration-150",
                       "hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
                       isToday
                         ? "font-semibold text-accent"
@@ -1010,7 +1010,7 @@ function AgendaView({
                       type="button"
                       onClick={(e) => onSelect(event, e.currentTarget)}
                       className={cn(
-                        "flex min-h-10 w-full items-center gap-3 rounded-control px-2 text-left outline-none transition-colors duration-200",
+                        "flex min-h-10 w-full items-center gap-3 rounded-control px-2 text-left outline-none transition-colors duration-150",
                         "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
                         selectedId === event.id
                           ? "bg-fg text-bg"
@@ -1231,7 +1231,7 @@ function TimelineView({
                         height: laneHeight - 3,
                       }}
                       className={cn(
-                        "group/bar absolute origin-left overflow-hidden rounded-control px-1.5 text-left outline-none ring-1 ring-bg transition-colors duration-200",
+                        "group/bar absolute origin-left overflow-hidden rounded-control px-1.5 text-left outline-none ring-1 ring-bg transition-colors duration-150",
                         "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
                         selectedId === event.id ? "bg-fg text-bg" : "bg-bg text-text"
                       )}
@@ -1239,7 +1239,7 @@ function TimelineView({
                       {selectedId !== event.id && (
                         <span
                           aria-hidden
-                          className="absolute inset-0 bg-hover transition-colors duration-200 group-hover/bar:bg-border"
+                          className="absolute inset-0 bg-hover transition-colors duration-150 group-hover/bar:bg-border"
                         />
                       )}
                       <span

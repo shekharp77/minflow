@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Info } from "lucide-react";
 import { IconButton } from "@/components/ui/icon-button";
 import { useDismiss } from "@/components/ui/overlay";
-import { enter, useMotionEnabled } from "@/lib/motion";
+import { enter, exit as exitT, useMotionEnabled } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -68,7 +68,11 @@ export function Popover({
              */
             initial={motionOk ? { opacity: 0, scale: 0.96 } : false}
             animate={{ opacity: 1, scale: 1 }}
-            exit={motionOk ? { opacity: 0, scale: 0.97 } : undefined}
+            exit={
+              motionOk
+                ? { opacity: 0, scale: 0.98, transition: exitT }
+                : undefined
+            }
             transition={motionOk ? enter : { duration: 0 }}
             style={{
               transformOrigin: `${side === "bottom" ? "top" : "bottom"} ${align === "start" ? "left" : "right"}`,

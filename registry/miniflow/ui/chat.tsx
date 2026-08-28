@@ -20,7 +20,7 @@ import { IconButton } from "@/components/ui/icon-button";
 import { Menu, MenuItem } from "@/components/ui/menu";
 import { Spinner } from "@/components/ui/spinner";
 import { Portal } from "@/components/ui/overlay";
-import { enter } from "@/lib/motion";
+import { enter, spring } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -110,7 +110,7 @@ export function ChatWindow({
             initial={{ opacity: 0, scale: 0.95, y: 20, filter: "blur(6px)" }}
             animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, scale: 0.96, y: 16, filter: "blur(4px)" }}
-            transition={{ type: "spring", bounce: 0, duration: 0.45 }}
+            transition={spring}
             style={{ transformOrigin: "bottom right" }}
             className="fixed bottom-6 right-6 z-[75] flex h-[540px] max-h-[78vh] w-[360px] max-w-[calc(100vw-3rem)] flex-col rounded-overlay bg-bg shadow-overlay ring-1 ring-border"
           >
@@ -148,7 +148,7 @@ export function ChatWindow({
                         key={s.label}
                         type="button"
                         onClick={() => send(s.label)}
-                        className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border-strong px-3 text-body text-text outline-none transition-colors duration-200 hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4 [&_svg]:text-fg-2"
+                        className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border-strong px-3 text-body text-text outline-none transition-colors duration-150 hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4 [&_svg]:text-fg-2"
                       >
                         {s.icon}
                         {s.label}
@@ -207,7 +207,7 @@ export function ChatWindow({
                   trigger={
                     <button
                       type="button"
-                      className="inline-flex h-8 items-center gap-1 rounded-control px-1.5 text-caption text-text-2 outline-none transition-colors duration-200 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-3.5"
+                      className="inline-flex h-8 items-center gap-1 rounded-control px-1.5 text-caption text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-3.5"
                     >
                       <Layers aria-hidden />
                       Tools

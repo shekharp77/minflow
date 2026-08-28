@@ -4,7 +4,7 @@ import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUp } from "lucide-react";
 import { Tooltip } from "@/components/ui/tooltip";
-import { enter } from "@/lib/motion";
+import { enter, pressScaleSmall } from "@/lib/motion";
 
 /*
  * Back-to-top: appears only once the page has real depth, floats quietly,
@@ -38,14 +38,14 @@ export function BackToTop({ threshold = 600 }: { threshold?: number }) {
             <motion.button
               type="button"
               aria-label="Back to top"
-              whileTap={{ scale: 0.94 }}
+              whileTap={{ scale: pressScaleSmall }}
               onClick={() => {
                 const reduced = window.matchMedia(
                   "(prefers-reduced-motion: reduce)"
                 ).matches;
                 window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
               }}
-              className="flex size-10 items-center justify-center rounded-full bg-bg-2 text-fg-2 shadow-overlay ring-1 ring-border outline-none transition-colors duration-200 hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="flex size-10 items-center justify-center rounded-full bg-bg-2 text-fg-2 shadow-overlay ring-1 ring-border outline-none transition-colors duration-150 hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <ArrowUp className="size-4" />
             </motion.button>

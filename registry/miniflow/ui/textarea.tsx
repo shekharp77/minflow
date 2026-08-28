@@ -43,7 +43,7 @@ export function Textarea({
         onInput?.(event);
       }}
       className={cn(
-        "w-full min-w-0 resize-none overflow-hidden bg-transparent py-1 font-sans text-body text-text outline-none transition-[height] duration-300 placeholder:text-text-2/70 disabled:pointer-events-none disabled:opacity-50",
+        "w-full min-w-0 resize-none overflow-hidden bg-transparent py-1 font-sans text-body text-text outline-none transition-[height] duration-150 placeholder:text-text-2/70 disabled:pointer-events-none disabled:opacity-50",
         className
       )}
       {...props}

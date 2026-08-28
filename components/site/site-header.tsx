@@ -63,7 +63,7 @@ export function SiteHeader() {
                     href={item.href}
                     aria-current={on ? "page" : undefined}
                     className={cn(
-                      "flex h-8 items-center whitespace-nowrap rounded-control px-2 text-body outline-none transition-colors duration-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent",
+                      "flex h-8 items-center whitespace-nowrap rounded-control px-2 text-body outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent",
                       on ? "text-text" : "text-text-2 hover:text-text"
                     )}
                   >

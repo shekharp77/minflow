@@ -4,7 +4,7 @@ import * as React from "react";
 import { motion, type HTMLMotionProps } from "motion/react";
 import { Tooltip } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { durations, useMotionEnabled } from "@/lib/motion";
+import { durations, pressScaleSmall, useMotionEnabled } from "@/lib/motion";
 
 /*
  * Icon-only control: the default for toolbar, repeated, and row actions.
@@ -40,11 +40,11 @@ export function IconButton({
       <motion.button
         data-slot="icon-button"
         aria-label={label}
-        whileTap={motionOk && !disabled ? { scale: 0.94 } : undefined}
+        whileTap={motionOk && !disabled ? { scale: pressScaleSmall } : undefined}
         transition={{ duration: durations.press, ease: "easeOut" }}
         disabled={disabled}
         className={cn(
-          "inline-flex size-10 items-center justify-center rounded-control text-fg-2 outline-none transition-colors duration-200 hover:bg-hover hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
+          "inline-flex size-10 items-center justify-center rounded-control text-fg-2 outline-none transition-colors duration-150 hover:bg-hover hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
           glyph[size],
           accent && "text-accent hover:text-accent",
           className

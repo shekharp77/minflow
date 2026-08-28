@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { IconButton } from "@/components/ui/icon-button";
 import { cn } from "@/lib/utils";
-import { durations, easeSoft, useMotionEnabled } from "@/lib/motion";
+import { durations, easeSoft, pressScaleSmall, useMotionEnabled } from "@/lib/motion";
 
 /*
  * Page navigation as a row of numbers with one travelling marker.
@@ -73,14 +73,15 @@ export function Pagination({
 
       {slots.map((slot) =>
         typeof slot === "number" ? (
-          <button
+          <motion.button
             key={slot}
             type="button"
             aria-label={`Page ${slot}`}
+            whileTap={motionOn ? { scale: pressScaleSmall } : undefined}
             aria-current={slot === page ? "page" : undefined}
             onClick={() => go(slot)}
             className={cn(
-              "relative inline-flex size-8 items-center justify-center rounded-control text-body tabular-nums outline-none transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+              "relative inline-flex size-8 items-center justify-center rounded-control text-body tabular-nums outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
               slot === page
                 ? "font-medium text-text"
                 : "text-text-2 hover:bg-hover hover:text-text"
@@ -95,7 +96,7 @@ export function Pagination({
               />
             )}
             {slot}
-          </button>
+          </motion.button>
         ) : (
           <span
             key={slot}

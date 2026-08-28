@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { durations, easeEnter, useMotionEnabled } from "@/lib/motion";
+import { durations, easeEnter, pressScale, useHoverCapable, useMotionEnabled } from "@/lib/motion";
 
 /*
  * A wall of images: gallery, moodboard, asset picker.
@@ -82,6 +82,7 @@ function Tile({
   onSelect?: (item: ImageTile) => void;
 }) {
   const motionOn = useMotionEnabled();
+  const hoverOk = useHoverCapable();
   const [loaded, setLoaded] = React.useState(false);
   const interactive = Boolean(onSelect);
   const Root = interactive ? motion.button : motion.div;
@@ -91,8 +92,8 @@ function Tile({
       {...(interactive
         ? { type: "button" as const, onClick: () => onSelect?.(item) }
         : {})}
-      whileHover={motionOn ? { scale: 1.015 } : undefined}
-      whileTap={motionOn && interactive ? { scale: 0.99 } : undefined}
+      whileHover={motionOn && hoverOk ? { scale: 1.015 } : undefined}
+      whileTap={motionOn && interactive ? { scale: pressScale } : undefined}
       transition={{ duration: durations.micro, ease: easeEnter }}
       style={{ aspectRatio: layout === "grid" ? "1 / 1" : (item.ratio ?? "4 / 5") }}
       className={cn(
@@ -125,7 +126,7 @@ function Tile({
         <span
           className={cn(
             "absolute inset-x-0 bottom-0 truncate px-2 py-1.5 text-left text-caption text-text",
-            "bg-bg/70 backdrop-blur-sm opacity-0 transition-opacity duration-200",
+            "bg-bg/70 backdrop-blur-sm opacity-0 transition-opacity duration-150",
             "group-hover:opacity-100 group-focus-visible:opacity-100"
           )}
         >

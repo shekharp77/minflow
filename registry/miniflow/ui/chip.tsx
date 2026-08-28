@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "motion/react";
-import { fadeScale } from "@/lib/motion";
+import { fadeScale, pressScale, useMotionEnabled } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -50,6 +50,14 @@ export function Chip({
   className,
   ...props
 }: ChipProps) {
+  const motionOk = useMotionEnabled();
+  /*
+   * A chip is a label that is sometimes also a control. Press feedback is
+   * offered only when something is actually listening for the click --
+   * squashing a static tag would promise an interaction that does not exist.
+   */
+  const pressable = typeof props.onClick === "function";
+
   return (
     <motion.span
       data-slot="chip"
@@ -57,8 +65,9 @@ export function Chip({
       initial="hidden"
       animate="visible"
       exit="exit"
+      whileTap={motionOk && pressable ? { scale: pressScale } : undefined}
       className={cn(
-        "inline-flex h-6 items-center gap-1 whitespace-nowrap rounded-full px-2 text-caption font-medium transition-colors duration-300 [&_svg]:size-3.5 [&_svg]:shrink-0",
+        "inline-flex h-6 items-center gap-1 whitespace-nowrap rounded-full px-2 text-caption font-medium transition-colors duration-150 [&_svg]:size-3.5 [&_svg]:shrink-0",
         variant === "tint" ? tint[tone] : outline[tone],
         className
       )}
