@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Info } from "lucide-react";
 import { IconButton } from "@/components/ui/icon-button";
 import { useDismiss } from "@/components/ui/overlay";
-import { enter } from "@/lib/motion";
+import { enter, useMotionEnabled } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -45,6 +45,7 @@ export function Popover({
   const rootRef = React.useRef<HTMLSpanElement>(null);
   const close = React.useCallback(() => setOpen(false), [setOpen]);
   useDismiss(open, close, [rootRef]);
+  const motionOk = useMotionEnabled();
 
   return (
     <span ref={rootRef} className="relative inline-flex">
@@ -59,10 +60,16 @@ export function Popover({
         {open && (
           <motion.div
             role="dialog"
-            initial={{ opacity: 0, scale: 0.96 }}
+            /*
+             * A panel that ignores the motion switch does not merely animate
+             * when it should not: it opens at zero opacity and reaches full
+             * only once frames arrive, so on a throttled tab the reader sees
+             * the page straight through it. With motion off it simply appears.
+             */
+            initial={motionOk ? { opacity: 0, scale: 0.96 } : false}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.97 }}
-            transition={enter}
+            exit={motionOk ? { opacity: 0, scale: 0.97 } : undefined}
+            transition={motionOk ? enter : { duration: 0 }}
             style={{
               transformOrigin: `${side === "bottom" ? "top" : "bottom"} ${align === "start" ? "left" : "right"}`,
             }}

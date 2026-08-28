@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { COMPONENTS } from "@/lib/catalog";
 import { Demo } from "@/components/site/demos";
 import { CopyLine } from "@/components/site/copy-line";
+import { DemoStage } from "@/components/site/demo-stage";
 
 /*
  * One page per component, statically generated.
@@ -50,7 +51,7 @@ export default async function ComponentPage({
   if (!doc) notFound();
 
   return (
-    <article className="max-w-[46rem]">
+    <article className={doc.wide ? "max-w-none" : "max-w-[46rem]"}>
       <p className="text-caption font-medium uppercase tracking-[0.08em] text-text-2">
         {doc.category}
       </p>
@@ -87,19 +88,23 @@ export default async function ComponentPage({
         </h2>
 
         {doc.variants.map((variant) => (
-          <section key={variant.id} className="mt-16 first:mt-10">
+          /* The id makes a variant linkable on its own, which is how people
+             actually share one: "look at the timeline one". */
+          <section id={variant.id} key={variant.id} className="mt-16 first:mt-10 scroll-mt-20">
             <h3 className="text-section font-medium text-text">{variant.title}</h3>
             <p className="mt-2 max-w-[62ch] text-body text-text-2">
               {variant.when}
             </p>
             {/*
-              * The gap below is load-bearing: supporting prose and a live
-              * control read as one blob when they sit close together, and the
-              * reader stops being able to tell which is the component.
+              * The gap and the stage are both load-bearing. Prose and a live
+              * control read as one blob when they sit close together on the
+              * same fill, and the reader stops being able to tell which line
+              * is the component. The stage answers that with a fill of its
+              * own; the gap keeps the two from touching.
               */}
-            <div className="mt-12 flex min-h-10 flex-wrap items-center gap-x-6 gap-y-4">
+            <DemoStage className="mt-8">
               <Demo slug={doc.slug} variant={variant.id} />
-            </div>
+            </DemoStage>
           </section>
         ))}
       </section>

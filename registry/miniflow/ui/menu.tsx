@@ -57,7 +57,16 @@ export function Menu({
         onOpenChange={setOpen}
         className={cn("min-w-44 p-1", className)}
       >
-        <motion.div variants={cascade(0.045)} initial="hidden" animate="visible">
+        {/* The panel needs the role, not just its rows: a `menuitem` outside
+            a `menu` is an orphan, and assistive tech announces the group
+            wrongly (or not at all). Matters most under Menubar, where the
+            triggers are themselves menuitems. */}
+        <motion.div
+          role="menu"
+          variants={cascade(0.045)}
+          initial="hidden"
+          animate="visible"
+        >
           {children}
         </motion.div>
       </Popover>
