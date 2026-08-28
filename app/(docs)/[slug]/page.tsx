@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { COMPONENTS } from "@/lib/catalog";
 import { Demo } from "@/components/site/demos";
 import { CopyLine } from "@/components/site/copy-line";
+import { DemoStage } from "@/components/site/demo-stage";
 
 /*
  * One page per component, statically generated.
@@ -93,13 +94,15 @@ export default async function ComponentPage({
               {variant.when}
             </p>
             {/*
-              * The gap below is load-bearing: supporting prose and a live
-              * control read as one blob when they sit close together, and the
-              * reader stops being able to tell which is the component.
+              * The gap and the stage are both load-bearing. Prose and a live
+              * control read as one blob when they sit close together on the
+              * same fill, and the reader stops being able to tell which line
+              * is the component. The stage answers that with a fill of its
+              * own; the gap keeps the two from touching.
               */}
-            <div className="mt-12 flex min-h-10 flex-wrap items-center gap-x-6 gap-y-4">
+            <DemoStage className="mt-8">
               <Demo slug={doc.slug} variant={variant.id} />
-            </div>
+            </DemoStage>
           </section>
         ))}
       </section>

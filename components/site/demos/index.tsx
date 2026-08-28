@@ -6,6 +6,8 @@ import { feedbackOverlaysDisplayDemos } from "@/components/site/demos/feedback-o
 import { pickersMenusNavDemos } from "@/components/site/demos/pickers-menus-nav";
 import { selectionDemos } from "@/components/site/demos/selection";
 import { textDemos } from "@/components/site/demos/text";
+import { dataDisplayDemos } from "@/components/site/demos/data-display";
+import { controlsNavDemos } from "@/components/site/demos/controls-nav";
 import type { DemoSet } from "@/components/site/demos/types";
 
 /*
@@ -21,6 +23,8 @@ const DEMOS: DemoSet = {
   ...selectionDemos,
   ...pickersMenusNavDemos,
   ...feedbackOverlaysDisplayDemos,
+  ...dataDisplayDemos,
+  ...controlsNavDemos,
 };
 
 export function Demo({ slug, variant }: { slug: string; variant: string }) {
