@@ -6,6 +6,7 @@ import { feedbackOverlaysDisplayComponents } from "@/lib/catalog/feedback-overla
 import { schedulingComponents } from "@/lib/catalog/scheduling";
 import { dataDisplayComponents } from "@/lib/catalog/data-display";
 import { controlsNavComponents } from "@/lib/catalog/controls-nav";
+import { contextComponents } from "@/lib/catalog/context";
 import { CATEGORIES, type ComponentDoc } from "@/lib/catalog/types";
 
 export * from "@/lib/catalog/types";
@@ -26,6 +27,7 @@ const ALL: ComponentDoc[] = [
   ...schedulingComponents,
   ...dataDisplayComponents,
   ...controlsNavComponents,
+  ...contextComponents,
 ];
 
 /* Sorted by the canonical category order so nav and grid always agree. */

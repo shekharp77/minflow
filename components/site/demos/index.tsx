@@ -9,6 +9,7 @@ import { selectionDemos } from "@/components/site/demos/selection";
 import { textDemos } from "@/components/site/demos/text";
 import { dataDisplayDemos } from "@/components/site/demos/data-display";
 import { controlsNavDemos } from "@/components/site/demos/controls-nav";
+import { contextDemos } from "@/components/site/demos/context";
 import type { DemoSet } from "@/components/site/demos/types";
 
 /*
@@ -27,6 +28,7 @@ const DEMOS: DemoSet = {
   ...schedulingDemos,
   ...dataDisplayDemos,
   ...controlsNavDemos,
+  ...contextDemos,
 };
 
 export function Demo({ slug, variant }: { slug: string; variant: string }) {

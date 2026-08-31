@@ -3,7 +3,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, type PanInfo } from "motion/react";
-import { ArrowRightToLine, PanelRight, X } from "lucide-react";
+import { ArrowRightToLine, Columns2, Layers, PanelRight, X } from "lucide-react";
 import { IconButton } from "@/components/ui/icon-button";
 import { Tooltip } from "@/components/ui/tooltip";
 import {
@@ -102,6 +102,16 @@ interface ItemRecord {
 export type ContextBarMode = "push" | "float";
 
 interface Ctx {
+  /**
+   * This provider's layout namespace.
+   *
+   * `layoutId` is global to the document, so two bars that both hold an item
+   * called "timer" would be treated by Motion as ONE element in two places and
+   * morph between them forever - neither ever settles. An application is meant
+   * to be able to run several bars at once, so layout identity is scoped per
+   * provider rather than per item id.
+   */
+  uid: string;
   items: Map<string, ItemRecord>;
   open: boolean;
   mode: ContextBarMode;
@@ -175,6 +185,7 @@ export function ContextBarProvider({
   const [flash, setFlash] = React.useState<{ id: string; nonce: number } | null>(null);
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
+  const uid = React.useId();
 
   const seqRef = React.useRef(0);
   /* The mutable half: nodes and their subscribers. See the header comment. */
@@ -263,6 +274,9 @@ export function ContextBarProvider({
 
   const scopeRef = React.useRef(scope);
   scopeRef.current = scope;
+  /* `has` must read current state without making `api` unstable. */
+  const itemsRef = React.useRef(items);
+  itemsRef.current = items;
 
   const api = React.useMemo<ContextBarApi>(
     () => ({
@@ -305,12 +319,9 @@ export function ContextBarProvider({
     [land, notify]
   );
 
-  /* `has` must read current state without making `api` unstable. */
-  const itemsRef = React.useRef(items);
-  itemsRef.current = items;
-
   const ctx = React.useMemo<Ctx>(
     () => ({
+      uid,
       items,
       open,
       mode,
@@ -329,7 +340,7 @@ export function ContextBarProvider({
         setScope,
       },
     }),
-    [items, open, mode, scope, flash, api, home, unhome, keep, setNode, subscribe, getNode]
+    [uid, items, open, mode, scope, flash, api, home, unhome, keep, setNode, subscribe, getNode]
   );
 
   return (
@@ -409,16 +420,34 @@ function CardButton({
   );
 }
 
-function useMinWidth(px: number): boolean {
-  const [ok, setOk] = React.useState(true);
+/** Content left beside an open rail before the page stops being readable. */
+const MIN_CONTENT = 280;
+
+/**
+ * True when the space the bar was dropped into can hold a rail AND a readable
+ * page beside it.
+ *
+ * Measured from the bar's own parent rather than from the viewport, because
+ * the bar does not always own the window: dropped into a panel or a
+ * documentation stage, a viewport media query reports a roomy screen while the
+ * actual column is 350px, and pushing there squeezes the page to a sliver.
+ */
+function useRoomFor(ref: React.RefObject<HTMLElement | null>, needed: number): boolean {
+  /* Optimistic so the server and the first client render agree; corrected on
+     mount, the same contract `useMotionEnabled` keeps. */
+  const [roomy, setRoomy] = React.useState(true);
+
   React.useEffect(() => {
-    const mq = window.matchMedia(`(min-width:${px}px)`);
-    const compute = () => setOk(mq.matches);
-    compute();
-    mq.addEventListener("change", compute);
-    return () => mq.removeEventListener("change", compute);
-  }, [px]);
-  return ok;
+    const parent = ref.current?.parentElement;
+    if (!parent) return;
+    const measure = () => setRoomy(parent.clientWidth >= needed);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(parent);
+    return () => ro.disconnect();
+  }, [ref, needed]);
+
+  return roomy;
 }
 
 /* ---------------------------------------------------------------- keepable */
@@ -444,7 +473,7 @@ export function Keepable({
   className,
   children,
 }: KeepableProps) {
-  const { items, api, internal } = useCtx();
+  const { uid, items, api, internal } = useCtx();
   const motionOk = useMotionEnabled();
   const hoverable = useHoverCapable();
 
@@ -495,7 +524,7 @@ export function Keepable({
   return (
     <motion.div
       key="card"
-      layoutId={`cbar-${id}`}
+      layoutId={`cbar-${uid}-${id}`}
       transition={motionOk ? spring : { duration: 0 }}
       className={cn(
         "group/slot relative rounded-overlay bg-bg p-4 ring-1 ring-border",
@@ -537,6 +566,7 @@ const GAP = 8;
 const FALLBACK_H = 72;
 
 interface StackProps {
+  uid: string;
   items: ItemRecord[];
   expanded: boolean;
   onExpand: () => void;
@@ -546,7 +576,16 @@ interface StackProps {
   motionOk: boolean;
 }
 
-function Stack({ items, expanded, onExpand, onRemove, flash, onFlashDone, motionOk }: StackProps) {
+function Stack({
+  uid,
+  items,
+  expanded,
+  onExpand,
+  onRemove,
+  flash,
+  onFlashDone,
+  motionOk,
+}: StackProps) {
   const [heights, setHeights] = React.useState<Record<string, number>>({});
   const report = React.useCallback((id: string, h: number) => {
     setHeights((prev) => (prev[id] === h ? prev : { ...prev, [id]: h }));
@@ -590,6 +629,7 @@ function Stack({ items, expanded, onExpand, onRemove, flash, onFlashDone, motion
           {items.map((item, i) => (
             <StackCard
               key={item.id}
+              uid={uid}
               item={item}
               y={offsets[i]}
               scale={fanned ? 1 : 1 - Math.min(i, MAX_PEEK + 1) * PEEK_SCALE}
@@ -627,6 +667,7 @@ function Stack({ items, expanded, onExpand, onRemove, flash, onFlashDone, motion
 }
 
 interface StackCardProps {
+  uid: string;
   item: ItemRecord;
   y: number;
   scale: number;
@@ -644,6 +685,7 @@ interface StackCardProps {
 }
 
 function StackCard({
+  uid,
   item,
   y,
   scale,
@@ -674,16 +716,54 @@ function StackCard({
 
   /* Only the face of a collapsed stack drags; a peek's one job is to expand. */
   const draggable = item.dragOut && (!collapsed || index === 0);
+  /* A buried card keeps no tab stop either; see `buried` below. */
 
   const onDragEnd = (_: unknown, info: PanInfo) => {
     /* Out of the bar means leftward, toward the page; both tests flip sign. */
     if (shouldDismiss(-info.offset.x, -info.velocity.x, 288)) onRemove(item.id);
   };
 
-  const expandable = collapsed && stackable;
+  /*
+   * Past the peek limit a card is painted at zero opacity, and an invisible
+   * card must not be operable: it would still take a tab stop, still answer a
+   * hit test, and still be announced, so a reader could focus or click
+   * something nobody can see. The "+N more" control is how those are reached.
+   */
+  const buried = dim === 0;
+  const expandable = collapsed && stackable && !buried;
+
+  /*
+   * Expanding is wired natively rather than through React's `onClick`, and it
+   * has to be.
+   *
+   * An item's content is rendered through a portal, so in the REACT tree it
+   * hangs off the provider, not off this card - a React synthetic event raised
+   * inside a kept card bubbles to the provider and never passes through this
+   * component at all. Native DOM events follow real ancestry, and the item's
+   * host element is a genuine DOM descendant of this card, so a plain listener
+   * sees every click the card contains. Same reason Motion's drag keeps
+   * working: it listens on the element itself.
+   */
+  const expandRef = React.useRef(onExpand);
+  expandRef.current = onExpand;
+
+  React.useEffect(() => {
+    const el = measureRef.current;
+    if (!el || !expandable) return;
+    const onClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      /* Never swallow a control's own click. `role=button` is deliberately not
+         in this list: the card itself carries it, so every target would match. */
+      if (target?.closest("button,textarea,input,a,select")) return;
+      expandRef.current();
+    };
+    el.addEventListener("click", onClick);
+    return () => el.removeEventListener("click", onClick);
+  }, [expandable]);
 
   return (
     <motion.div
+      aria-hidden={buried || undefined}
       className="absolute inset-x-0 top-0"
       /*
        * With motion off, MotionConfig drops transform ANIMATIONS entirely
@@ -694,6 +774,7 @@ function StackCard({
       style={{
         zIndex: z,
         transformOrigin: "top center",
+        pointerEvents: buried ? "none" : undefined,
         ...(motionOk ? {} : { y, scale, opacity: dim }),
       }}
       initial={motionOk && !item.homed ? { opacity: 0, y: y - 14, scale: 0.98 } : false}
@@ -703,7 +784,7 @@ function StackCard({
     >
       <motion.div
         ref={measureRef}
-        layoutId={`cbar-${item.id}`}
+        layoutId={`cbar-${uid}-${item.id}`}
         transition={motionOk ? spring : { duration: 0 }}
         drag={draggable ? "x" : false}
         dragSnapToOrigin
@@ -711,12 +792,6 @@ function StackCard({
         dragConstraints={{ left: 0, right: 0 }}
         onDragEnd={onDragEnd}
         whileDrag={{ rotate: -1.5, scale: 1.01 }}
-        onClick={(e) => {
-          if (!expandable) return;
-          const target = e.target as HTMLElement;
-          if (target.closest("button,textarea,input,a,select")) return;
-          onExpand();
-        }}
         role={expandable ? "button" : undefined}
         tabIndex={expandable ? 0 : undefined}
         aria-label={expandable ? "Expand stack" : undefined}
@@ -805,10 +880,12 @@ export function ContextBar({
   reopen = true,
   className,
 }: ContextBarProps) {
-  const { items, open, mode, scope, flash, api, internal } = useCtx();
+  const { uid, items, open, mode, scope, flash, api, internal } = useCtx();
   const motionOk = useMotionEnabled();
-  const wide = useMinWidth(1024);
-  const isLg = container || wide;
+  const railRef = React.useRef<HTMLDivElement>(null);
+  /* Below this, a rail would leave no readable page, so the bar floats
+     instead - which is also the right posture on a phone. */
+  const roomy = useRoomFor(railRef, width + MIN_CONTENT);
   const [expanded, setExpanded] = React.useState<Record<string, boolean>>({});
 
   /* If scopes are declared and the active one is not among them, adopt the
@@ -840,7 +917,7 @@ export function ContextBar({
     internal.setScope(scopes[(i + 1) % scopes.length].id);
   };
 
-  const railVisible = open && mode === "push" && isLg;
+  const railVisible = open && mode === "push" && roomy;
   const floatVisible = open && !railVisible;
 
   const body = (
@@ -883,7 +960,7 @@ export function ContextBar({
 
         <div className="flex-1" />
 
-        {isLg && (
+        {roomy && (
           <div className="flex items-center" role="group" aria-label="Bar behaviour">
             {(["push", "float"] as const).map((m) => (
               <span key={m} className="relative">
@@ -893,12 +970,12 @@ export function ContextBar({
                   onClick={() => internal.setMode(m)}
                   className={cn("size-8", mode === m ? "text-fg" : undefined)}
                 >
-                  {m === "push" ? <PushGlyph /> : <FloatGlyph />}
+                  {m === "push" ? <Columns2 /> : <Layers />}
                 </IconButton>
                 {mode === m && (
                   <motion.span
                     aria-hidden
-                    layoutId="cbar-mode-ink"
+                    layoutId={`cbar-mode-ink-${uid}`}
                     transition={motionOk ? springSnap : { duration: 0 }}
                     className="absolute inset-x-2 bottom-0.5 h-0.5 rounded-full bg-fg-2"
                   />
@@ -963,6 +1040,7 @@ export function ContextBar({
                     </header>
                     <div className="mt-3">
                       <Stack
+                        uid={uid}
                         items={sectionItems}
                         expanded={isOpen}
                         onExpand={() => setExpanded((prev) => ({ ...prev, [key]: true }))}
@@ -988,6 +1066,7 @@ export function ContextBar({
           content is anchored left and overflows past the right viewport edge
           during the width tween; body overflow-x: clip swallows it. */}
       <motion.div
+        ref={railRef}
         initial={false}
         animate={{ width: railVisible ? width : 0 }}
         transition={motionOk ? morph : { duration: 0 }}
@@ -1056,28 +1135,5 @@ export function ContextBar({
         )}
       </AnimatePresence>
     </>
-  );
-}
-
-/*
- * Mode glyphs, drawn rather than borrowed: lucide v1 has no pair that reads
- * as "in-flow rail" vs "overlapping panel" at 16px. Shapes, not icons, so the
- * 16/20/24 law does not apply; both inherit the icon button's colour.
- */
-function PushGlyph() {
-  return (
-    <svg viewBox="0 0 16 16" className="size-4" fill="none" aria-hidden>
-      <rect x="1.5" y="2.5" width="8" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-      <rect x="11.5" y="2.5" width="3" height="11" rx="1" fill="currentColor" />
-    </svg>
-  );
-}
-
-function FloatGlyph() {
-  return (
-    <svg viewBox="0 0 16 16" className="size-4" fill="none" aria-hidden>
-      <rect x="1.5" y="2.5" width="10" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-      <rect x="8.5" y="4.5" width="6" height="9" rx="1" fill="currentColor" stroke="var(--bg-2)" strokeWidth="1" />
-    </svg>
   );
 }

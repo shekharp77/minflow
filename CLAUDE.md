@@ -156,5 +156,19 @@ select's options. Two things to remember when you do:
 - **Persisted UI state must be restored somewhere that always runs.** The theme
   script in `lib/theme.tsx` does it before hydration; a `useEffect` inside a
   component that lives in a popover only runs when that popover is opened.
+- **A React handler on a wrapper never sees events from portalled content.**
+  React bubbles synthetic events through the *React* tree, so anything rendered
+  by `createPortal` reports to the portal's owner, not to whatever DOM element
+  it was appended into. The context bar keeps live instances this way, and its
+  "click the stack to expand" needed a native `addEventListener` on the card,
+  which follows real DOM ancestry. Motion's drag was unaffected for the same
+  reason: it listens on the element itself.
+- **`layoutId` is global to the document.** Two instances of the same component
+  on one page (two context bars, two of anything sharing item ids) will morph
+  into each other and never settle. Namespace shared layout ids with a
+  `useId()` from the owning provider.
+- **A component embedded in a panel must not ask the viewport how wide it is.**
+  A media query reports a roomy screen while the actual column is 350px. Measure
+  the parent with a `ResizeObserver` when the component can be dropped anywhere.
 - **Menus near a left edge need `align="start"`.** `align="end"` anchors the
   panel's right edge to the trigger, which pushes a wide panel off-screen.
