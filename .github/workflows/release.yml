@@ -1,0 +1,153 @@
+name: Release
+
+# Publishing is deliberately tag-driven rather than push-driven. A merge to
+# main should never mint a version: the moment `main` can publish, every
+# refactor is a release decision, and the version in package.json stops meaning
+# anything. Pushing `v0.1.0` is the decision, and it is a separate act.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build and verify, but do not publish"
+        type: boolean
+        default: true
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build, verify and publish to npm
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    permissions:
+      contents: read
+      # Required for npm provenance: npm verifies the package against this
+      # workflow run, so a consumer can see which commit produced the tarball.
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # A tag that disagrees with package.json produces a version nobody can
+      # find: the git history says one number and npm says another. Cheapest
+      # possible check, and it has to run before anything is built.
+      - name: Tag must match package.json
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG="$(node -p "require('./package.json').version")"
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::tag v$TAG does not match package.json version $PKG"
+            exit 1
+          fi
+          echo "Releasing $PKG."
+
+      # A publish that fails on auth fails with a bare 403, which reads like a
+      # network problem and is actually "this token belongs to a different
+      # account than the scope in the package name". Saying who the token is
+      # turns ten minutes of guessing into one line of log.
+      - name: Who is this token
+        run: |
+          WHO="$(npm whoami 2>/dev/null || echo '<not authenticated>')"
+          SCOPE="$(node -p "require('./package.json').name.split('/')[0].replace('@','')")"
+          echo "npm account: $WHO"
+          echo "package scope: @$SCOPE"
+          if [ "$WHO" != "$SCOPE" ] && [ "$WHO" != "<not authenticated>" ]; then
+            echo "::warning::token account '$WHO' differs from scope '@$SCOPE'; publish needs org membership or a renamed package"
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Refuse to republish an existing version
+        run: |
+          NAME="$(node -p "require('./package.json').name")"
+          VER="$(node -p "require('./package.json').version")"
+          if npm view "$NAME@$VER" version >/dev/null 2>&1; then
+            echo "::error::$NAME@$VER is already on npm. Bump the version."
+            exit 1
+          fi
+          echo "$NAME@$VER is unpublished."
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build the package
+        run: pnpm package:build
+
+      # The build log cannot show a broken export map, a lost "use client" or an
+      # alias that only resolves inside this repo. This is the step that can.
+      - name: Verify the package
+        run: pnpm package:check
+
+      # Packing and installing the tarball is the only check that exercises what
+      # a consumer actually receives: the `files` allowlist, the export map and
+      # the peer boundary, none of which are visible from dist/ alone.
+      - name: Install the packed tarball into a scratch consumer
+        run: |
+          TARBALL="$(pnpm pack --pack-destination "$RUNNER_TEMP" | tail -1)"
+          echo "Packed: $TARBALL"
+
+          WORK="$(mktemp -d)"
+          cd "$WORK"
+          npm init -y >/dev/null
+          npm install react@19 react-dom@19 "$TARBALL" >/dev/null 2>&1
+
+          NAME="$(node -p "require('$GITHUB_WORKSPACE/package.json').name")"
+
+          # Resolve through the real export map, exactly as a bundler would.
+          node --input-type=module -e "
+            import { createRequire } from 'node:module';
+            const require = createRequire(process.cwd() + '/');
+            const name = '$NAME';
+            for (const sub of ['', '/button', '/select', '/lib/motion']) {
+              const id = name + sub;
+              const resolved = require.resolve(id);
+              console.log('resolved', id, '->', resolved.split('node_modules/').pop());
+            }
+          "
+
+          # The framework must not have come along for the ride.
+          if [ -d node_modules/next ]; then
+            echo "::error::installing the package pulled in next"
+            exit 1
+          fi
+          echo "Tarball install verified."
+
+      - name: Publish to npm
+        if: startsWith(github.ref, 'refs/tags/v') && github.event.inputs.dry_run != 'true'
+        run: pnpm publish --no-git-checks --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Summary
+        run: |
+          NAME="$(node -p "require('./package.json').name")"
+          VER="$(node -p "require('./package.json').version")"
+          {
+            echo "### $NAME@$VER"
+            if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+              echo "Dry run: built and verified, not published."
+            else
+              echo "Published to npm."
+              echo ""
+              echo '```bash'
+              echo "npm install $NAME"
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

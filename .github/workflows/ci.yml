@@ -60,6 +60,15 @@ jobs:
       - name: Build
         run: pnpm build
 
+      # The npm package is built on every push, not only when a tag is cut.
+      # A packaging break found at release time is found at the worst possible
+      # moment: the version is already decided and the tag is already pushed.
+      - name: Build the npm package
+        run: pnpm package:build
+
+      - name: Verify the npm package
+        run: pnpm package:check
+
       # Serves the STATIC EXPORT (out/) exactly as Cloudflare will, and proves
       # the registry is actually installable from it,
       # rather than merely well-formed: a real `shadcn add` into a scratch
