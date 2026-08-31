@@ -50,6 +50,25 @@ brings `field`, `overlay`, `motion` and `utils` with it.
 
 Every component page on the site lists the exact command for that component.
 
+### Or install it as a dependency
+
+If you would rather not own the files, the same components ship as a normal
+package. This is the trade the registry route avoids: you get upgrades for
+free, and you cannot edit a component without forking.
+
+```bash
+npm install @shekharp77/minflow
+```
+
+```tsx
+import "@shekharp77/minflow/styles.css";
+import { Button } from "@shekharp77/minflow/button";
+```
+
+Import from the subpath rather than the package root where you can: every
+component is its own entry point, so `@shekharp77/minflow/button` cannot pull
+in anything else. `react` and `react-dom` are peer dependencies.
+
 ## Use
 
 ```tsx

@@ -1,0 +1,39 @@
+{
+  /*
+   * The npm build. The docs site compiles with tsconfig.json; this file exists
+   * only to emit `dist/` from the registry.
+   *
+   * The important part is `paths`. In the app, `@/lib/motion` and
+   * `@/components/ui/button` resolve to one-line shims at the repo root, which
+   * re-export from the registry. Those shims sit OUTSIDE `rootDir`, so a build
+   * that followed them would fail with "is not under rootDir" - and if it
+   * somehow succeeded it would ship the indirection instead of the source.
+   * Pointing every alias straight at the registry keeps the whole compilation
+   * inside one tree, which is what makes a flat, relative-imported `dist`
+   * possible. Most specific first: TypeScript takes the first pattern that
+   * matches, so a bare `@/*` fallback has to come last.
+   */
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "incremental": false,
+    "outDir": "dist",
+    "rootDir": "registry/minflow",
+    "target": "ES2022",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "paths": {
+      "@/lib/*": ["./registry/minflow/lib/*"],
+      "@/components/ui/*": ["./registry/minflow/ui/*"],
+      "@/registry/minflow/*": ["./registry/minflow/*"],
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["registry/minflow/**/*.ts", "registry/minflow/**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}
