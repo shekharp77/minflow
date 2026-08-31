@@ -1,5 +1,3 @@
-@AGENTS.md
-
 # minflow
 
 Important - This is an opensource project so make sure of code quality
