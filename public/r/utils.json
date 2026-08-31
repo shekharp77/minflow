@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "utils",
+  "title": "utils",
+  "description": "The utils module every component imports.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\";\nimport { extendTailwindMerge } from \"tailwind-merge\";\n\n/*\n * minflow's font-size tokens (text-body) and color tokens (text-text-2)\n * share the text-* prefix. Without this, tailwind-merge treats them as the\n * same group and silently drops one when a component sets both.\n */\nconst twMerge = extendTailwindMerge({\n  extend: {\n    classGroups: {\n      \"font-size\": [\n        { text: [\"caption\", \"body\", \"emphasis\", \"section\", \"title\", \"display\"] },\n      ],\n      \"text-color\": [\n        {\n          text: [\n            \"bg\",\n            \"bg-2\",\n            \"fg\",\n            \"fg-2\",\n            \"text\",\n            \"text-2\",\n            \"accent\",\n            \"on-accent\",\n            \"border\",\n            \"border-strong\",\n            \"hover\",\n            \"ok\",\n            \"warn\",\n            \"err\",\n            \"id-1\",\n            \"id-2\",\n            \"id-3\",\n          ],\n        },\n      ],\n    },\n  },\n});\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n",
+      "type": "registry:lib"
+    }
+  ],
+  "type": "registry:lib"
+}

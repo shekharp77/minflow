@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { Check, Copy } from "lucide-react";
-import { IconButton } from "@/registry/miniflow/ui/icon-button";
-import { IconSwap } from "@/registry/miniflow/ui/icon-swap";
+import { IconButton } from "@/registry/minflow/ui/icon-button";
+import { IconSwap } from "@/registry/minflow/ui/icon-swap";
 
 /* An install command with a copy control that confirms with a tick. */
 export function CopyLine({ command }: { command: string }) {

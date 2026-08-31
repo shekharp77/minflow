@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "lightbox",
+  "title": "Lightbox",
+  "description": "Media that expands out of its own thumbnail in one continuous morph.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/overlay",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/lightbox.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { Portal, Scrim, useBodyLock } from \"@/components/ui/overlay\";\nimport { morph, pressScale } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Shared-element lightbox: the thumbnail and the expanded view carry one\n * layoutId, so opening morphs the artwork across the screen instead of\n * cutting. Escape, scrim, or a click on the artwork closes it.\n */\nexport interface LightboxProps {\n  /** Rendered at thumb size and again expanded; keep it presentational. */\n  artwork: React.ReactNode;\n  label?: string;\n  thumbClassName?: string;\n}\n\nexport function Lightbox({ artwork, label = \"Expand\", thumbClassName }: LightboxProps) {\n  const [open, setOpen] = React.useState(false);\n  const id = React.useId();\n  useBodyLock(open);\n\n  React.useEffect(() => {\n    if (!open) return;\n    const onKey = (event: KeyboardEvent) => {\n      if (event.key === \"Escape\") setOpen(false);\n    };\n    document.addEventListener(\"keydown\", onKey);\n    return () => document.removeEventListener(\"keydown\", onKey);\n  }, [open]);\n\n  return (\n    <>\n      <motion.button\n        type=\"button\"\n        aria-label={label}\n        layoutId={id}\n        onClick={() => setOpen(true)}\n        whileTap={{ scale: pressScale }}\n        className={cn(\n          \"block h-24 w-36 overflow-hidden rounded-overlay outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent\",\n          open && \"invisible\",\n          thumbClassName\n        )}\n      >\n        {artwork}\n      </motion.button>\n      <Portal>\n        <AnimatePresence>\n          {open && (\n            <React.Fragment key=\"lightbox\">\n              <Scrim onClick={() => setOpen(false)} />\n              <div\n                className=\"fixed inset-0 z-overlay flex items-center justify-center p-10\"\n                onClick={() => setOpen(false)}\n              >\n                <motion.div\n                  layoutId={id}\n                  transition={morph}\n                  className=\"h-[52vh] w-[72vw] max-w-3xl overflow-hidden rounded-overlay shadow-overlay\"\n                >\n                  {artwork}\n                </motion.div>\n              </div>\n            </React.Fragment>\n          )}\n        </AnimatePresence>\n      </Portal>\n    </>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

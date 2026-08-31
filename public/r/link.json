@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "link",
+  "title": "Link",
+  "description": "An underline that draws itself on hover, and nothing at rest.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/link.tsx",
+      "content": "import * as React from \"react\";\nimport { ArrowUpRight } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Link whose underline draws itself left to right on hover, via a\n * background-size transition; no layout shift, no decoration at rest.\n */\nexport interface LinkProps extends React.ComponentProps<\"a\"> {\n  external?: boolean;\n}\n\nexport function Link({ external, className, children, ...props }: LinkProps) {\n  return (\n    <a\n      target={external ? \"_blank\" : undefined}\n      rel={external ? \"noreferrer\" : undefined}\n      className={cn(\n        \"group/link inline-flex min-h-6 items-center gap-0.5 bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-[position:0_100%] bg-no-repeat text-body text-text outline-none transition-[background-size] duration-150 hover:bg-[length:100%_1px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent\",\n        className\n      )}\n      {...props}\n    >\n      {children}\n      {external && (\n        <ArrowUpRight\n          aria-hidden\n          className=\"size-4 text-fg-2 transition-transform duration-150 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5\"\n        />\n      )}\n    </a>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

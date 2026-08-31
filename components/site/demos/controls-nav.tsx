@@ -22,20 +22,20 @@ import {
   Video,
   Wand,
 } from "lucide-react";
-import { AiPrompt } from "@/registry/miniflow/ui/ai-prompt";
-import { AppBar } from "@/registry/miniflow/ui/app-bar";
-import { BottomNav } from "@/registry/miniflow/ui/bottom-nav";
-import { ButtonGroup } from "@/registry/miniflow/ui/button-group";
-import { DeviceMockup } from "@/registry/miniflow/ui/device-mockup";
-import { IconButton } from "@/registry/miniflow/ui/icon-button";
-import { Menubar } from "@/registry/miniflow/ui/menubar";
-import { MenuItem, MenuLabel } from "@/registry/miniflow/ui/menu";
-import { Pagination } from "@/registry/miniflow/ui/pagination";
-import { ProgressSteps } from "@/registry/miniflow/ui/progress-steps";
-import { Rating } from "@/registry/miniflow/ui/rating";
-import { SpeedDial } from "@/registry/miniflow/ui/speed-dial";
-import { Text } from "@/registry/miniflow/ui/typography";
-import { TransferList } from "@/registry/miniflow/ui/transfer-list";
+import { AiPrompt } from "@/registry/minflow/ui/ai-prompt";
+import { AppBar } from "@/registry/minflow/ui/app-bar";
+import { BottomNav } from "@/registry/minflow/ui/bottom-nav";
+import { ButtonGroup } from "@/registry/minflow/ui/button-group";
+import { DeviceMockup } from "@/registry/minflow/ui/device-mockup";
+import { IconButton } from "@/registry/minflow/ui/icon-button";
+import { Menubar } from "@/registry/minflow/ui/menubar";
+import { MenuItem, MenuLabel } from "@/registry/minflow/ui/menu";
+import { Pagination } from "@/registry/minflow/ui/pagination";
+import { ProgressSteps } from "@/registry/minflow/ui/progress-steps";
+import { Rating } from "@/registry/minflow/ui/rating";
+import { SpeedDial } from "@/registry/minflow/ui/speed-dial";
+import { Text } from "@/registry/minflow/ui/typography";
+import { TransferList } from "@/registry/minflow/ui/transfer-list";
 import type { DemoSet } from "@/components/site/demos/types";
 
 function PaginationDemo({ count, start = 1 }: { count: number; start?: number }) {

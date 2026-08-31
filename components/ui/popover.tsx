@@ -1,1 +1,1 @@
-export * from "@/registry/miniflow/ui/popover";
+export * from "@/registry/minflow/ui/popover";

@@ -1,1 +1,1 @@
-export * from "@/registry/miniflow/ui/device-mockup";
+export * from "@/registry/minflow/ui/device-mockup";

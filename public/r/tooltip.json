@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tooltip",
+  "title": "Tooltip",
+  "description": "A stripped label handed back on hover or focus.",
+  "registryDependencies": [
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/tooltip.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface TooltipProps {\n  label: React.ReactNode;\n  side?: \"top\" | \"bottom\";\n  className?: string;\n  children: React.ReactNode;\n}\n\n/*\n * CSS-driven hover/focus reveal, so it stays server-renderable. The visual\n * bubble is aria-hidden: icon-only triggers carry their own aria-label, and\n * the tooltip exists to hand the stripped text back to sighted users.\n *\n * The delay is the whole design. A toolbar is crossed far more often than it\n * is aimed at, and without a rest period every icon the cursor passes fires a\n * bubble -- so the reader gets a trail of flashing labels for a journey to\n * somewhere else entirely. The delay applies only on the way in: once the\n * reader has left, the tooltip is already wrong, so it goes immediately.\n */\nexport function Tooltip({ label, side = \"top\", className, children }: TooltipProps) {\n  return (\n    <span className=\"group/tooltip relative inline-flex\">\n      {children}\n      <span\n        aria-hidden\n        className={cn(\n          /*\n           * Enumerated rather than `transition-all`: `all` animates every\n           * property that ever changes -- colour, shadow, the lot -- and takes\n           * each of them off the compositor to do it.\n           */\n          \"pointer-events-none absolute left-1/2 z-anchored -translate-x-1/2 whitespace-nowrap rounded-overlay bg-fg px-2 py-1 text-caption font-medium text-bg opacity-0 shadow-overlay transition-[opacity,transform] duration-150 ease-out delay-0\",\n          side === \"top\"\n            ? \"bottom-full mb-1.5 translate-y-0.5\"\n            : \"top-full mt-1.5 -translate-y-0.5\",\n          \"group-focus-within/tooltip:translate-y-0 group-focus-within/tooltip:opacity-100 group-hover/tooltip:translate-y-0 group-hover/tooltip:opacity-100\",\n          /* Delay belongs to the hover state, so it gates opening only. */\n          \"group-hover/tooltip:delay-500 group-focus-within/tooltip:delay-0\",\n          className\n        )}\n      >\n        {label}\n      </span>\n    </span>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

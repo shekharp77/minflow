@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { CopyLine } from "@/components/site/copy-line";
 
 export const metadata: Metadata = {
-  title: "Installation - miniflow",
+  title: "Installation - minflow",
   description:
-    "Install miniflow: add the dependencies, generate the token layer, wire the theme script, then pull in components one at a time with the shadcn CLI.",
+    "Install minflow: add the dependencies, generate the token layer, wire the theme script, then pull in components one at a time with the shadcn CLI.",
   alternates: { canonical: "/installation" },
 };
 
@@ -23,12 +23,12 @@ const STEPS = [
   {
     title: "Generate the token layer",
     body: "Every colour in the library is a token reference, never a raw value. Copy the token block into your global stylesheet before adding any component, or components will render against variables that do not exist yet.",
-    command: "npx shadcn@latest add @miniflow/tokens",
+    command: "npx shadcn@latest add @minflow/tokens",
   },
   {
     title: "Add a component",
     body: "Components are pulled in one at a time and land in your own source tree, so you can edit them. Each component page lists the exact command for that component.",
-    command: "npx shadcn@latest add @miniflow/button",
+    command: "npx shadcn@latest add @minflow/button",
   },
 ];
 

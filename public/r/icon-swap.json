@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon-swap",
+  "title": "Icon swap",
+  "description": "A glyph that crossfades when its state changes.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/icon-swap.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { roll } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Crossfades a glyph between states so state changes never hard-cut:\n * key the current state with `id` and render the matching icon as children.\n */\nexport interface IconSwapProps {\n  id: string;\n  className?: string;\n  children: React.ReactNode;\n}\n\nexport function IconSwap({ id, className, children }: IconSwapProps) {\n  return (\n    <span\n      data-slot=\"icon-swap\"\n      className={cn(\"relative inline-flex items-center justify-center\", className)}\n    >\n      <AnimatePresence mode=\"wait\" initial={false}>\n        <motion.span\n          key={id}\n          initial={{ opacity: 0, scale: 0.85 }}\n          animate={{ opacity: 1, scale: 1 }}\n          exit={{ opacity: 0, scale: 0.85 }}\n          transition={roll}\n          className=\"inline-flex\"\n        >\n          {children}\n        </motion.span>\n      </AnimatePresence>\n    </span>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

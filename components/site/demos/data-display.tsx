@@ -11,14 +11,14 @@ import {
   Star,
   Users,
 } from "lucide-react";
-import { Avatar, AvatarGroup } from "@/registry/miniflow/ui/avatar";
-import { BottomNav } from "@/registry/miniflow/ui/bottom-nav";
-import { DataTable, type Column } from "@/registry/miniflow/ui/data-table";
-import { DeviceMockup } from "@/registry/miniflow/ui/device-mockup";
-import { ImageList } from "@/registry/miniflow/ui/image-list";
-import { List } from "@/registry/miniflow/ui/list";
-import { Terminal } from "@/registry/miniflow/ui/terminal";
-import { Text, TypeScale } from "@/registry/miniflow/ui/typography";
+import { Avatar, AvatarGroup } from "@/registry/minflow/ui/avatar";
+import { BottomNav } from "@/registry/minflow/ui/bottom-nav";
+import { DataTable, type Column } from "@/registry/minflow/ui/data-table";
+import { DeviceMockup } from "@/registry/minflow/ui/device-mockup";
+import { ImageList } from "@/registry/minflow/ui/image-list";
+import { List } from "@/registry/minflow/ui/list";
+import { Terminal } from "@/registry/minflow/ui/terminal";
+import { Text, TypeScale } from "@/registry/minflow/ui/typography";
 import type { DemoSet } from "@/components/site/demos/types";
 
 const PEOPLE = [
@@ -184,11 +184,11 @@ export const dataDisplayDemos: DemoSet = {
   "minimilist-terminal": {
     session: (
       <Terminal
-        title="~/miniflow"
+        title="~/minflow"
         lines={[
-          { kind: "command", text: "npx shadcn@latest add @miniflow/terminal" },
+          { kind: "command", text: "npx shadcn@latest add @minflow/terminal" },
           { kind: "output", text: "Checking registry..." },
-          { kind: "success", text: "Added terminal.tsx to registry/miniflow/ui" },
+          { kind: "success", text: "Added terminal.tsx to registry/minflow/ui" },
           { kind: "command", text: "pnpm dev" },
           { kind: "output", text: "ready on http://localhost:3000" },
         ]}
@@ -197,10 +197,10 @@ export const dataDisplayDemos: DemoSet = {
     static: (
       <Terminal
         autoPlay={false}
-        title="~/miniflow"
+        title="~/minflow"
         lines={[
           { kind: "comment", text: "# every flag, in one place" },
-          { kind: "command", text: "miniflow build --registry ./registry --out dist" },
+          { kind: "command", text: "minflow build --registry ./registry --out dist" },
           { kind: "output", text: "  --registry   source of truth (default ./registry)" },
           { kind: "output", text: "  --out        build directory (default ./dist)" },
           { kind: "output", text: "  --watch      rebuild on change" },
@@ -209,7 +209,7 @@ export const dataDisplayDemos: DemoSet = {
     ),
     failure: (
       <Terminal
-        title="~/miniflow"
+        title="~/minflow"
         lines={[
           { kind: "command", text: "pnpm typecheck" },
           { kind: "error", text: "ui/select.tsx(42,7): Type 'string' is not assignable to 'Option'." },
@@ -224,7 +224,7 @@ export const dataDisplayDemos: DemoSet = {
   "minimilist-device-mockup": {
     phone: <PhoneDemo />,
     browser: (
-      <DeviceMockup kind="browser" url="miniflow.dev/components">
+      <DeviceMockup kind="browser" url="minflow.design/components">
         <div className="p-4">
           <Text variant="section" display>
             Components

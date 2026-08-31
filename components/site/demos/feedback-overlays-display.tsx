@@ -28,29 +28,29 @@ import {
   AlertRow,
   AlertStack,
   type AlertTone,
-} from "@/registry/miniflow/ui/alert";
-import { Badge } from "@/registry/miniflow/ui/badge";
-import { Button } from "@/registry/miniflow/ui/button";
-import { Carousel } from "@/registry/miniflow/ui/carousel";
-import { ChatWindow } from "@/registry/miniflow/ui/chat";
-import { Chip } from "@/registry/miniflow/ui/chip";
-import { Composer } from "@/registry/miniflow/ui/composer";
-import { Dialog } from "@/registry/miniflow/ui/dialog";
-import { FullscreenLoader } from "@/registry/miniflow/ui/fullscreen-loader";
-import { IconButton } from "@/registry/miniflow/ui/icon-button";
-import { Input } from "@/registry/miniflow/ui/input";
-import { Lightbox } from "@/registry/miniflow/ui/lightbox";
-import { MenuItem } from "@/registry/miniflow/ui/menu";
-import { Popover, PopupTip } from "@/registry/miniflow/ui/popover";
-import { ProgressBar, Radial } from "@/registry/miniflow/ui/progress";
-import { Property, PropertyList } from "@/registry/miniflow/ui/property-list";
-import { ScrollArea } from "@/registry/miniflow/ui/scroll-area";
-import { Sheet } from "@/registry/miniflow/ui/sheet";
-import { Skeleton } from "@/registry/miniflow/ui/skeleton";
-import { Spinner } from "@/registry/miniflow/ui/spinner";
-import { Timeline, TimelineItem } from "@/registry/miniflow/ui/timeline";
-import { toast } from "@/registry/miniflow/ui/toast";
-import { Tooltip } from "@/registry/miniflow/ui/tooltip";
+} from "@/registry/minflow/ui/alert";
+import { Badge } from "@/registry/minflow/ui/badge";
+import { Button } from "@/registry/minflow/ui/button";
+import { Carousel } from "@/registry/minflow/ui/carousel";
+import { ChatWindow } from "@/registry/minflow/ui/chat";
+import { Chip } from "@/registry/minflow/ui/chip";
+import { Composer } from "@/registry/minflow/ui/composer";
+import { Dialog } from "@/registry/minflow/ui/dialog";
+import { FullscreenLoader } from "@/registry/minflow/ui/fullscreen-loader";
+import { IconButton } from "@/registry/minflow/ui/icon-button";
+import { Input } from "@/registry/minflow/ui/input";
+import { Lightbox } from "@/registry/minflow/ui/lightbox";
+import { MenuItem } from "@/registry/minflow/ui/menu";
+import { Popover, PopupTip } from "@/registry/minflow/ui/popover";
+import { ProgressBar, Radial } from "@/registry/minflow/ui/progress";
+import { Property, PropertyList } from "@/registry/minflow/ui/property-list";
+import { ScrollArea } from "@/registry/minflow/ui/scroll-area";
+import { Sheet } from "@/registry/minflow/ui/sheet";
+import { Skeleton } from "@/registry/minflow/ui/skeleton";
+import { Spinner } from "@/registry/minflow/ui/spinner";
+import { Timeline, TimelineItem } from "@/registry/minflow/ui/timeline";
+import { toast } from "@/registry/minflow/ui/toast";
+import { Tooltip } from "@/registry/minflow/ui/tooltip";
 import type { DemoSet } from "@/components/site/demos/types";
 
 /* Shared fixtures ------------------------------------------------------- */
@@ -261,7 +261,7 @@ function ConfirmDialogDemo() {
         title="Archive project?"
       >
         <p>
-          miniflow keeps archives for 30 days, then removes them. Members lose
+          minflow keeps archives for 30 days, then removes them. Members lose
           access immediately.
         </p>
         <div className="mt-5 flex items-center justify-end gap-4">
@@ -758,9 +758,9 @@ export const feedbackOverlaysDisplayDemos: DemoSet = {
       </Tooltip>
     ),
     truncation: (
-      <Tooltip label="deploy-preview-482-graphite.miniflow.dev">
+      <Tooltip label="deploy-preview-482-graphite.minflow.design">
         <span className="block max-w-40 truncate text-body text-text-2">
-          deploy-preview-482-graphite.miniflow.dev
+          deploy-preview-482-graphite.minflow.design
         </span>
       </Tooltip>
     ),

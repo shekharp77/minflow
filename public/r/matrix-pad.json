@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "matrix-pad",
+  "title": "2D matrix pad",
+  "description": "Two parameters set by one drag, with a crosshair keeping both readable.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/matrix-pad.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { enter } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * 2D-matrix input: one drag sets two parameters at once. A crosshair\n * follows the dot so both axis positions stay readable, and the values\n * print live beneath the pad.\n */\nexport interface MatrixPadProps {\n  value?: { x: number; y: number };\n  defaultValue?: { x: number; y: number };\n  onValueChange?: (value: { x: number; y: number }) => void;\n  xLabel?: string;\n  yLabel?: string;\n  className?: string;\n}\n\nexport function MatrixPad({\n  value,\n  defaultValue,\n  onValueChange,\n  xLabel = \"x\",\n  yLabel = \"y\",\n  className,\n}: MatrixPadProps) {\n  const [internal, setInternal] = React.useState(\n    defaultValue ?? { x: 50, y: 50 }\n  );\n  const isControlled = value !== undefined;\n  const val = isControlled ? value : internal;\n  const [active, setActive] = React.useState(false);\n  const padRef = React.useRef<HTMLDivElement>(null);\n\n  const commit = (x: number, y: number) => {\n    const next = {\n      x: Math.round(Math.min(100, Math.max(0, x))),\n      y: Math.round(Math.min(100, Math.max(0, y))),\n    };\n    if (!isControlled) setInternal(next);\n    onValueChange?.(next);\n  };\n\n  const fromEvent = (event: React.PointerEvent) => {\n    const rect = padRef.current?.getBoundingClientRect();\n    if (!rect) return;\n    commit(\n      ((event.clientX - rect.left) / rect.width) * 100,\n      (1 - (event.clientY - rect.top) / rect.height) * 100\n    );\n  };\n\n  return (\n    <div className={cn(\"inline-flex flex-col gap-2\", className)}>\n      <div\n        ref={padRef}\n        role=\"application\"\n        aria-label={`${xLabel} and ${yLabel} pad`}\n        tabIndex={0}\n        onKeyDown={(event) => {\n          const d = event.shiftKey ? 10 : 2;\n          if (event.key === \"ArrowRight\") commit(val.x + d, val.y);\n          else if (event.key === \"ArrowLeft\") commit(val.x - d, val.y);\n          else if (event.key === \"ArrowUp\") commit(val.x, val.y + d);\n          else if (event.key === \"ArrowDown\") commit(val.x, val.y - d);\n          else return;\n          event.preventDefault();\n        }}\n        onPointerDown={(event) => {\n          event.currentTarget.setPointerCapture(event.pointerId);\n          setActive(true);\n          fromEvent(event);\n        }}\n        onPointerMove={(event) => {\n          if (active) fromEvent(event);\n        }}\n        onPointerUp={() => setActive(false)}\n        onPointerCancel={() => setActive(false)}\n        className=\"relative size-36 cursor-crosshair touch-none select-none overflow-hidden rounded-overlay bg-bg-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent\"\n      >\n        <span\n          aria-hidden\n          style={{ left: `${val.x}%` }}\n          className=\"absolute inset-y-0 w-px bg-border-strong\"\n        />\n        <span\n          aria-hidden\n          style={{ top: `${100 - val.y}%` }}\n          className=\"absolute inset-x-0 h-px bg-border-strong\"\n        />\n        <motion.span\n          aria-hidden\n          animate={{ scale: active ? 1.3 : 1 }}\n          transition={enter}\n          style={{ left: `${val.x}%`, top: `${100 - val.y}%` }}\n          className=\"absolute size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-fg\"\n        />\n      </div>\n      <span className=\"text-caption text-text-2 tabular-nums\">\n        {xLabel} {val.x}, {yLabel} {val.y}\n      </span>\n    </div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

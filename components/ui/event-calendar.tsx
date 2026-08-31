@@ -1,1 +1,1 @@
-export * from "@/registry/miniflow/ui/event-calendar";
+export * from "@/registry/minflow/ui/event-calendar";

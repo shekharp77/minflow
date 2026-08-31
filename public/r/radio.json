@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radio",
+  "title": "Radio",
+  "description": "One of several, for real forms.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/radio.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { springSnap } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Real radio inputs for forms (the design language reserves radios for real\n * forms; quick options outside forms use the Segmented control). The chosen\n * dot scales into place.\n */\ninterface RadioContextValue {\n  name: string;\n  value: string | undefined;\n  setValue: (v: string) => void;\n  disabled?: boolean;\n}\n\nconst RadioContext = React.createContext<RadioContextValue | null>(null);\n\nexport interface RadioGroupProps {\n  name?: string;\n  value?: string;\n  defaultValue?: string;\n  onValueChange?: (value: string) => void;\n  disabled?: boolean;\n  className?: string;\n  children: React.ReactNode;\n}\n\nexport function RadioGroup({\n  name,\n  value,\n  defaultValue,\n  onValueChange,\n  disabled,\n  className,\n  children,\n}: RadioGroupProps) {\n  const autoName = React.useId();\n  const [internal, setInternal] = React.useState(defaultValue);\n  const isControlled = value !== undefined;\n  const current = isControlled ? value : internal;\n\n  const ctx = React.useMemo<RadioContextValue>(\n    () => ({\n      name: name ?? autoName,\n      value: current,\n      disabled,\n      setValue: (v) => {\n        if (!isControlled) setInternal(v);\n        onValueChange?.(v);\n      },\n    }),\n    [name, autoName, current, disabled, isControlled, onValueChange]\n  );\n\n  return (\n    <RadioContext.Provider value={ctx}>\n      <div role=\"radiogroup\" className={cn(\"flex flex-col gap-2.5\", className)}>\n        {children}\n      </div>\n    </RadioContext.Provider>\n  );\n}\n\nexport interface RadioProps {\n  value: string;\n  label: React.ReactNode;\n  disabled?: boolean;\n}\n\nexport function Radio({ value, label, disabled }: RadioProps) {\n  const ctx = React.useContext(RadioContext);\n  if (!ctx) throw new Error(\"Radio must be used inside RadioGroup\");\n  const off = disabled || ctx.disabled;\n  const on = ctx.value === value;\n\n  return (\n    <label\n      className={cn(\n        \"inline-flex cursor-pointer select-none items-center gap-2.5 text-body text-text\",\n        off && \"cursor-default opacity-50\"\n      )}\n    >\n      <input\n        type=\"radio\"\n        name={ctx.name}\n        className=\"peer sr-only\"\n        checked={on}\n        disabled={off}\n        onChange={() => ctx.setValue(value)}\n      />\n      <span\n        aria-hidden\n        className={cn(\n          \"flex size-4.5 shrink-0 items-center justify-center rounded-full border transition-colors duration-150 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent\",\n          on ? \"border-fg\" : \"border-control-edge\"\n        )}\n      >\n        <motion.span\n          initial={false}\n          /*\n           * Never scale(0): a mark that grows from literal nothing has no\n           * physical read. The dot is 8px, so the band that suits a panel\n           * (0.95-0.98) is invisible here -- it lands from 0.6 instead, and\n           * the opacity does the appearing while the spring does the arriving.\n           */\n          animate={{ scale: on ? 1 : 0.6, opacity: on ? 1 : 0 }}\n          transition={springSnap}\n          className=\"size-2 rounded-full bg-fg\"\n        />\n      </span>\n      {label}\n    </label>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

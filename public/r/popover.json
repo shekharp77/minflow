@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popover",
+  "title": "Popover",
+  "description": "A small anchored surface that scales out of its own trigger.",
+  "dependencies": [
+    "lucide-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/icon-button",
+    "@minflow/motion",
+    "@minflow/overlay",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/popover.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { Info } from \"lucide-react\";\nimport { IconButton } from \"@/components/ui/icon-button\";\nimport { Portal, useAnchoredPosition, useDismiss } from \"@/components/ui/overlay\";\nimport { enter, exit as exitT, useMotionEnabled } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Anchored transient surface. Scales out of its anchor edge (origin-aware\n * fade + 0.96 scale), dismissed by Escape or pointer-down outside.\n */\nexport interface PopoverProps {\n  trigger: React.ReactElement<{ onClick?: (e: React.MouseEvent) => void; \"aria-expanded\"?: boolean }>;\n  side?: \"top\" | \"bottom\";\n  align?: \"start\" | \"end\";\n  /** Controlled open state; omit for uncontrolled. */\n  open?: boolean;\n  onOpenChange?: (open: boolean) => void;\n  className?: string;\n  children: React.ReactNode;\n}\n\nexport function Popover({\n  trigger,\n  side = \"bottom\",\n  align = \"start\",\n  open: openProp,\n  onOpenChange,\n  className,\n  children,\n}: PopoverProps) {\n  const [internalOpen, setInternalOpen] = React.useState(false);\n  const isControlled = openProp !== undefined;\n  const open = isControlled ? openProp : internalOpen;\n  const setOpen = React.useCallback(\n    (v: boolean) => {\n      if (!isControlled) setInternalOpen(v);\n      onOpenChange?.(v);\n    },\n    [isControlled, onOpenChange]\n  );\n  const rootRef = React.useRef<HTMLSpanElement>(null);\n  const panelRef = React.useRef<HTMLDivElement>(null);\n  const close = React.useCallback(() => setOpen(false), [setOpen]);\n  /* The panel is portalled, so it is no longer a descendant of the trigger.\n     It has to be named here or a press inside it reads as \"outside\" and the\n     popover closes under the reader's own click. */\n  useDismiss(open, close, [rootRef, panelRef]);\n  const motionOk = useMotionEnabled();\n  const { style, origin } = useAnchoredPosition(open, rootRef, panelRef, { side, align });\n\n  return (\n    <span ref={rootRef} className=\"relative inline-flex\">\n      {React.cloneElement(trigger, {\n        onClick: (e: React.MouseEvent) => {\n          trigger.props.onClick?.(e);\n          setOpen(!open);\n        },\n        \"aria-expanded\": open,\n      })}\n      <Portal>\n      <AnimatePresence>\n        {open && (\n          <motion.div\n            ref={panelRef}\n            role=\"dialog\"\n            /*\n             * A panel that ignores the motion switch does not merely animate\n             * when it should not: it opens at zero opacity and reaches full\n             * only once frames arrive, so on a throttled tab the reader sees\n             * the page straight through it. With motion off it simply appears.\n             */\n            initial={motionOk ? { opacity: 0, scale: 0.96 } : false}\n            animate={{ opacity: 1, scale: 1 }}\n            exit={\n              motionOk\n                ? { opacity: 0, scale: 0.98, transition: exitT }\n                : undefined\n            }\n            transition={motionOk ? enter : { duration: 0 }}\n            style={{ ...style, transformOrigin: origin }}\n            className={cn(\n              \"z-anchored min-w-44 overflow-y-auto rounded-overlay bg-bg-2 p-3 shadow-overlay ring-1 ring-border\",\n              className\n            )}\n          >\n            {children}\n          </motion.div>\n        )}\n      </AnimatePresence>\n      </Portal>\n    </span>\n  );\n}\n\n/* Popup tip: the tap-to-reveal cousin of the tooltip, for touch and detail. */\nexport function PopupTip({\n  label = \"More info\",\n  children,\n  side,\n  align,\n}: {\n  label?: string;\n  children: React.ReactNode;\n  side?: \"top\" | \"bottom\";\n  align?: \"start\" | \"end\";\n}) {\n  return (\n    <Popover\n      side={side}\n      align={align}\n      className=\"max-w-56\"\n      trigger={\n        <IconButton label={label}>\n          <Info />\n        </IconButton>\n      }\n    >\n      <p className=\"text-caption text-text-2\">{children}</p>\n    </Popover>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

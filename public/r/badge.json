@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge",
+  "title": "Badge",
+  "description": "An item count riding an icon's shoulder.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/badge.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { exit as exitT, springSnap } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Badge: an item count riding an icon's shoulder. Count changes pop the\n * pill in fresh; reaching zero collapses it away. Numbers, never bare\n * meaning-carrying dots.\n */\nexport interface BadgeProps {\n  count: number;\n  max?: number;\n  className?: string;\n  children: React.ReactNode;\n}\n\nexport function Badge({ count, max = 99, className, children }: BadgeProps) {\n  const display = count > max ? `${max}+` : String(count);\n\n  return (\n    <span className={cn(\"relative inline-flex\", className)}>\n      {children}\n      <AnimatePresence>\n        {count > 0 && (\n          <motion.span\n            key={display}\n            initial={{ scale: 0.7, opacity: 0 }}\n            animate={{ scale: 1, opacity: 1 }}\n            exit={{ scale: 0.8, opacity: 0, transition: exitT }}\n            transition={springSnap}\n            className=\"absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-fg px-1 text-caption font-medium leading-none text-bg tabular-nums\"\n          >\n            {display}\n          </motion.span>\n        )}\n      </AnimatePresence>\n    </span>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroll-area",
+  "title": "Scroll area",
+  "description": "A scoped scroll region with a hairline thumb that sleeps when you stop.",
+  "dependencies": [
+    "lenis"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/scroll-area.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport Lenis from \"lenis\";\nimport { useMotionEnabled } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Scroll area with a quiet overlay scrollbar and Apple-feel momentum: an\n * element-scoped lenis eases wheel input inside the area, the hairline\n * thumb fades in while scrolling, then sleeps. Momentum respects\n * prefers-reduced-motion and the app-level motion switch.\n */\nexport interface ScrollAreaProps {\n  /** Momentum-smooth the wheel inside this area. */\n  smooth?: boolean;\n  className?: string;\n  children: React.ReactNode;\n}\n\nexport function ScrollArea({ smooth = true, className, children }: ScrollAreaProps) {\n  const innerRef = React.useRef<HTMLDivElement>(null);\n  const contentRef = React.useRef<HTMLDivElement>(null);\n  const [thumb, setThumb] = React.useState({ top: 0, height: 0, visible: false });\n  const hideTimer = React.useRef<number>(0);\n  const motionOk = useMotionEnabled();\n\n  const update = React.useCallback(() => {\n    const el = innerRef.current;\n    if (!el) return;\n    const ratio = el.clientHeight / el.scrollHeight;\n    if (ratio >= 1) return;\n    setThumb({\n      top: (el.scrollTop / el.scrollHeight) * el.clientHeight,\n      height: Math.max(24, ratio * el.clientHeight),\n      visible: true,\n    });\n    window.clearTimeout(hideTimer.current);\n    hideTimer.current = window.setTimeout(\n      () => setThumb((t) => ({ ...t, visible: false })),\n      700\n    );\n  }, []);\n\n  React.useEffect(() => {\n    if (!smooth || !motionOk) return;\n    const wrapper = innerRef.current;\n    const content = contentRef.current;\n    if (!wrapper || !content) return;\n    const lenis = new Lenis({ wrapper, content, duration: 0.9 });\n    let frame = 0;\n    const loop = (time: number) => {\n      lenis.raf(time);\n      frame = requestAnimationFrame(loop);\n    };\n    frame = requestAnimationFrame(loop);\n    return () => {\n      cancelAnimationFrame(frame);\n      lenis.destroy();\n    };\n  }, [smooth, motionOk]);\n\n  return (\n    <div className={cn(\"relative\", className)}>\n      <div\n        ref={innerRef}\n        onScroll={update}\n        className=\"h-full overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden\"\n      >\n        <div ref={contentRef}>{children}</div>\n      </div>\n      <span\n        aria-hidden\n        style={{ top: thumb.top, height: thumb.height, opacity: thumb.visible ? 1 : 0 }}\n        className=\"absolute right-0.5 w-1 rounded-full bg-border-strong transition-opacity duration-150\"\n      />\n    </div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

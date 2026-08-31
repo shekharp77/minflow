@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "search-field",
+  "title": "Search field",
+  "description": "A single glyph that eases open into a field.",
+  "dependencies": [
+    "lucide-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/field",
+    "@minflow/icon-button",
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/search-field.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { Search, X } from \"lucide-react\";\nimport { IconButton } from \"@/components/ui/icon-button\";\nimport { FieldBoundary } from \"@/registry/minflow/ui/field\";\nimport { morph, roll } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Search that starts as a single glyph and eases open into a field on\n * focus. Empty blur folds it closed again; the X clears and refocuses.\n */\nexport interface SearchFieldProps {\n  placeholder?: string;\n  value?: string;\n  onValueChange?: (value: string) => void;\n  className?: string;\n}\n\nexport function SearchField({\n  placeholder = \"Search\",\n  value,\n  onValueChange,\n  className,\n}: SearchFieldProps) {\n  const [internal, setInternal] = React.useState(\"\");\n  const isControlled = value !== undefined;\n  const query = isControlled ? value : internal;\n  const [open, setOpen] = React.useState(false);\n  const inputRef = React.useRef<HTMLInputElement>(null);\n\n  const set = (v: string) => {\n    if (!isControlled) setInternal(v);\n    onValueChange?.(v);\n  };\n\n  return (\n    <motion.div\n      animate={{ width: open ? 224 : 40 }}\n      transition={morph}\n      className={cn(\n        \"relative flex h-10 items-center overflow-hidden rounded-control\",\n        className\n      )}\n    >\n      <FieldBoundary active={open} />\n      <IconButton\n        label=\"Search\"\n        tabIndex={open ? -1 : 0}\n        onClick={() => {\n          setOpen(true);\n          window.setTimeout(() => inputRef.current?.focus(), 50);\n        }}\n        className=\"shrink-0\"\n      >\n        <Search />\n      </IconButton>\n      <motion.input\n        ref={inputRef}\n        type=\"text\"\n        placeholder={placeholder}\n        aria-label={placeholder}\n        value={query}\n        animate={{ opacity: open ? 1 : 0 }}\n        transition={roll}\n        onChange={(event) => set(event.target.value)}\n        onBlur={() => {\n          if (!query) setOpen(false);\n        }}\n        onKeyDown={(event) => {\n          if (event.key === \"Escape\") {\n            set(\"\");\n            setOpen(false);\n            inputRef.current?.blur();\n          }\n        }}\n        className=\"w-full bg-transparent pr-8 font-sans text-body text-text outline-none placeholder:text-text-2/70\"\n      />\n      {open && query && (\n        <IconButton\n          label=\"Clear\"\n          size={16}\n          onClick={() => {\n            set(\"\");\n            inputRef.current?.focus();\n          }}\n          className=\"absolute right-0 size-8\"\n        >\n          <X />\n        </IconButton>\n      )}\n    </motion.div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

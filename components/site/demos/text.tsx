@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import { CornerDownLeft, Diamond, Pencil, Tag, Trash2 } from "lucide-react";
-import { InlineCreate } from "@/registry/miniflow/ui/inline-create";
-import { Input, InputAction } from "@/registry/miniflow/ui/input";
-import { MenuItem } from "@/registry/miniflow/ui/menu";
-import { SearchField } from "@/registry/miniflow/ui/search-field";
-import { Textarea } from "@/registry/miniflow/ui/textarea";
+import { InlineCreate } from "@/registry/minflow/ui/inline-create";
+import { Input, InputAction } from "@/registry/minflow/ui/input";
+import { MenuItem } from "@/registry/minflow/ui/menu";
+import { SearchField } from "@/registry/minflow/ui/search-field";
+import { Textarea } from "@/registry/minflow/ui/textarea";
 import type { DemoSet } from "@/components/site/demos/types";
 
 function QuickNote() {

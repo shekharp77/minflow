@@ -1,0 +1,1657 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "minflow",
+  "homepage": "https://minflow.design",
+  "items": [
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Rows that expand in place, separated by whitespace rather than rules.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "ai-prompt",
+      "type": "registry:ui",
+      "title": "AI prompt",
+      "description": "The opening move of a conversation with a model: field, inline options, examples.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/menu",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/ai-prompt.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "A standing notice about state, carried by one status glyph.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "app-bar",
+      "type": "registry:ui",
+      "title": "App bar",
+      "description": "A top bar that is invisible until content scrolls under it.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/app-bar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "A person as two letters and a colour derived from their name.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "back-to-top",
+      "type": "registry:ui",
+      "title": "Back to top",
+      "description": "A quiet return that appears only once the page has depth.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/tooltip"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/back-to-top.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "An item count riding an icon's shoulder.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "bottom-nav",
+      "type": "registry:ui",
+      "title": "Bottom navigation",
+      "description": "Three to five destinations pinned within thumb reach.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/bottom-nav.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumbs",
+      "type": "registry:ui",
+      "title": "Breadcrumbs",
+      "description": "The path back up, walked one crumb at a time.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/breadcrumbs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "A labelled action, ranked by restraint rather than by weight.",
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button group",
+      "description": "Related actions joined by a shared hover rail instead of a border.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/button-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A month on screen, so a date can be chosen by shape.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/field",
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/popover",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Panes that drag with elastic feel and snap to the nearest slide.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/carousel.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "chat",
+      "type": "registry:ui",
+      "title": "Chat window",
+      "description": "A floating assistant that materialises out of its own corner.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/menu",
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/spinner",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/chat.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Checked or not, with the mark drawing itself along its path.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "chip",
+      "type": "registry:ui",
+      "title": "Chip",
+      "description": "An enumerated value, always rendered as a chip rather than as text.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/chip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combo box",
+      "description": "A select with a textbox: type to filter the list.",
+      "dependencies": [
+        "@formkit/auto-animate",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/field",
+        "@minflow/input",
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "composer",
+      "type": "registry:ui",
+      "title": "Composer",
+      "description": "Object creation as one input, with everything else optional.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "@minflow/button",
+        "@minflow/icon-button",
+        "@minflow/menu",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/composer.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context menu",
+      "description": "Right-click actions that scale out of the point that was clicked.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/menu",
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/context-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data table",
+      "description": "Tabular data held together by alignment rather than gridlines.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/data-table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date picker",
+      "description": "A date field that keeps its calendar folded away until asked.",
+      "registryDependencies": [
+        "@minflow/calendar"
+      ]
+    },
+    {
+      "name": "device-mockup",
+      "type": "registry:ui",
+      "title": "Device mockup",
+      "description": "Phone, tablet, and browser frames for showing an interface in context.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/device-mockup.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A modal surface for one focused decision.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "event-calendar",
+      "type": "registry:ui",
+      "title": "Event calendar",
+      "description": "Seven views of one schedule, from a year down to a single room's day.",
+      "dependencies": [
+        "@formkit/auto-animate",
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/button",
+        "@minflow/checkbox",
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/popover",
+        "@minflow/segmented",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/event-calendar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "fab",
+      "type": "registry:ui",
+      "title": "Floating action button",
+      "description": "One unmissable action hovering above the content.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/tooltip",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/fab.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "The shared shell for list fields: the boundary, the placeholder and the chevron.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "fullscreen-loader",
+      "type": "registry:ui",
+      "title": "Fullscreen loader",
+      "description": "A first load told as a timeline of named steps.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/fullscreen-loader.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "icon-button",
+      "type": "registry:ui",
+      "title": "Icon button",
+      "description": "An icon-only control that hands its label back on hover.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/tooltip",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/icon-button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "icon-swap",
+      "type": "registry:ui",
+      "title": "Icon swap",
+      "description": "A glyph that crossfades when its state changes.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/icon-swap.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "image-list",
+      "type": "registry:ui",
+      "title": "Image list",
+      "description": "A wall of images in either a uniform grid or true masonry.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/image-list.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "inline-create",
+      "type": "registry:ui",
+      "title": "Inline create",
+      "description": "Creating an object where the object will live.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/input",
+        "@minflow/menu",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/inline-create.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "The house textbox: a placeholder, and no boundary at all.",
+      "dependencies": [
+        "class-variance-authority",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/field",
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "lightbox",
+      "type": "registry:ui",
+      "title": "Lightbox",
+      "description": "Media that expands out of its own thumbnail in one continuous morph.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/lightbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "type": "registry:ui",
+      "title": "Link",
+      "description": "An underline that draws itself on hover, and nothing at rest.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/link.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "type": "registry:ui",
+      "title": "List",
+      "description": "A run of records separated by space instead of rules.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/list.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "listbox",
+      "type": "registry:ui",
+      "title": "Listbox",
+      "description": "Options visible in a scrollable control, multi-select by default.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/listbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "matrix-pad",
+      "type": "registry:ui",
+      "title": "2D matrix pad",
+      "description": "Two parameters set by one drag, with a crosshair keeping both readable.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/matrix-pad.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "menu",
+      "type": "registry:ui",
+      "title": "Menu",
+      "description": "Actions on demand under their handle, cascading in as a list.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/popover",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "An application menu row where hovering switches menus once one is open.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/menu",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/menubar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "motion",
+      "type": "registry:lib",
+      "title": "motion",
+      "description": "The motion module every component imports.",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/lib/motion.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "motion-provider",
+      "type": "registry:lib",
+      "title": "motion-provider",
+      "description": "The motion-provider module every component imports.",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/lib/motion-provider.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "overlay",
+      "type": "registry:ui",
+      "title": "Overlay",
+      "description": "Portal, anchored positioning and dismiss handling. The primitive every floating layer is built on.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/overlay.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Page numbers with one travelling marker rather than a highlight that jumps.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pie-menu",
+      "type": "registry:ui",
+      "title": "Pie menu",
+      "description": "Options blooming onto a circle around their handle.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/tokens",
+        "@minflow/tooltip",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/pie-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "A small anchored surface that scales out of its own trigger.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Known completion, drawn as a bar or as a ring around a number.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress-steps",
+      "type": "registry:ui",
+      "title": "Progress steps",
+      "description": "Position in a task with a known number of stages.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/progress-steps.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "property-list",
+      "type": "registry:ui",
+      "title": "Property list",
+      "description": "Definition rows on the open canvas, with unset values as the add affordance.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/field",
+        "@minflow/icon-button",
+        "@minflow/menu",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/property-list.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio",
+      "type": "registry:ui",
+      "title": "Radio",
+      "description": "One of several, for real forms.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/radio.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "rating",
+      "type": "registry:ui",
+      "title": "Rating",
+      "description": "A score set in one gesture, with the result previewed before you commit.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/rating.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll area",
+      "description": "A scoped scroll region with a hairline thumb that sleeps when you stop.",
+      "dependencies": [
+        "lenis"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/scroll-area.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "search-field",
+      "type": "registry:ui",
+      "title": "Search field",
+      "description": "A single glyph that eases open into a field.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/field",
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/search-field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "segmented",
+      "type": "registry:ui",
+      "title": "Segmented control",
+      "description": "Quick exclusive options with a thumb that slides between them.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/segmented.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "One value from a hidden list: a boundary, a placeholder, a chevron.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/field",
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "An edge-anchored panel that leaves the page behind it in place.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/overlay",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "The wireframe of a page while it loads, with one quiet light sweep.",
+      "registryDependencies": [
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "A bounded value along a track.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "speed-dial",
+      "type": "registry:ui",
+      "title": "Speed dial",
+      "description": "A primary control that fans out into the few things it can start.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/speed-dial.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Ongoing work with no known end, shown rather than written.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "split-button",
+      "type": "registry:ui",
+      "title": "Split button",
+      "description": "A default action with its alternatives one chevron away.",
+      "registryDependencies": [
+        "@minflow/button",
+        "@minflow/field",
+        "@minflow/menu",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/split-button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "stepper",
+      "type": "registry:ui",
+      "title": "Input stepper",
+      "description": "Small numeric changes, with the digit rolling in the direction of travel.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/stepper.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Two states that take effect immediately.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "One panel at a time, with an ink line sliding between the triggers.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "terminal",
+      "type": "registry:ui",
+      "title": "Terminal",
+      "description": "A command-line transcript that types itself out.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/terminal.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Multiline text that eases taller as it fills.",
+      "registryDependencies": [
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "timeline",
+      "type": "registry:ui",
+      "title": "Timeline",
+      "description": "Chronology on an open list, with the spine drawn by your own scroll.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/timeline.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Passing status that stacks, drains its countdown, and leaves on its own.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/toast.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tokens",
+      "type": "registry:style",
+      "title": "Token layer",
+      "description": "Every colour, size, radius and duration the library styles itself through. Install this before any component.",
+      "dependencies": [
+        "motion",
+        "@formkit/auto-animate",
+        "lucide-react",
+        "clsx",
+        "tailwind-merge",
+        "class-variance-authority"
+      ],
+      "cssVars": {
+        "theme": {
+          "color-bg": "var(--bg)",
+          "color-bg-2": "var(--bg-2)",
+          "color-fg": "var(--fg)",
+          "color-fg-2": "var(--fg-2)",
+          "color-text": "var(--text)",
+          "color-text-2": "var(--text-2)",
+          "color-accent": "var(--accent)",
+          "color-on-accent": "var(--on-accent)",
+          "color-border": "var(--border)",
+          "color-border-strong": "var(--border-strong)",
+          "color-control-edge": "var(--control-edge)",
+          "color-hover": "var(--hover)",
+          "color-stage": "var(--stage)",
+          "color-ok": "var(--ok)",
+          "color-warn": "var(--warn)",
+          "color-err": "var(--err)",
+          "color-id-1": "var(--id-1)",
+          "color-id-2": "var(--id-2)",
+          "color-id-3": "var(--id-3)",
+          "font-sans": "\"Inter Variable\", ui-sans-serif, system-ui, sans-serif",
+          "font-display": "\"Nunito Variable\", \"Inter Variable\", ui-sans-serif, sans-serif",
+          "font-mono": "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
+          "shadow-overlay": "var(--overlay-shadow)",
+          "radius-control": "6px",
+          "radius-overlay": "10px",
+          "z-index-raised": "10",
+          "z-index-sticky": "30",
+          "z-index-header": "40",
+          "z-index-scrim": "50",
+          "z-index-overlay": "60",
+          "z-index-anchored": "70",
+          "z-index-toast": "80",
+          "z-index-fullscreen": "90",
+          "size-chip": "24px",
+          "size-control-sm": "28px",
+          "size-control-md": "32px",
+          "size-control-lg": "36px",
+          "size-touch": "40px",
+          "size-fab": "48px",
+          "text-caption": "0.75rem",
+          "text-caption--line-height": "1.4",
+          "text-body": "0.8125rem",
+          "text-body--line-height": "1.5",
+          "text-emphasis": "0.875rem",
+          "text-emphasis--line-height": "1.5",
+          "text-section": "1rem",
+          "text-section--line-height": "1.3",
+          "text-section--letter-spacing": "-0.01em",
+          "text-title": "1.25rem",
+          "text-title--line-height": "1.2",
+          "text-title--letter-spacing": "-0.01em",
+          "text-display": "1.5rem",
+          "text-display--line-height": "1.2",
+          "text-display--letter-spacing": "-0.01em"
+        },
+        "light": {
+          "bg": "#ffffff",
+          "bg-2": "#f7f8f8",
+          "fg": "#0f1011",
+          "fg-2": "oklch(0.6 0.012 264)",
+          "text": "#0f1011",
+          "text-2": "#666a71",
+          "accent": "#5e6ad2",
+          "on-accent": "#ffffff",
+          "border": "color-mix(in oklab, var(--text) 10%, transparent)",
+          "border-strong": "color-mix(in oklab, var(--text) 18%, transparent)",
+          "control-edge": "color-mix(in oklab, var(--text) 48%, transparent)",
+          "hover": "color-mix(in oklab, var(--text) 5%, transparent)",
+          "stage": "color-mix(in oklab, var(--fg-2) 12%, var(--bg))",
+          "ok": "#15803d",
+          "warn": "#b45309",
+          "err": "#dc2626",
+          "id-1": "oklch(0.58 0.06 160)",
+          "id-2": "oklch(0.6 0.07 40)",
+          "id-3": "oklch(0.58 0.06 330)",
+          "overlay-shadow": "0 8px 30px color-mix(in oklab, var(--text) 12%, transparent)"
+        },
+        "dark": {
+          "bg": "#ffffff",
+          "bg-2": "#f7f8f8",
+          "fg": "#0f1011",
+          "fg-2": "oklch(0.6 0.012 264)",
+          "text": "#0f1011",
+          "text-2": "#666a71",
+          "accent": "#5e6ad2",
+          "on-accent": "#ffffff",
+          "border": "color-mix(in oklab, var(--text) 10%, transparent)",
+          "border-strong": "color-mix(in oklab, var(--text) 18%, transparent)",
+          "control-edge": "color-mix(in oklab, var(--text) 48%, transparent)",
+          "hover": "color-mix(in oklab, var(--text) 5%, transparent)",
+          "stage": "color-mix(in oklab, var(--fg-2) 12%, var(--bg))",
+          "ok": "#15803d",
+          "warn": "#b45309",
+          "err": "#dc2626",
+          "id-1": "oklch(0.58 0.06 160)",
+          "id-2": "oklch(0.6 0.07 40)",
+          "id-3": "oklch(0.58 0.06 330)",
+          "overlay-shadow": "0 8px 30px color-mix(in oklab, var(--text) 12%, transparent)"
+        }
+      },
+      "css": {
+        ".lucide": {
+          "stroke-width": "1.75"
+        },
+        ".hit-target": {
+          "position": "relative"
+        },
+        ".hit-target::after": {
+          "content": "\"\"",
+          "position": "absolute",
+          "left": "50%",
+          "top": "50%",
+          "width": "max(100%, 24px)",
+          "height": "max(100%, 24px)",
+          "transform": "translate(-50%, -50%)"
+        },
+        "@keyframes shimmer": {
+          "from": {
+            "transform": "translateX(-100%)"
+          },
+          "to": {
+            "transform": "translateX(100%)"
+          }
+        }
+      }
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A stripped label handed back on hover or focus.",
+      "registryDependencies": [
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "transfer-list",
+      "type": "registry:ui",
+      "title": "Transfer list",
+      "description": "Two lists and the traffic between them, for building a set from a pool.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/transfer-list.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tree",
+      "type": "registry:ui",
+      "title": "Tree",
+      "description": "A disclosure tree where every level hangs off its own guide.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/icon-button",
+        "@minflow/menu",
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/tree.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "typography",
+      "type": "registry:ui",
+      "title": "Typography",
+      "description": "Six sizes, two faces, and a component that keeps them honest.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/typography.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "utils",
+      "description": "The utils module every component imports.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "wheel-picker",
+      "type": "registry:ui",
+      "title": "Wheel picker",
+      "description": "An iOS-style wheel that turns exactly one row per notch.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@minflow/motion",
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/wheel-picker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

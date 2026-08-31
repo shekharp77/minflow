@@ -1,0 +1,10 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "date-picker",
+  "title": "Date picker",
+  "description": "A date field that keeps its calendar folded away until asked.",
+  "registryDependencies": [
+    "@minflow/calendar"
+  ],
+  "type": "registry:ui"
+}

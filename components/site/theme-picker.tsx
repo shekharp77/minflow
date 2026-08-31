@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Button } from "@/registry/miniflow/ui/button";
+import { Button } from "@/registry/minflow/ui/button";
 import { fadeScale } from "@/lib/motion";
 import { startThemeTransition } from "@/lib/theme";
 import {

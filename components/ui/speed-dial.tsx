@@ -1,1 +1,1 @@
-export * from "@/registry/miniflow/ui/speed-dial";
+export * from "@/registry/minflow/ui/speed-dial";

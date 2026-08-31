@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "context-menu",
+  "title": "Context menu",
+  "description": "Right-click actions that scale out of the point that was clicked.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/menu",
+    "@minflow/motion",
+    "@minflow/overlay",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/context-menu.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { MenuCloseContext } from \"@/components/ui/menu\";\nimport { Portal, useDismiss } from \"@/components/ui/overlay\";\nimport { enter, exit as exitT } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Contextual menu: right-click summons actions at the cursor, scaling out\n * of the exact point that was clicked.\n */\nexport interface ContextMenuProps {\n  content: React.ReactNode;\n  className?: string;\n  children: React.ReactNode;\n}\n\nexport function ContextMenu({ content, className, children }: ContextMenuProps) {\n  const [pos, setPos] = React.useState<{ x: number; y: number } | null>(null);\n  const panelRef = React.useRef<HTMLDivElement>(null);\n  const close = React.useCallback(() => setPos(null), []);\n  useDismiss(pos !== null, close, [panelRef]);\n\n  return (\n    <MenuCloseContext.Provider value={close}>\n      <div\n        onContextMenu={(event) => {\n          event.preventDefault();\n          setPos({\n            x: Math.min(event.clientX, window.innerWidth - 200),\n            y: Math.min(event.clientY, window.innerHeight - 200),\n          });\n        }}\n        className={className}\n      >\n        {children}\n      </div>\n      <Portal>\n        <AnimatePresence>\n          {pos && (\n            <motion.div\n              ref={panelRef}\n              role=\"menu\"\n              initial={{ opacity: 0, scale: 0.95 }}\n              animate={{ opacity: 1, scale: 1 }}\n              exit={{ opacity: 0, scale: 0.98, transition: exitT }}\n              transition={enter}\n              style={{ left: pos.x, top: pos.y, transformOrigin: \"top left\" }}\n              className={cn(\n                \"fixed z-anchored min-w-44 rounded-overlay bg-bg-2 p-1 shadow-overlay ring-1 ring-border\"\n              )}\n            >\n              {content}\n            </motion.div>\n          )}\n        </AnimatePresence>\n      </Portal>\n    </MenuCloseContext.Provider>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

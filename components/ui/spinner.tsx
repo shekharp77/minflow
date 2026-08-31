@@ -1,1 +1,1 @@
-export * from "@/registry/miniflow/ui/spinner";
+export * from "@/registry/minflow/ui/spinner";

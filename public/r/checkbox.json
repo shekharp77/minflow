@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox",
+  "title": "Checkbox",
+  "description": "Checked or not, with the mark drawing itself along its path.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/checkbox.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { draw, exit as exitT, springSnap, useMotionEnabled } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Real input for forms and assistive tech; the visible box is drawn. The\n * check does not appear, it draws itself: an SVG stroke animated along its\n * own path length.\n *\n * Checking and unchecking are not symmetric. Checking is a small event worth\n * showing -- the box fills, the stroke travels, the whole thing lands on a\n * spring. Unchecking is a correction, and a correction should be over before\n * the reader has finished deciding it was one, so the tick simply leaves.\n *\n * The fill and the stroke share one duration on purpose. They used to differ\n * by 350ms, which read as two separate events: a box that filled, and then,\n * later, a tick that arrived in it.\n */\nexport interface CheckboxProps\n  extends Omit<React.ComponentProps<\"input\">, \"type\" | \"size\"> {\n  label?: React.ReactNode;\n}\n\nexport function Checkbox({\n  label,\n  className,\n  checked,\n  defaultChecked,\n  onChange,\n  disabled,\n  ...props\n}: CheckboxProps) {\n  const [internal, setInternal] = React.useState(defaultChecked ?? false);\n  const isControlled = checked !== undefined;\n  const on = isControlled ? !!checked : internal;\n  const motionOk = useMotionEnabled();\n\n  return (\n    <label\n      className={cn(\n        \"group/cb inline-flex cursor-pointer select-none items-center gap-2.5 text-body text-text\",\n        disabled && \"cursor-default opacity-50\",\n        className\n      )}\n    >\n      <input\n        type=\"checkbox\"\n        className=\"peer sr-only\"\n        checked={on}\n        disabled={disabled}\n        onChange={(event) => {\n          if (!isControlled) setInternal(event.target.checked);\n          onChange?.(event);\n        }}\n        {...props}\n      />\n      <motion.span\n        aria-hidden\n        /*\n         * The box lands on the same spring as the tick draws, so the two read\n         * as one event. `whileTap` sits on the label's own gesture, which is\n         * why the press is wired through the group rather than the input.\n         */\n        animate={{ scale: 1 }}\n        whileTap={motionOk && !disabled ? { scale: 0.9 } : undefined}\n        transition={springSnap}\n        className={cn(\n          \"flex size-4.5 shrink-0 items-center justify-center rounded-control border transition-colors duration-150 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent\",\n          on ? \"border-fg bg-fg\" : \"border-control-edge bg-transparent\"\n        )}\n      >\n        <motion.svg\n          viewBox=\"0 0 16 16\"\n          fill=\"none\"\n          strokeWidth={2}\n          strokeLinecap=\"round\"\n          strokeLinejoin=\"round\"\n          className=\"size-3 stroke-bg\"\n        >\n          <motion.path\n            d=\"M3.5 8.5 6.5 11.5 12.5 4.5\"\n            initial={false}\n            animate={{ pathLength: on ? 1 : 0, opacity: on ? 1 : 0 }}\n            /*\n             * Drawing on the way in, leaving on the way out. Un-drawing a\n             * stroke in reverse looks like the interface undoing itself in\n             * front of the reader, which is far more motion than a correction\n             * deserves.\n             */\n            transition={on ? draw : { ...exitT, pathLength: { duration: 0 } }}\n          />\n        </motion.svg>\n      </motion.span>\n      {label}\n    </label>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "title": "Skeleton",
+  "description": "The wireframe of a page while it loads, with one quiet light sweep.",
+  "registryDependencies": [
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/skeleton.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Skeleton screen: the page's wireframe while it loads, with one quiet\n * light sweep. Compose shapes to sketch the real layout.\n */\nexport function Skeleton({ className }: { className?: string }) {\n  return (\n    <span\n      aria-hidden\n      className={cn(\n        \"relative block overflow-hidden rounded-control bg-hover\",\n        className\n      )}\n    >\n      <span className=\"absolute inset-0 animate-[shimmer_1.4s_linear_infinite] bg-[linear-gradient(90deg,transparent,color-mix(in_oklab,var(--text)_7%,transparent),transparent)]\" />\n    </span>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

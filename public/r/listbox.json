@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "listbox",
+  "title": "Listbox",
+  "description": "Options visible in a scrollable control, multi-select by default.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/listbox.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { draw, pressScale, useMotionEnabled } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Listbox: options visible in a scrollable control, multi-select by default.\n * A list field, so it keeps a hairline boundary all the way around and no\n * fill inside it. Each toggle draws or erases its check.\n */\nexport interface ListboxProps {\n  options: string[];\n  multiple?: boolean;\n  value?: string[];\n  defaultValue?: string[];\n  onValueChange?: (value: string[]) => void;\n  label?: string;\n  className?: string;\n}\n\nexport function Listbox({\n  options,\n  multiple = true,\n  value,\n  defaultValue,\n  onValueChange,\n  label,\n  className,\n}: ListboxProps) {\n  const [internal, setInternal] = React.useState<string[]>(defaultValue ?? []);\n  const isControlled = value !== undefined;\n  const current = isControlled ? value : internal;\n  const motionOk = useMotionEnabled();\n\n  const toggle = (option: string) => {\n    let next: string[];\n    if (current.includes(option)) {\n      next = current.filter((o) => o !== option);\n    } else {\n      next = multiple ? [...current, option] : [option];\n    }\n    if (!isControlled) setInternal(next);\n    onValueChange?.(next);\n  };\n\n  return (\n    <ul\n      role=\"listbox\"\n      aria-multiselectable={multiple}\n      aria-label={label}\n      className={cn(\n        \"max-h-44 w-56 overflow-auto overscroll-contain rounded-control border border-control-edge bg-transparent p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden\",\n        className\n      )}\n    >\n      {options.map((option) => {\n        const selected = current.includes(option);\n        return (\n          <li key={option}>\n            <motion.button\n              type=\"button\"\n              role=\"option\"\n              aria-selected={selected}\n              whileTap={motionOk ? { scale: pressScale } : undefined}\n              onClick={() => toggle(option)}\n              className={cn(\n                \"flex h-8 w-full items-center justify-between rounded-control px-2 text-body text-text outline-none transition-colors duration-150 hover:bg-hover focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent\",\n                selected && \"font-medium\"\n              )}\n            >\n              {option}\n              <svg\n                viewBox=\"0 0 16 16\"\n                fill=\"none\"\n                strokeWidth={1.75}\n                strokeLinecap=\"round\"\n                strokeLinejoin=\"round\"\n                className=\"size-4 stroke-fg\"\n              >\n                <motion.path\n                  d=\"M3.5 8.5 6.5 11.5 12.5 4.5\"\n                  initial={false}\n                  animate={{\n                    pathLength: selected ? 1 : 0,\n                    opacity: selected ? 1 : 0,\n                  }}\n                  transition={draw}\n                />\n              </svg>\n            </motion.button>\n          </li>\n        );\n      })}\n    </ul>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

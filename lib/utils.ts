@@ -1,1 +1,1 @@
-export { cn } from "@/registry/miniflow/lib/utils";
+export { cn } from "@/registry/minflow/lib/utils";

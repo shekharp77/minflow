@@ -33,7 +33,7 @@ export async function generateMetadata({
   const doc = find(slug);
   if (!doc) return {};
 
-  const title = `${doc.name} - miniflow`;
+  const title = `${doc.name} - minflow`;
   return {
     title,
     description: doc.summary,
@@ -67,7 +67,7 @@ export default async function ComponentPage({
 
       <div className="mt-8">
         <CopyLine
-          command={`npx shadcn@latest add @miniflow/${doc.slug.replace("minimilist-", "")}`}
+          command={`npx shadcn@latest add @minflow/${doc.slug.replace("minimilist-", "")}`}
         />
       </div>
 

@@ -28,20 +28,20 @@ import {
   Trash2,
   Users,
 } from "lucide-react";
-import { Accordion } from "@/registry/miniflow/ui/accordion";
-import { Breadcrumbs } from "@/registry/miniflow/ui/breadcrumbs";
-import { Button } from "@/registry/miniflow/ui/button";
-import { Calendar, DatePicker } from "@/registry/miniflow/ui/calendar";
-import { ContextMenu } from "@/registry/miniflow/ui/context-menu";
-import { IconButton } from "@/registry/miniflow/ui/icon-button";
-import { Link } from "@/registry/miniflow/ui/link";
-import { MatrixPad } from "@/registry/miniflow/ui/matrix-pad";
-import { Menu, MenuItem, MenuLabel, Submenu } from "@/registry/miniflow/ui/menu";
-import { PieMenu } from "@/registry/miniflow/ui/pie-menu";
-import { Tabs } from "@/registry/miniflow/ui/tabs";
-import { toast } from "@/registry/miniflow/ui/toast";
-import { Tree } from "@/registry/miniflow/ui/tree";
-import { WheelPicker } from "@/registry/miniflow/ui/wheel-picker";
+import { Accordion } from "@/registry/minflow/ui/accordion";
+import { Breadcrumbs } from "@/registry/minflow/ui/breadcrumbs";
+import { Button } from "@/registry/minflow/ui/button";
+import { Calendar, DatePicker } from "@/registry/minflow/ui/calendar";
+import { ContextMenu } from "@/registry/minflow/ui/context-menu";
+import { IconButton } from "@/registry/minflow/ui/icon-button";
+import { Link } from "@/registry/minflow/ui/link";
+import { MatrixPad } from "@/registry/minflow/ui/matrix-pad";
+import { Menu, MenuItem, MenuLabel, Submenu } from "@/registry/minflow/ui/menu";
+import { PieMenu } from "@/registry/minflow/ui/pie-menu";
+import { Tabs } from "@/registry/minflow/ui/tabs";
+import { toast } from "@/registry/minflow/ui/toast";
+import { Tree } from "@/registry/minflow/ui/tree";
+import { WheelPicker } from "@/registry/minflow/ui/wheel-picker";
 import type { DemoSet } from "@/components/site/demos/types";
 
 /* Computed lazily inside state so the server and the client agree on the day. */
@@ -500,7 +500,7 @@ export const pickersMenusNavDemos: DemoSet = {
         items={[
           { label: "Workspace", href: "#" },
           { label: "Projects", href: "#" },
-          { label: "miniflow" },
+          { label: "minflow" },
         ]}
       />
     ),
@@ -509,7 +509,7 @@ export const pickersMenusNavDemos: DemoSet = {
         items={[
           { label: "Workspace", href: "#", icon: <Building2 /> },
           { label: "Projects", href: "#", icon: <Folder /> },
-          { label: "miniflow", icon: <FileCode /> },
+          { label: "minflow", icon: <FileCode /> },
         ]}
       />
     ),

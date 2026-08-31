@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "breadcrumbs",
+  "title": "Breadcrumbs",
+  "description": "The path back up, walked one crumb at a time.",
+  "dependencies": [
+    "lucide-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/breadcrumbs.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { ChevronRight } from \"lucide-react\";\nimport { cascade, fadeSlide } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Breadcrumbs: the trail slides in left to right, one crumb after the next,\n * as if the path were being walked. Each crumb may carry a leading glyph,\n * which is what makes a deep trail scannable without reading it: the icons\n * are recognised before the words are.\n */\nexport interface Crumb {\n  label: React.ReactNode;\n  href?: string;\n  /** Leading glyph for this crumb. */\n  icon?: React.ReactNode;\n}\n\nexport function Breadcrumbs({\n  items,\n  className,\n}: {\n  items: Crumb[];\n  className?: string;\n}) {\n  return (\n    <nav aria-label=\"Breadcrumb\" className={className}>\n      <motion.ol\n        variants={cascade(0.07)}\n        initial=\"hidden\"\n        animate=\"visible\"\n        className=\"flex items-center gap-1\"\n      >\n        {items.map((item, i) => {\n          const last = i === items.length - 1;\n          return (\n            <motion.li\n              key={i}\n              variants={fadeSlide(-6)}\n              className=\"flex items-center gap-1\"\n            >\n              {last ? (\n                <span\n                  aria-current=\"page\"\n                  className=\"flex items-center gap-1.5 text-body font-medium text-text [&_svg]:size-4 [&_svg]:text-fg\"\n                >\n                  {item.icon}\n                  {item.label}\n                </span>\n              ) : (\n                <>\n                  <a\n                    href={item.href ?? \"#\"}\n                    className={cn(\n                      \"flex min-h-6 items-center gap-1.5 rounded-control text-body text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent\",\n                      \"[&_svg]:size-4 [&_svg]:text-fg-2 [&_svg]:transition-colors [&_svg]:duration-150 hover:[&_svg]:text-fg\"\n                    )}\n                  >\n                    {item.icon}\n                    {item.label}\n                  </a>\n                  <ChevronRight aria-hidden className=\"size-4 text-fg-2/60\" />\n                </>\n              )}\n            </motion.li>\n          );\n        })}\n      </motion.ol>\n    </nav>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

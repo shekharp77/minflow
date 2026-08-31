@@ -1,1 +1,1 @@
-export * from "@/registry/miniflow/ui/icon-button";
+export * from "@/registry/minflow/ui/icon-button";

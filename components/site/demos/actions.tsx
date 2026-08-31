@@ -12,14 +12,14 @@ import {
   Settings,
   Trash2,
 } from "lucide-react";
-import { BackToTop } from "@/registry/miniflow/ui/back-to-top";
-import { Button } from "@/registry/miniflow/ui/button";
-import { Fab } from "@/registry/miniflow/ui/fab";
-import { IconButton } from "@/registry/miniflow/ui/icon-button";
-import { IconSwap } from "@/registry/miniflow/ui/icon-swap";
-import { MenuItem } from "@/registry/miniflow/ui/menu";
-import { SplitButton } from "@/registry/miniflow/ui/split-button";
-import { toast } from "@/registry/miniflow/ui/toast";
+import { BackToTop } from "@/registry/minflow/ui/back-to-top";
+import { Button } from "@/registry/minflow/ui/button";
+import { Fab } from "@/registry/minflow/ui/fab";
+import { IconButton } from "@/registry/minflow/ui/icon-button";
+import { IconSwap } from "@/registry/minflow/ui/icon-swap";
+import { MenuItem } from "@/registry/minflow/ui/menu";
+import { SplitButton } from "@/registry/minflow/ui/split-button";
+import { toast } from "@/registry/minflow/ui/toast";
 import type { DemoSet } from "@/components/site/demos/types";
 
 function CopyDemo() {

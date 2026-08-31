@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spinner",
+  "title": "Spinner",
+  "description": "Ongoing work with no known end, shown rather than written.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/spinner.tsx",
+      "content": "import * as React from \"react\";\nimport { LoaderCircle } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\n\n/* Working state is shown, not written: the spinning loader is the message. */\nconst sizes = {\n  16: \"size-4\",\n  20: \"size-5\",\n  24: \"size-6\",\n} as const;\n\nexport interface SpinnerProps extends React.SVGAttributes<SVGSVGElement> {\n  size?: keyof typeof sizes;\n  /** Accessible name for the working state. */\n  label?: string;\n}\n\nexport function Spinner({\n  size = 16,\n  label = \"Loading\",\n  className,\n  ...props\n}: SpinnerProps) {\n  return (\n    <LoaderCircle\n      role=\"status\"\n      aria-label={label}\n      className={cn(\"animate-spin text-fg-2\", sizes[size], className)}\n      {...props}\n    />\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

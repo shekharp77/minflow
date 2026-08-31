@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "back-to-top",
+  "title": "Back to top",
+  "description": "A quiet return that appears only once the page has depth.",
+  "dependencies": [
+    "lucide-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/tooltip"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/back-to-top.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { ArrowUp } from \"lucide-react\";\nimport { Tooltip } from \"@/components/ui/tooltip\";\nimport { enter, pressScaleSmall } from \"@/lib/motion\";\n\n/*\n * Back-to-top: appears only once the page has real depth, floats quietly,\n * and eases the viewport home.\n *\n * It sits in the trailing gutter rather than the leading one, because content\n * is aligned to the left spine and a control pinned there lands on top of it.\n * The toast stack shares this corner and sits above it.\n */\nexport function BackToTop({ threshold = 600 }: { threshold?: number }) {\n  const [show, setShow] = React.useState(false);\n\n  React.useEffect(() => {\n    const onScroll = () => setShow(window.scrollY > threshold);\n    onScroll();\n    window.addEventListener(\"scroll\", onScroll, { passive: true });\n    return () => window.removeEventListener(\"scroll\", onScroll);\n  }, [threshold]);\n\n  return (\n    <AnimatePresence>\n      {show && (\n        <motion.div\n          initial={{ opacity: 0, y: 12, scale: 0.9 }}\n          animate={{ opacity: 1, y: 0, scale: 1 }}\n          exit={{ opacity: 0, y: 8, scale: 0.95 }}\n          transition={enter}\n          className=\"fixed bottom-6 right-6 z-header\"\n        >\n          <Tooltip label=\"Back to top\">\n            <motion.button\n              type=\"button\"\n              aria-label=\"Back to top\"\n              whileTap={{ scale: pressScaleSmall }}\n              onClick={() => {\n                const reduced = window.matchMedia(\n                  \"(prefers-reduced-motion: reduce)\"\n                ).matches;\n                window.scrollTo({ top: 0, behavior: reduced ? \"auto\" : \"smooth\" });\n              }}\n              className=\"flex size-10 items-center justify-center rounded-full bg-bg-2 text-fg-2 shadow-overlay ring-1 ring-border outline-none transition-colors duration-150 hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent\"\n            >\n              <ArrowUp className=\"size-4\" />\n            </motion.button>\n          </Tooltip>\n        </motion.div>\n      )}\n    </AnimatePresence>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

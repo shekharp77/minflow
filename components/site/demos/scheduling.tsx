@@ -5,7 +5,7 @@ import {
   EventCalendar,
   startOfDay,
   type EventCalendarProps,
-} from "@/registry/miniflow/ui/event-calendar";
+} from "@/registry/minflow/ui/event-calendar";
 import { demoEvents, demoResources } from "@/components/site/demos/calendar-data";
 import type { DemoSet } from "@/components/site/demos/types";
 

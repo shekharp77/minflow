@@ -4,13 +4,15 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
-import { Moon, Palette, Sun, Zap, ZapOff } from "lucide-react";
-import { IconButton } from "@/registry/miniflow/ui/icon-button";
-import { IconSwap } from "@/registry/miniflow/ui/icon-swap";
-import { Popover } from "@/registry/miniflow/ui/popover";
+import { CodeXml, Moon, Palette, Sun, Zap, ZapOff } from "lucide-react";
+import { IconButton } from "@/registry/minflow/ui/icon-button";
+import { IconSwap } from "@/registry/minflow/ui/icon-swap";
+import { Popover } from "@/registry/minflow/ui/popover";
+import { Tooltip } from "@/registry/minflow/ui/tooltip";
 import { ThemePicker } from "@/components/site/theme-picker";
 import { useMotionSetting, useTheme } from "@/lib/theme";
 import { morph } from "@/lib/motion";
+import { REPO_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 /*
@@ -36,18 +38,29 @@ export function SiteHeader() {
       : pathname === href;
 
   return (
-    <header className="sticky top-0 z-40 bg-bg/85 backdrop-blur">
+    <header className="sticky top-0 z-header bg-bg/85 backdrop-blur">
       {/*
         * The gap tightens on narrow viewports: at 390px the wordmark, both
         * destinations and three 40px controls do not fit at the desktop gap,
         * and the control cluster ends up sitting on top of the nav.
         */}
       <div className="mx-auto flex h-14 max-w-[1180px] items-center gap-3 px-4 sm:gap-8 sm:px-6">
+        {/*
+          * The name is two ideas -- min (the restraint) and flow (the motion)
+          * -- so the mark carries the seam as a tonal step rather than a
+          * second colour. Hovering resolves the halves into one word, which is
+          * the whole thesis in one 150ms colour change. No transform, so it
+          * needs no hover-capability gate and nothing moves under a reader who
+          * asked for less motion.
+          */}
         <Link
           href="/"
-          className="shrink-0 font-display text-section font-bold text-text outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+          className="group shrink-0 font-display text-section font-bold text-text outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
         >
-          miniflow
+          min
+          <span className="text-text-2 transition-colors duration-150 group-hover:text-text">
+            flow
+          </span>
         </Link>
 
         <nav
@@ -84,6 +97,24 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex shrink-0 items-center">
+          {/*
+            * An anchor rather than IconButton, which renders a hardcoded
+            * <button>. A repo link has to be a real anchor so it is crawlable
+            * and opens in a new tab on the usual gestures; the class recipe is
+            * IconButton's, kept in step by hand because the library has no
+            * icon-link variant yet.
+            */}
+          <Tooltip label="Source on GitHub">
+            <a
+              href={REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Source on GitHub"
+              className="inline-flex size-10 items-center justify-center rounded-control text-fg-2 outline-none transition-colors duration-150 hover:bg-hover hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4 [&_svg]:shrink-0"
+            >
+              <CodeXml />
+            </a>
+          </Tooltip>
           <Popover
             align="end"
             className="w-auto"

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-group",
+  "title": "Button group",
+  "description": "Related actions joined by a shared hover rail instead of a border.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/button-group.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\nimport { durations, easeSoft, pressScale, useMotionEnabled } from \"@/lib/motion\";\n\n/*\n * Actions that belong together, joined by behaviour instead of by a border.\n *\n * The usual button group welds outlined buttons into a segmented slab. This\n * one keeps every action a plain word and gives the set a single hover rail\n * that slides between them: the group is legible because one highlight is\n * shared, which is only possible if the actions really are one set.\n *\n * Reach for Segmented control instead when the buttons pick a value rather\n * than do a thing - a group of actions has no selected state to show.\n */\nexport interface ButtonGroupItem {\n  id: string;\n  label: string;\n  icon?: React.ReactNode;\n  onSelect?: () => void;\n  disabled?: boolean;\n}\n\nexport interface ButtonGroupProps {\n  items: ButtonGroupItem[];\n  /** Stacks vertically. Useful inside a narrow column. */\n  orientation?: \"horizontal\" | \"vertical\";\n  label?: string;\n  className?: string;\n}\n\nexport function ButtonGroup({\n  items,\n  orientation = \"horizontal\",\n  label = \"Actions\",\n  className,\n}: ButtonGroupProps) {\n  const motionOn = useMotionEnabled();\n  const id = React.useId();\n  const [near, setNear] = React.useState<string | null>(null);\n\n  return (\n    <div\n      role=\"group\"\n      aria-label={label}\n      onPointerLeave={() => setNear(null)}\n      className={cn(\n        \"inline-flex\",\n        orientation === \"vertical\" ? \"flex-col items-stretch\" : \"items-center\",\n        className\n      )}\n    >\n      {items.map((item) => (\n        <motion.button\n          key={item.id}\n          type=\"button\"\n          disabled={item.disabled}\n          whileTap={motionOn && !item.disabled ? { scale: pressScale } : undefined}\n          onPointerEnter={() => !item.disabled && setNear(item.id)}\n          onFocus={() => !item.disabled && setNear(item.id)}\n          onBlur={() => setNear(null)}\n          onClick={item.onSelect}\n          className={cn(\n            \"relative inline-flex h-8 items-center justify-center gap-1.5 rounded-control px-2.5 text-body font-medium outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4 [&_svg]:shrink-0\",\n            near === item.id ? \"text-text\" : \"text-text-2\"\n          )}\n        >\n          {near === item.id && (\n            <motion.span\n              aria-hidden\n              layoutId={motionOn ? `${id}-rail` : undefined}\n              transition={{ duration: durations.micro, ease: easeSoft }}\n              className=\"absolute inset-0 -z-10 rounded-control bg-hover\"\n            />\n          )}\n          {item.icon}\n          {item.label}\n        </motion.button>\n      ))}\n    </div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "timeline",
+  "title": "Timeline",
+  "description": "Chronology on an open list, with the spine drawn by your own scroll.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/timeline.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport {\n  motion,\n  useMotionValueEvent,\n  useScroll,\n  useSpring,\n  type HTMLMotionProps,\n} from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\nimport { cascade, fadeRise } from \"@/lib/motion\";\n\n/*\n * Chronology as an open list with a scroll-drawn spine: each segment of the\n * line fills with ink as its event crosses the lower third of the viewport,\n * and the marker wakes from faded to full in sync. The motion is scrubbed by\n * the user's own scroll, so it is noticeable but never waited on, and it\n * reverses naturally when scrolling back up.\n */\nexport function Timeline({ className, ...props }: HTMLMotionProps<\"ol\">) {\n  return (\n    <motion.ol\n      data-slot=\"timeline\"\n      variants={cascade()}\n      initial=\"hidden\"\n      whileInView=\"visible\"\n      viewport={{ once: true, margin: \"-40px\" }}\n      className={cn(\"flex flex-col\", className)}\n      {...props}\n    />\n  );\n}\n\nexport interface TimelineItemProps\n  extends Omit<HTMLMotionProps<\"li\">, \"title\" | \"children\"> {\n  /** Short fragment, 1 to 4 words. */\n  title: React.ReactNode;\n  /** Muted caption next to the title, e.g. \"2h\". */\n  time?: React.ReactNode;\n  /** 16px glyph for the event kind; falls back to a structural ring. */\n  icon?: React.ReactNode;\n  children?: React.ReactNode;\n}\n\nexport function TimelineItem({\n  title,\n  time,\n  icon,\n  className,\n  children,\n  ...props\n}: TimelineItemProps) {\n  const ref = React.useRef<HTMLLIElement>(null);\n  const [reached, setReached] = React.useState(false);\n\n  /* 0 to 1 as this event crosses a line 70% down the viewport */\n  const { scrollYProgress } = useScroll({\n    target: ref,\n    offset: [\"start 0.7\", \"end 0.7\"],\n  });\n  const fill = useSpring(scrollYProgress, {\n    stiffness: 300,\n    damping: 45,\n    mass: 0.4,\n  });\n\n  useMotionValueEvent(scrollYProgress, \"change\", (value) =>\n    setReached(value > 0.02)\n  );\n\n  return (\n    <motion.li\n      ref={ref}\n      variants={fadeRise}\n      className={cn(\"group/item flex gap-3\", className)}\n      {...props}\n    >\n      <span className=\"flex w-4 shrink-0 flex-col items-center gap-1.5\">\n        <span\n          aria-hidden\n          className={cn(\n            \"mt-0.5 flex size-4 items-center justify-center transition-colors duration-150 [&_svg]:size-4 [&_svg]:shrink-0\",\n            reached ? \"text-fg\" : \"text-fg-2/50\"\n          )}\n        >\n          {icon ?? (\n            <span\n              className={cn(\n                \"size-2 rounded-full border transition-colors duration-150\",\n                reached ? \"border-fg\" : \"border-fg-2/50\"\n              )}\n            />\n          )}\n        </span>\n        <span\n          aria-hidden\n          className=\"relative w-px flex-1 overflow-hidden bg-border group-last/item:hidden\"\n        >\n          <motion.span\n            style={{ scaleY: fill }}\n            className=\"absolute inset-0 origin-top bg-fg\"\n          />\n        </span>\n      </span>\n      <div className=\"flex min-w-0 flex-1 flex-col gap-1 pb-6 group-last/item:pb-0\">\n        <div className=\"flex items-baseline gap-2\">\n          <span className=\"text-body font-medium text-text\">{title}</span>\n          {time != null && (\n            <span className=\"text-caption text-text-2\">{time}</span>\n          )}\n        </div>\n        {children != null && (\n          <div className=\"text-body text-text-2\">{children}</div>\n        )}\n      </div>\n    </motion.li>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

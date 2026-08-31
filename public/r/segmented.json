@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "segmented",
+  "title": "Segmented control",
+  "description": "Quick exclusive options with a thumb that slides between them.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/segmented.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { morph, pressScale, useMotionEnabled } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Segmented control: the radio alternative for quick options outside forms.\n * One shared thumb slides between segments (layout animation), so switching\n * reads as movement, not replacement.\n */\nexport interface SegmentedOption {\n  value: string;\n  label: React.ReactNode;\n}\n\nexport interface SegmentedProps {\n  options: SegmentedOption[];\n  value?: string;\n  defaultValue?: string;\n  onValueChange?: (value: string) => void;\n  label?: string;\n  className?: string;\n}\n\nexport function Segmented({\n  options,\n  value,\n  defaultValue,\n  onValueChange,\n  label,\n  className,\n}: SegmentedProps) {\n  const [internal, setInternal] = React.useState(\n    defaultValue ?? options[0]?.value\n  );\n  const isControlled = value !== undefined;\n  const current = isControlled ? value : internal;\n  const id = React.useId();\n  const motionOk = useMotionEnabled();\n\n  return (\n    <div\n      role=\"radiogroup\"\n      aria-label={label}\n      className={cn(\n        \"inline-flex items-center gap-0.5 rounded-control bg-bg-2 p-0.5\",\n        className\n      )}\n    >\n      {options.map((option) => {\n        const active = option.value === current;\n        return (\n          <motion.button\n            key={option.value}\n            type=\"button\"\n            role=\"radio\"\n            whileTap={motionOk ? { scale: pressScale } : undefined}\n            aria-checked={active}\n            onClick={() => {\n              if (!isControlled) setInternal(option.value);\n              onValueChange?.(option.value);\n            }}\n            className={cn(\n              \"relative h-7 rounded-control px-2.5 text-body font-medium outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent\",\n              active ? \"text-text\" : \"text-text-2 hover:text-text\"\n            )}\n          >\n            {active && (\n              <motion.span\n                layoutId={`${id}-thumb`}\n                transition={morph}\n                className=\"absolute inset-0 rounded-control bg-bg shadow-sm ring-1 ring-border\"\n              />\n            )}\n            <span className=\"relative z-10\">{option.label}</span>\n          </motion.button>\n        );\n      })}\n    </div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -2,15 +2,15 @@
 
 import * as React from "react";
 import { Columns3, LayoutGrid, List } from "lucide-react";
-import { Checkbox } from "@/registry/miniflow/ui/checkbox";
-import { Combobox } from "@/registry/miniflow/ui/combobox";
-import { Listbox } from "@/registry/miniflow/ui/listbox";
-import { Radio, RadioGroup } from "@/registry/miniflow/ui/radio";
-import { Segmented } from "@/registry/miniflow/ui/segmented";
-import { Select } from "@/registry/miniflow/ui/select";
-import { Slider } from "@/registry/miniflow/ui/slider";
-import { Stepper } from "@/registry/miniflow/ui/stepper";
-import { Switch } from "@/registry/miniflow/ui/switch";
+import { Checkbox } from "@/registry/minflow/ui/checkbox";
+import { Combobox } from "@/registry/minflow/ui/combobox";
+import { Listbox } from "@/registry/minflow/ui/listbox";
+import { Radio, RadioGroup } from "@/registry/minflow/ui/radio";
+import { Segmented } from "@/registry/minflow/ui/segmented";
+import { Select } from "@/registry/minflow/ui/select";
+import { Slider } from "@/registry/minflow/ui/slider";
+import { Stepper } from "@/registry/minflow/ui/stepper";
+import { Switch } from "@/registry/minflow/ui/switch";
 import type { DemoSet } from "@/components/site/demos/types";
 
 const ENVIRONMENTS = [

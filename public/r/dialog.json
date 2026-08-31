@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dialog",
+  "title": "Dialog",
+  "description": "A modal surface for one focused decision.",
+  "dependencies": [
+    "lucide-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/icon-button",
+    "@minflow/motion",
+    "@minflow/overlay",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/dialog.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { X } from \"lucide-react\";\nimport { IconButton } from \"@/components/ui/icon-button\";\nimport { Portal, Scrim, useBodyLock, useDismiss } from \"@/components/ui/overlay\";\nimport { enterFocal, exit as exitT } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Modal surface for focused decisions. Rises 8px with a 0.96 scale out of\n * the scrim, traps Tab focus, restores focus on close.\n */\nexport interface DialogProps {\n  open: boolean;\n  onClose: () => void;\n  title: React.ReactNode;\n  className?: string;\n  children: React.ReactNode;\n}\n\nexport function Dialog({ open, onClose, title, className, children }: DialogProps) {\n  const panelRef = React.useRef<HTMLDivElement>(null);\n  useDismiss(open, onClose, [panelRef]);\n  useBodyLock(open);\n\n  React.useEffect(() => {\n    if (!open) return;\n    const prev = document.activeElement as HTMLElement | null;\n    panelRef.current?.focus();\n    return () => prev?.focus?.();\n  }, [open]);\n\n  const trapTab = (event: React.KeyboardEvent) => {\n    if (event.key !== \"Tab\") return;\n    const nodes = panelRef.current?.querySelectorAll<HTMLElement>(\n      'a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex=\"-1\"])'\n    );\n    if (!nodes?.length) return;\n    const list = [...nodes];\n    const first = list[0];\n    const last = list[list.length - 1];\n    if (event.shiftKey && document.activeElement === first) {\n      event.preventDefault();\n      last.focus();\n    } else if (!event.shiftKey && document.activeElement === last) {\n      event.preventDefault();\n      first.focus();\n    }\n  };\n\n  return (\n    <Portal>\n      <AnimatePresence>\n        {open && (\n          <React.Fragment key=\"dialog\">\n            <Scrim onClick={onClose} />\n            <div className=\"pointer-events-none fixed inset-0 z-overlay flex items-center justify-center p-6\">\n              <motion.div\n                ref={panelRef}\n                role=\"dialog\"\n                aria-modal=\"true\"\n                tabIndex={-1}\n                onKeyDown={trapTab}\n                initial={{ opacity: 0, scale: 0.96, y: 8 }}\n                animate={{ opacity: 1, scale: 1, y: 0 }}\n                exit={{ opacity: 0, scale: 0.98, y: 4, transition: exitT }}\n                transition={enterFocal}\n                className={cn(\n                  \"pointer-events-auto w-full max-w-md rounded-overlay bg-bg-2 p-6 shadow-overlay ring-1 ring-border outline-none\",\n                  className\n                )}\n              >\n                <div className=\"flex items-start justify-between gap-4\">\n                  <h2 className=\"text-section font-semibold text-text\">{title}</h2>\n                  <IconButton label=\"Close\" onClick={onClose} className=\"-mr-2 -mt-2\">\n                    <X />\n                  </IconButton>\n                </div>\n                <div className=\"mt-3 text-body text-text-2\">{children}</div>\n              </motion.div>\n            </div>\n          </React.Fragment>\n        )}\n      </AnimatePresence>\n    </Portal>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

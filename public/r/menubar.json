@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "menubar",
+  "title": "Menubar",
+  "description": "An application menu row where hovering switches menus once one is open.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/menu",
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/menubar.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { Menu } from \"@/components/ui/menu\";\nimport { pressScale, useMotionEnabled } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * The application menu row: File, Edit, View.\n *\n * What separates a menubar from a row of dropdowns is one rule - once any menu\n * is open, pointing at a sibling switches to it without a second click. That\n * is the whole reason to reach for this component, so the open menu is held\n * here rather than inside each Menu.\n */\nexport interface MenubarSection {\n  id: string;\n  label: string;\n  content: React.ReactNode;\n}\n\nexport interface MenubarProps {\n  sections: MenubarSection[];\n  className?: string;\n}\n\nexport function Menubar({ sections, className }: MenubarProps) {\n  const [open, setOpen] = React.useState<string | null>(null);\n  const motionOk = useMotionEnabled();\n\n  return (\n    <div role=\"menubar\" className={cn(\"flex items-center gap-0.5\", className)}>\n      {sections.map((section) => (\n        <Menu\n          key={section.id}\n          align=\"start\"\n          open={open === section.id}\n          onOpenChange={(next) => setOpen(next ? section.id : null)}\n          trigger={\n            <motion.button\n              type=\"button\"\n              role=\"menuitem\"\n              aria-haspopup=\"menu\"\n              whileTap={motionOk ? { scale: pressScale } : undefined}\n              /* Hover only takes over while a menu is already open, so the row\n                 is not a minefield when nothing is expanded. */\n              onPointerEnter={() => setOpen((cur) => (cur ? section.id : cur))}\n              className={cn(\n                \"inline-flex h-8 items-center rounded-control px-2.5 text-body font-medium outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent\",\n                open === section.id\n                  ? \"bg-hover text-text\"\n                  : \"text-text-2 hover:bg-hover hover:text-text\"\n              )}\n            >\n              {section.label}\n            </motion.button>\n          }\n        >\n          {section.content}\n        </Menu>\n      ))}\n    </div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

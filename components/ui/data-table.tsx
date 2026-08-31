@@ -1,1 +1,1 @@
-export * from "@/registry/miniflow/ui/data-table";
+export * from "@/registry/minflow/ui/data-table";

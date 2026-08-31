@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "progress",
+  "title": "Progress",
+  "description": "Known completion, drawn as a bar or as a ring around a number.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/progress.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { draw, enter } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Progress indicators: a bar that eases toward its value, and a radial\n * whose ring draws along its own circumference around a focal number.\n */\nexport interface ProgressBarProps {\n  value: number;\n  label?: string;\n  className?: string;\n}\n\nexport function ProgressBar({ value, label = \"Progress\", className }: ProgressBarProps) {\n  const clamped = Math.min(100, Math.max(0, value));\n  return (\n    <div\n      role=\"progressbar\"\n      aria-label={label}\n      aria-valuemin={0}\n      aria-valuemax={100}\n      aria-valuenow={Math.round(clamped)}\n      className={cn(\n        \"relative h-1 w-56 overflow-hidden rounded-full bg-border-strong\",\n        className\n      )}\n    >\n      <motion.span\n        initial={false}\n        /*\n         * scaleX, not width: width is a layout property, so animating it\n         * reflows and repaints the bar every frame. A transform runs on the\n         * compositor and costs nothing. The track is full-width and the fill\n         * is squeezed from its left edge to match.\n         */\n        animate={{ scaleX: clamped / 100 }}\n        style={{ transformOrigin: \"left\" }}\n        transition={enter}\n        className=\"absolute inset-y-0 left-0 w-full rounded-full bg-fg\"\n      />\n    </div>\n  );\n}\n\nexport interface RadialProps {\n  value: number;\n  size?: number;\n  label?: string;\n  className?: string;\n}\n\nexport function Radial({ value, size = 56, label = \"Progress\", className }: RadialProps) {\n  const clamped = Math.min(100, Math.max(0, value));\n  const stroke = 3;\n  const r = (48 - stroke) / 2;\n\n  return (\n    <div\n      role=\"progressbar\"\n      aria-label={label}\n      aria-valuemin={0}\n      aria-valuemax={100}\n      aria-valuenow={Math.round(clamped)}\n      className={cn(\"relative inline-flex items-center justify-center\", className)}\n      style={{ width: size, height: size }}\n    >\n      <svg viewBox=\"0 0 48 48\" className=\"absolute inset-0 -rotate-90\" aria-hidden>\n        <circle\n          cx=\"24\"\n          cy=\"24\"\n          r={r}\n          fill=\"none\"\n          strokeWidth={stroke}\n          className=\"stroke-border-strong\"\n        />\n        <motion.circle\n          cx=\"24\"\n          cy=\"24\"\n          r={r}\n          fill=\"none\"\n          strokeWidth={stroke}\n          strokeLinecap=\"round\"\n          className=\"stroke-fg\"\n          initial={false}\n          animate={{ pathLength: clamped / 100 }}\n          transition={draw}\n        />\n      </svg>\n      <span\n        aria-hidden\n        className=\"font-display text-emphasis font-bold text-text tabular-nums\"\n      >\n        {Math.round(clamped)}\n      </span>\n    </div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

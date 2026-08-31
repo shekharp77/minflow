@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Typecheck, registry, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      # The registry is generated from source: catalog metadata, real import
+      # graphs and the token layer in globals.css. If someone adds a component
+      # and forgets `pnpm registry:build`, the committed output silently stops
+      # matching the library and `shadcn add` ships a stale or missing item.
+      # Regenerating here and diffing is what makes that impossible to merge.
+      - name: Regenerate the registry
+        run: pnpm registry:build
+
+      - name: Fail if the registry is out of date
+        run: |
+          # `git status --porcelain`, not `git diff`: diff only inspects tracked
+          # files, so a newly generated public/r/<new>.json would be untracked
+          # and the check would pass while the registry was missing an item.
+          CHANGED="$(git status --porcelain -- registry.json public/r)"
+          if [ -n "$CHANGED" ]; then
+            echo "::error::registry.json / public/r are stale. Run 'pnpm registry:build' and commit the result."
+            echo "$CHANGED"
+            git diff -- registry.json public/r | head -100
+            exit 1
+          fi
+          echo "Registry output matches source."
+
+      - name: Validate the registry
+        run: pnpm registry:validate
+
+      - name: Build
+        run: pnpm build
+
+      # Serves the built site and proves the registry is actually installable,
+      # rather than merely well-formed: a real `shadcn add` into a scratch
+      # project, with every rewritten import checked against the filesystem.
+      # This is the check that catches namespace and alias regressions, which
+      # schema validation cannot see.
+      - name: Verify a real install
+        run: |
+          pnpm start &
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:3000/r/button.json >/dev/null && break
+            sleep 1
+          done
+          curl -sf http://localhost:3000/r/button.json >/dev/null || { echo "::error::registry not served"; exit 1; }
+
+          WORK="$(mktemp -d)"
+          mkdir -p "$WORK"/{app,lib,components/ui}
+          cd "$WORK"
+          echo '{"name":"consumer","private":true}' > package.json
+          echo '@import "tailwindcss";' > app/globals.css
+          cat > tsconfig.json <<'JSON'
+          { "compilerOptions": { "jsx": "preserve", "moduleResolution": "bundler",
+            "module": "esnext", "target": "ES2022", "strict": true, "noEmit": true,
+            "baseUrl": ".", "paths": { "@/*": ["./*"] } } }
+          JSON
+          cat > components.json <<'JSON'
+          { "$schema": "https://ui.shadcn.com/schema.json", "style": "new-york",
+            "rsc": true, "tsx": true,
+            "tailwind": { "config": "", "css": "app/globals.css", "baseColor": "neutral", "cssVariables": true },
+            "aliases": { "components": "@/components", "utils": "@/lib/utils",
+                         "ui": "@/components/ui", "lib": "@/lib", "hooks": "@/hooks" },
+            "registries": { "@minflow": "http://localhost:3000/r/{name}.json" } }
+          JSON
+
+          npx --yes shadcn@4.19.0 add @minflow/select --yes
+
+          test -f components/ui/select.tsx || { echo "::error::select.tsx did not install"; exit 1; }
+
+          if grep -rq "registry/minflow" components lib; then
+            echo "::error::import paths were not rewritten for the consumer"
+            grep -rn "registry/minflow" components lib
+            exit 1
+          fi
+
+          MISSING=0
+          for f in $(find components lib -name '*.ts' -o -name '*.tsx'); do
+            for imp in $(grep -ohE 'from "@/[^"]+"' "$f" | sed 's|from "@/||;s|"||'); do
+              if [ ! -f "$imp.ts" ] && [ ! -f "$imp.tsx" ]; then
+                echo "::error::unresolved import '@/$imp' in $f"; MISSING=1
+              fi
+            done
+          done
+          [ "$MISSING" -eq 0 ] || exit 1
+          echo "Real install verified: files landed, imports rewritten and resolvable."

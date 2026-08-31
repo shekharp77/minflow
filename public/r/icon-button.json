@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon-button",
+  "title": "Icon button",
+  "description": "An icon-only control that hands its label back on hover.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/tooltip",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/icon-button.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion, type HTMLMotionProps } from \"motion/react\";\nimport { Tooltip } from \"@/components/ui/tooltip\";\nimport { cn } from \"@/lib/utils\";\nimport { durations, pressScaleSmall, useMotionEnabled } from \"@/lib/motion\";\n\n/*\n * Icon-only control: the default for toolbar, repeated, and row actions.\n * 40px hit target no matter the glyph size, a mandatory accessible name,\n * and a tooltip that hands the stripped label back to sighted users.\n */\nexport interface IconButtonProps extends HTMLMotionProps<\"button\"> {\n  /** Accessible name; also shown as the tooltip. */\n  label: string;\n  /** Marks the view's single primary action. */\n  accent?: boolean;\n  size?: 16 | 20 | 24;\n}\n\nconst glyph = {\n  16: \"[&_svg]:size-4\",\n  20: \"[&_svg]:size-5\",\n  24: \"[&_svg]:size-6\",\n} as const;\n\nexport function IconButton({\n  label,\n  accent,\n  size = 16,\n  className,\n  disabled,\n  ...props\n}: IconButtonProps) {\n  const motionOk = useMotionEnabled();\n\n  return (\n    <Tooltip label={label}>\n      <motion.button\n        data-slot=\"icon-button\"\n        aria-label={label}\n        whileTap={motionOk && !disabled ? { scale: pressScaleSmall } : undefined}\n        transition={{ duration: durations.press, ease: \"easeOut\" }}\n        disabled={disabled}\n        className={cn(\n          \"inline-flex size-10 items-center justify-center rounded-control text-fg-2 outline-none transition-colors duration-150 hover:bg-hover hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0\",\n          glyph[size],\n          accent && \"text-accent hover:text-accent\",\n          className\n        )}\n        {...props}\n      />\n    </Tooltip>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

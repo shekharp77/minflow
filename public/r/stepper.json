@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stepper",
+  "title": "Input stepper",
+  "description": "Small numeric changes, with the digit rolling in the direction of travel.",
+  "dependencies": [
+    "lucide-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/icon-button",
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/stepper.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { Minus, Plus } from \"lucide-react\";\nimport { IconButton } from \"@/components/ui/icon-button\";\nimport { enter } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Input stepper: the number rolls vertically in the direction of change,\n * like a counter drum, instead of blinking to a new value.\n */\nexport interface StepperProps {\n  min?: number;\n  max?: number;\n  step?: number;\n  value?: number;\n  defaultValue?: number;\n  onValueChange?: (value: number) => void;\n  label?: string;\n  className?: string;\n}\n\nexport function Stepper({\n  min = 0,\n  max = 99,\n  step = 1,\n  value,\n  defaultValue,\n  onValueChange,\n  label = \"Quantity\",\n  className,\n}: StepperProps) {\n  const [internal, setInternal] = React.useState(defaultValue ?? min);\n  const isControlled = value !== undefined;\n  const val = isControlled ? value : internal;\n  const direction = React.useRef(1);\n\n  const commit = (n: number) => {\n    const clamped = Math.min(max, Math.max(min, n));\n    direction.current = clamped >= val ? 1 : -1;\n    if (!isControlled) setInternal(clamped);\n    onValueChange?.(clamped);\n  };\n\n  return (\n    <div\n      role=\"group\"\n      aria-label={label}\n      className={cn(\"inline-flex items-center gap-1\", className)}\n    >\n      <IconButton\n        label=\"Decrease\"\n        disabled={val <= min}\n        onClick={() => commit(val - step)}\n        className=\"relative size-8 after:absolute after:-inset-1\"\n      >\n        <Minus />\n      </IconButton>\n      <span\n        aria-live=\"polite\"\n        className=\"relative flex h-6 w-8 items-center justify-center overflow-hidden text-body font-medium text-text\"\n      >\n        <AnimatePresence mode=\"popLayout\" initial={false}>\n          <motion.span\n            key={val}\n            initial={{ y: direction.current * 14, opacity: 0 }}\n            animate={{ y: 0, opacity: 1 }}\n            exit={{ y: direction.current * -14, opacity: 0 }}\n            transition={enter}\n          >\n            {val}\n          </motion.span>\n        </AnimatePresence>\n      </span>\n      <IconButton\n        label=\"Increase\"\n        disabled={val >= max}\n        onClick={() => commit(val + step)}\n        className=\"relative size-8 after:absolute after:-inset-1\"\n      >\n        <Plus />\n      </IconButton>\n    </div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "list",
+  "title": "List",
+  "description": "A run of records separated by space instead of rules.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/list.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\nimport { cascade, fadeRise, useMotionEnabled } from \"@/lib/motion\";\n\n/*\n * A vertical run of records: inbox rows, settings, search results.\n *\n * There are no rules between the rows. Separation comes from the leading\n * column lining up and from the space each row is given, which is enough for\n * the eye and leaves the page quiet. The hover fill is the only chrome, and it\n * only exists on rows that actually do something when pressed.\n */\nexport interface ListItemData {\n  id: string;\n  title: string;\n  /** One supporting line under the title. */\n  detail?: string;\n  /** Icon or avatar. */\n  leading?: React.ReactNode;\n  /** Meta, count, or an action. */\n  trailing?: React.ReactNode;\n  onSelect?: () => void;\n  disabled?: boolean;\n}\n\nexport interface ListProps {\n  items: ListItemData[];\n  /** Tightens the row height for long, glanceable lists. */\n  dense?: boolean;\n  /** Marks one row as chosen. */\n  selectedId?: string;\n  label?: string;\n  className?: string;\n}\n\nexport function List({\n  items,\n  dense = false,\n  selectedId,\n  label = \"List\",\n  className,\n}: ListProps) {\n  const motionOn = useMotionEnabled();\n\n  return (\n    <motion.ul\n      aria-label={label}\n      variants={cascade(0.05)}\n      initial={motionOn ? \"hidden\" : false}\n      animate=\"visible\"\n      transition={motionOn ? undefined : { duration: 0 }}\n      className={cn(\"flex w-full list-none flex-col\", className)}\n    >\n      {items.map((item) => {\n        const interactive = Boolean(item.onSelect) && !item.disabled;\n        const selected = item.id === selectedId;\n        const Row = interactive ? \"button\" : \"div\";\n\n        return (\n          <motion.li key={item.id} variants={fadeRise}>\n            <Row\n              {...(interactive\n                ? { type: \"button\" as const, onClick: item.onSelect }\n                : {})}\n              aria-current={selected ? \"true\" : undefined}\n              className={cn(\n                \"flex w-full items-center gap-3 rounded-control px-2 text-left outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent\",\n                dense ? \"py-1.5\" : \"py-2.5\",\n                interactive && \"hover:bg-hover\",\n                selected && \"bg-bg-2\",\n                item.disabled && \"opacity-40\"\n              )}\n            >\n              {item.leading ? (\n                <span className=\"flex shrink-0 items-center text-fg-2 [&_svg]:size-4 [&_svg]:shrink-0\">\n                  {item.leading}\n                </span>\n              ) : null}\n              <span className=\"flex min-w-0 flex-1 flex-col\">\n                <span\n                  className={cn(\n                    \"truncate text-body\",\n                    selected ? \"font-medium text-text\" : \"text-text\"\n                  )}\n                >\n                  {item.title}\n                </span>\n                {item.detail ? (\n                  <span className=\"truncate text-caption text-text-2\">\n                    {item.detail}\n                  </span>\n                ) : null}\n              </span>\n              {item.trailing ? (\n                <span className=\"shrink-0 text-caption text-text-2\">\n                  {item.trailing}\n                </span>\n              ) : null}\n            </Row>\n          </motion.li>\n        );\n      })}\n    </motion.ul>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

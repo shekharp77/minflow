@@ -1,7 +1,7 @@
 import { DocsNavSheet } from "@/components/site/docs-nav-sheet";
 import { DocsSidebar } from "@/components/site/docs-sidebar";
 import { SiteHeader } from "@/components/site/site-header";
-import { Toaster } from "@/registry/miniflow/ui/toast";
+import { Toaster } from "@/registry/minflow/ui/toast";
 
 /*
  * The documentation shell: a standing left rail of every component plus the

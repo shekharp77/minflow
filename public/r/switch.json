@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch",
+  "title": "Switch",
+  "description": "Two states that take effect immediately.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/switch.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\nimport { durations, easeEnter, springSnap, useMotionEnabled } from \"@/lib/motion\";\n\n/*\n * From-scratch switch: a real button with role=\"switch\", controlled or\n * uncontrolled. The on-state wears --fg, not the accent, so flipping a\n * setting never competes with the view's one accented action.\n *\n * The knob runs on a spring rather than a tween because it is the one part of\n * this component that models a physical object. A spring carries velocity\n * across an interruption, so a switch flipped twice in quick succession\n * continues from wherever the knob actually is instead of restarting -- which\n * is the difference between a control that feels connected to the hand and one\n * that feels like it is playing back a recording.\n *\n * While held, the knob stretches toward the side it is about to travel to.\n * That is the whole trick behind a switch that feels sprung: the press loads\n * it, the release fires it.\n */\nexport interface SwitchProps\n  extends Omit<React.ComponentProps<\"button\">, \"onChange\"> {\n  checked?: boolean;\n  defaultChecked?: boolean;\n  onCheckedChange?: (checked: boolean) => void;\n}\n\nexport function Switch({\n  checked,\n  defaultChecked,\n  onCheckedChange,\n  className,\n  disabled,\n  onClick,\n  ...props\n}: SwitchProps) {\n  const [internal, setInternal] = React.useState(defaultChecked ?? false);\n  const [held, setHeld] = React.useState(false);\n  const isControlled = checked !== undefined;\n  const on = isControlled ? checked : internal;\n  const motionOk = useMotionEnabled();\n\n  const release = () => setHeld(false);\n\n  return (\n    <button\n      type=\"button\"\n      role=\"switch\"\n      aria-checked={on}\n      data-slot=\"switch\"\n      disabled={disabled}\n      onPointerDown={() => setHeld(true)}\n      onPointerUp={release}\n      onPointerLeave={release}\n      onPointerCancel={release}\n      onClick={(event) => {\n        onClick?.(event);\n        if (event.defaultPrevented) return;\n        const next = !on;\n        if (!isControlled) setInternal(next);\n        onCheckedChange?.(next);\n      }}\n      className={cn(\n        \"hit-target relative inline-flex h-5 w-8 shrink-0 items-center rounded-full px-0.5 outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50\",\n        on ? \"bg-fg\" : \"bg-control-edge\",\n        className\n      )}\n      {...props}\n    >\n      <motion.span\n        aria-hidden\n        /*\n         * The knob is 16px in a 32px track with 2px of padding, so its travel\n         * is 12px. Stretching it while held eats into that, which is why the\n         * stretch is applied as scaleX about the leading edge rather than as\n         * width: a transform cannot change the geometry the travel is measured\n         * against.\n         */\n        animate={{\n          x: on ? 12 : 0,\n          scaleX: held && motionOk ? 1.18 : 1,\n        }}\n        style={{ transformOrigin: on ? \"right center\" : \"left center\" }}\n        transition={\n          motionOk\n            ? { ...springSnap, scaleX: { duration: durations.press, ease: easeEnter } }\n            : { duration: 0 }\n        }\n        className=\"block size-4 rounded-full bg-bg shadow-sm ring-1 ring-border\"\n      />\n    </button>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

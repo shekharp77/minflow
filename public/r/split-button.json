@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "split-button",
+  "title": "Split button",
+  "description": "A default action with its alternatives one chevron away.",
+  "registryDependencies": [
+    "@minflow/button",
+    "@minflow/field",
+    "@minflow/menu",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/split-button.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Button } from \"@/components/ui/button\";\nimport { Menu } from \"@/components/ui/menu\";\nimport { FieldChevron } from \"@/registry/minflow/ui/field\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Split button, inline: the label runs the default action and the chevron\n * opens the alternatives. No outline and no rule between the halves. The two\n * are held together by proximity and by a shared hover fill that lights the\n * whole pair, so it reads as one control that happens to have two targets.\n */\nexport interface SplitButtonProps {\n  children: React.ReactNode;\n  onClick?: () => void;\n  menu: React.ReactNode;\n  className?: string;\n}\n\nexport function SplitButton({ children, onClick, menu, className }: SplitButtonProps) {\n  const [open, setOpen] = React.useState(false);\n\n  return (\n    <span\n      className={cn(\n        \"group/split inline-flex items-center rounded-control transition-colors duration-150 hover:bg-hover\",\n        open && \"bg-hover\",\n        className\n      )}\n    >\n      <Button\n        variant=\"text\"\n        onClick={onClick}\n        className=\"pr-1 group-hover/split:text-text\"\n      >\n        {children}\n      </Button>\n      {/*\n        * Aligned to the chevron's leading edge, not its trailing one: the\n        * menu is wider than the chevron, so end-alignment hangs it off to\n        * the left and clips it whenever the control sits near a left edge.\n        */}\n      <Menu\n        align=\"start\"\n        open={open}\n        onOpenChange={setOpen}\n        trigger={\n          <Button\n            variant=\"text\"\n            aria-label=\"More actions\"\n            className=\"px-1.5 group-hover/split:text-text\"\n          >\n            <FieldChevron open={open} />\n          </Button>\n        }\n      >\n        {menu}\n      </Menu>\n    </span>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

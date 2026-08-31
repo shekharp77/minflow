@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "field",
+  "title": "Field",
+  "description": "The shared shell for list fields: the boundary, the placeholder and the chevron.",
+  "dependencies": [
+    "lucide-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/field.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { ChevronDown } from \"lucide-react\";\nimport { enter, exit, roll } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Shared chrome for field-shaped controls, in two registers.\n *\n * Inline fields draw nothing, ever: no fill, no box, no rule, not even on\n * focus. A placeholder, an optional leading glyph, and a trailing action once\n * there is something to act on. Their chrome lives in this file only by\n * absence, which is deliberate; anything that outlines an inline field is a\n * defect, not a variant.\n *\n * List fields (select, combo box, date picker, search) do the opposite: they\n * keep a permanent boundary all the way around, because a closed list has to\n * look clickable while empty. The boundary is a hairline and never a fill.\n */\n\n/** List-field row: hairline boundary, transparent inside. */\nexport const fieldBoxRow =\n  \"relative flex h-8 w-full items-center justify-between gap-2 rounded-control bg-transparent px-2.5 text-left text-body outline-none\";\n\n/** The permanent boundary for list fields. Deepens while the list is open. */\nexport function FieldBoundary({\n  active,\n  invalid,\n}: {\n  active: boolean;\n  invalid?: boolean;\n}) {\n  return (\n    <motion.span\n      aria-hidden\n      initial={false}\n      animate={{ opacity: active ? 1 : 0 }}\n      transition={roll}\n      className={cn(\n        \"pointer-events-none absolute inset-0 rounded-control border\",\n        invalid ? \"border-err\" : \"border-control-edge\"\n      )}\n    />\n  );\n}\n\n/** Secondary-toned chevron that rolls over while its list is open. */\nexport function FieldChevron({ open }: { open: boolean }) {\n  return (\n    <motion.span\n      aria-hidden\n      initial={false}\n      animate={{ rotate: open ? 180 : 0 }}\n      transition={roll}\n      className=\"shrink-0 text-fg-2\"\n    >\n      <ChevronDown className=\"size-4\" />\n    </motion.span>\n  );\n}\n\n/** Value slot: primary text once set, secondary while it is still a prompt. */\nexport function FieldValue({\n  filled,\n  children,\n}: {\n  filled: boolean;\n  children: React.ReactNode;\n}) {\n  return (\n    <span className={cn(\"truncate\", filled ? \"text-text\" : \"text-text-2\")}>\n      {children}\n    </span>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

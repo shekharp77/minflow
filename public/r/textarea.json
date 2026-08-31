@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "textarea",
+  "title": "Textarea",
+  "description": "Multiline text that eases taller as it fills.",
+  "registryDependencies": [
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/textarea.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Textbox for longer text that grows with its content: height follows\n * scrollHeight through a CSS transition, so new lines ease the field open\n * instead of jumping it. Inline like every other field, so it never draws a\n * boundary: the placeholder is the whole affordance.\n */\nexport interface TextareaProps extends React.ComponentProps<\"textarea\"> {\n  maxRows?: number;\n}\n\nexport function Textarea({\n  className,\n  maxRows = 8,\n  onInput,\n  ...props\n}: TextareaProps) {\n  const ref = React.useRef<HTMLTextAreaElement>(null);\n\n  const grow = React.useCallback(() => {\n    const el = ref.current;\n    if (!el) return;\n    const line = 20; /* text-body line height in px */\n    const max = maxRows * line + 16;\n    el.style.height = \"0px\";\n    el.style.height = `${Math.min(max, el.scrollHeight)}px`;\n  }, [maxRows]);\n\n  React.useEffect(() => {\n    grow();\n  }, [grow]);\n\n  return (\n    <textarea\n      ref={ref}\n      rows={2}\n      onInput={(event) => {\n        grow();\n        onInput?.(event);\n      }}\n      className={cn(\n        \"w-full min-w-0 resize-none overflow-hidden bg-transparent py-1 font-sans text-body text-text outline-none transition-[height] duration-150 placeholder:text-text-2/70 disabled:pointer-events-none disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    />\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "app-bar",
+  "title": "App bar",
+  "description": "A top bar that is invisible until content scrolls under it.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/app-bar.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\nimport { durations, easeEnter, useMotionEnabled } from \"@/lib/motion\";\n\n/*\n * The bar that stays at the top of a screen and tells you where you are.\n *\n * At the top of a page it is invisible chrome: no fill, no rule, just the\n * title sitting on the page. Once content scrolls under it, the fill and the\n * blur fade in - so the separation appears exactly when there is something to\n * separate, and never as permanent furniture. That is the same reason the\n * title only slides in once the page's own heading has scrolled away.\n */\nexport interface AppBarProps {\n  title: string;\n  /** Back control, menu button, or a mark. */\n  leading?: React.ReactNode;\n  /** Row actions, right aligned. */\n  actions?: React.ReactNode;\n  /**\n   * Scroll distance in px at which the bar condenses. The element scrolled is\n   * whatever `scrollRef` points at, or the window.\n   */\n  condenseAt?: number;\n  scrollRef?: React.RefObject<HTMLElement | null>;\n  /** Renders the title only after condensing, for a large-title layout. */\n  revealTitleOnScroll?: boolean;\n  className?: string;\n}\n\nexport function AppBar({\n  title,\n  leading,\n  actions,\n  condenseAt = 24,\n  scrollRef,\n  revealTitleOnScroll = false,\n  className,\n}: AppBarProps) {\n  const motionOn = useMotionEnabled();\n  const [condensed, setCondensed] = React.useState(false);\n\n  React.useEffect(() => {\n    const target: HTMLElement | Window = scrollRef?.current ?? window;\n    const read = () =>\n      setCondensed(\n        (target instanceof Window ? window.scrollY : target.scrollTop) > condenseAt\n      );\n    read();\n    target.addEventListener(\"scroll\", read, { passive: true });\n    return () => target.removeEventListener(\"scroll\", read);\n  }, [condenseAt, scrollRef]);\n\n  const showTitle = revealTitleOnScroll ? condensed : true;\n\n  return (\n    <header\n      className={cn(\n        \"sticky top-0 z-sticky flex h-12 items-center gap-2 px-3 transition-[background-color,backdrop-filter] duration-300\",\n        condensed ? \"bg-bg/85 backdrop-blur\" : \"bg-transparent\",\n        className\n      )}\n    >\n      {leading}\n      <div className=\"min-w-0 flex-1\">\n        <AnimatePresence initial={false}>\n          {showTitle && (\n            <motion.h2\n              key=\"title\"\n              initial={motionOn ? { opacity: 0, y: 6 } : false}\n              animate={{ opacity: 1, y: 0 }}\n              exit={motionOn ? { opacity: 0, y: 6 } : undefined}\n              transition={{ duration: durations.micro, ease: easeEnter }}\n              className=\"truncate text-emphasis font-medium text-text\"\n            >\n              {title}\n            </motion.h2>\n          )}\n        </AnimatePresence>\n      </div>\n      {actions ? <div className=\"flex shrink-0 items-center gap-0.5\">{actions}</div> : null}\n    </header>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -2,7 +2,7 @@ import { Code, Dumbbell, Megaphone, Palette, Wrench } from "lucide-react";
 import type {
   CalendarEvent,
   CalendarResource,
-} from "@/registry/miniflow/ui/event-calendar";
+} from "@/registry/minflow/ui/event-calendar";
 
 /*
  * Sample schedule for the documentation.

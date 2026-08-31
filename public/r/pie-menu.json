@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pie-menu",
+  "title": "Pie menu",
+  "description": "Options blooming onto a circle around their handle.",
+  "dependencies": [
+    "lucide-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/overlay",
+    "@minflow/tokens",
+    "@minflow/tooltip",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/pie-menu.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { Plus } from \"lucide-react\";\nimport { Tooltip } from \"@/components/ui/tooltip\";\nimport { useDismiss } from \"@/components/ui/overlay\";\nimport { enter, exit as exitT, pressScaleSmall, roll } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Pie menu: options bloom outward from the handle onto a circle, each one\n * a beat behind the last; the handle's plus rolls into a close. Selecting\n * an option collapses the ring back into the center.\n */\nexport interface PieMenuItem {\n  icon: React.ReactNode;\n  label: string;\n  onSelect?: () => void;\n}\n\nexport interface PieMenuProps {\n  items: PieMenuItem[];\n  radius?: number;\n  label?: string;\n  className?: string;\n}\n\nexport function PieMenu({\n  items,\n  radius = 64,\n  label = \"Actions\",\n  className,\n}: PieMenuProps) {\n  const [open, setOpen] = React.useState(false);\n  const rootRef = React.useRef<HTMLDivElement>(null);\n  const close = React.useCallback(() => setOpen(false), []);\n  useDismiss(open, close, [rootRef]);\n\n  return (\n    <div\n      ref={rootRef}\n      className={cn(\"relative inline-flex items-center justify-center\", className)}\n      style={{ width: radius * 2 + 48, height: radius * 2 + 48 }}\n    >\n      <AnimatePresence>\n        {open &&\n          items.map((item, i) => {\n            const angle = (-90 + (360 / items.length) * i) * (Math.PI / 180);\n            const x = Math.cos(angle) * radius;\n            const y = Math.sin(angle) * radius;\n            return (\n              <motion.span\n                key={item.label}\n                initial={{ x: 0, y: 0, scale: 0.85, opacity: 0 }}\n                animate={{\n                  x,\n                  y,\n                  scale: 1,\n                  opacity: 1,\n                  transition: { ...enter, delay: 0.06 * i },\n                }}\n                exit={{\n                  x: 0,\n                  y: 0,\n                  scale: 0.85,\n                  opacity: 0,\n                  transition: {\n                    ...exitT,\n                    delay: 0.025 * (items.length - 1 - i),\n                  },\n                }}\n                className=\"absolute\"\n              >\n                <Tooltip label={item.label}>\n                  <button\n                    type=\"button\"\n                    aria-label={item.label}\n                    onClick={() => {\n                      item.onSelect?.();\n                      setOpen(false);\n                    }}\n                    className=\"flex size-10 items-center justify-center rounded-full bg-bg-2 text-fg-2 shadow-overlay ring-1 ring-border outline-none transition-colors duration-150 hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-4\"\n                  >\n                    {item.icon}\n                  </button>\n                </Tooltip>\n              </motion.span>\n            );\n          })}\n      </AnimatePresence>\n      <Tooltip label={open ? \"Close\" : label}>\n        <motion.button\n          type=\"button\"\n          aria-label={open ? \"Close\" : label}\n          aria-expanded={open}\n          onClick={() => setOpen((v) => !v)}\n          whileTap={{ scale: pressScaleSmall }}\n          animate={{ rotate: open ? 45 : 0 }}\n          transition={roll}\n          className=\"relative z-10 flex size-12 items-center justify-center rounded-full bg-fg text-bg shadow-overlay outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-5\"\n        >\n          <Plus />\n        </motion.button>\n      </Tooltip>\n    </div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

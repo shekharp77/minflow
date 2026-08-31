@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pagination",
+  "title": "Pagination",
+  "description": "Page numbers with one travelling marker rather than a highlight that jumps.",
+  "dependencies": [
+    "lucide-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/icon-button",
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/pagination.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { ChevronLeft, ChevronRight } from \"lucide-react\";\nimport { IconButton } from \"@/components/ui/icon-button\";\nimport { cn } from \"@/lib/utils\";\nimport { durations, easeSoft, pressScaleSmall, useMotionEnabled } from \"@/lib/motion\";\n\n/*\n * Page navigation as a row of numbers with one travelling marker.\n *\n * The marker is a single shared element that slides between pages rather than\n * a highlight that switches off here and on there, so the eye is carried to\n * the new page instead of having to find it. Gaps are a character, not a\n * button: there is nothing to click in the middle of a jump.\n */\nexport interface PaginationProps {\n  page: number;\n  count: number;\n  onChange?: (page: number) => void;\n  /** Pages either side of the current one before the list elides. */\n  siblings?: number;\n  className?: string;\n}\n\ntype Slot = number | \"gap-left\" | \"gap-right\";\n\nfunction slotsFor(page: number, count: number, siblings: number): Slot[] {\n  /* Short lists are never elided: hiding two of seven pages helps nobody. */\n  if (count <= siblings * 2 + 5) {\n    return Array.from({ length: count }, (_, i) => i + 1);\n  }\n  const left = Math.max(2, page - siblings);\n  const right = Math.min(count - 1, page + siblings);\n  const out: Slot[] = [1];\n  if (left > 2) out.push(\"gap-left\");\n  for (let i = left; i <= right; i++) out.push(i);\n  if (right < count - 1) out.push(\"gap-right\");\n  out.push(count);\n  return out;\n}\n\nexport function Pagination({\n  page,\n  count,\n  onChange,\n  siblings = 1,\n  className,\n}: PaginationProps) {\n  const motionOn = useMotionEnabled();\n  const id = React.useId();\n  const slots = slotsFor(page, count, siblings);\n\n  const go = (next: number) => {\n    const clamped = Math.max(1, Math.min(count, next));\n    if (clamped !== page) onChange?.(clamped);\n  };\n\n  return (\n    <nav\n      aria-label=\"Pagination\"\n      className={cn(\"flex items-center gap-0.5\", className)}\n    >\n      <IconButton\n        label=\"Previous page\"\n        className=\"size-8\"\n        disabled={page <= 1}\n        onClick={() => go(page - 1)}\n      >\n        <ChevronLeft />\n      </IconButton>\n\n      {slots.map((slot) =>\n        typeof slot === \"number\" ? (\n          <motion.button\n            key={slot}\n            type=\"button\"\n            aria-label={`Page ${slot}`}\n            whileTap={motionOn ? { scale: pressScaleSmall } : undefined}\n            aria-current={slot === page ? \"page\" : undefined}\n            onClick={() => go(slot)}\n            className={cn(\n              \"relative inline-flex size-8 items-center justify-center rounded-control text-body tabular-nums outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent\",\n              slot === page\n                ? \"font-medium text-text\"\n                : \"text-text-2 hover:bg-hover hover:text-text\"\n            )}\n          >\n            {slot === page && (\n              <motion.span\n                aria-hidden\n                layoutId={motionOn ? `${id}-marker` : undefined}\n                transition={{ duration: durations.micro, ease: easeSoft }}\n                className=\"absolute inset-0 -z-10 rounded-control bg-bg-2\"\n              />\n            )}\n            {slot}\n          </motion.button>\n        ) : (\n          <span\n            key={slot}\n            aria-hidden\n            className=\"inline-flex size-8 items-center justify-center text-body text-fg-2\"\n          >\n            &hellip;\n          </span>\n        )\n      )}\n\n      <IconButton\n        label=\"Next page\"\n        className=\"size-8\"\n        disabled={page >= count}\n        onClick={() => go(page + 1)}\n      >\n        <ChevronRight />\n      </IconButton>\n    </nav>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

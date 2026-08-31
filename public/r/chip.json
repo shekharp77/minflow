@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "chip",
+  "title": "Chip",
+  "description": "An enumerated value, always rendered as a chip rather than as text.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/chip.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion } from \"motion/react\";\nimport { fadeScale, pressScale, useMotionEnabled } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Enumerated values (status, role, tier, category) always render as chips,\n * never as plain text. Status tones mean status and nothing else; identity\n * tones attach to a data type app-wide, never to an instance's mood.\n *\n * A chip settles in when it appears, because a value arriving on a row is a\n * change worth noticing, and it crossfades when its tone changes rather than\n * swapping colour on the spot.\n */\nexport type ChipTone = \"neutral\" | \"ok\" | \"warn\" | \"err\" | \"id1\" | \"id2\" | \"id3\";\nexport type ChipVariant = \"tint\" | \"outline\";\n\nconst tint: Record<ChipTone, string> = {\n  neutral: \"bg-hover text-text-2\",\n  ok: \"bg-ok/12 text-ok\",\n  warn: \"bg-warn/12 text-warn\",\n  err: \"bg-err/12 text-err\",\n  id1: \"bg-id-1/12 text-id-1\",\n  id2: \"bg-id-2/12 text-id-2\",\n  id3: \"bg-id-3/12 text-id-3\",\n};\n\nconst outline: Record<ChipTone, string> = {\n  neutral: \"border border-border-strong text-text-2\",\n  ok: \"border border-ok/40 text-ok\",\n  warn: \"border border-warn/40 text-warn\",\n  err: \"border border-err/40 text-err\",\n  id1: \"border border-id-1/40 text-id-1\",\n  id2: \"border border-id-2/40 text-id-2\",\n  id3: \"border border-id-3/40 text-id-3\",\n};\n\nexport interface ChipProps\n  extends Omit<React.ComponentProps<typeof motion.span>, \"children\"> {\n  tone?: ChipTone;\n  variant?: ChipVariant;\n  children?: React.ReactNode;\n}\n\nexport function Chip({\n  tone = \"neutral\",\n  variant = \"tint\",\n  className,\n  ...props\n}: ChipProps) {\n  const motionOk = useMotionEnabled();\n  /*\n   * A chip is a label that is sometimes also a control. Press feedback is\n   * offered only when something is actually listening for the click --\n   * squashing a static tag would promise an interaction that does not exist.\n   */\n  const pressable = typeof props.onClick === \"function\";\n\n  return (\n    <motion.span\n      data-slot=\"chip\"\n      variants={fadeScale}\n      initial=\"hidden\"\n      animate=\"visible\"\n      exit=\"exit\"\n      whileTap={motionOk && pressable ? { scale: pressScale } : undefined}\n      className={cn(\n        \"inline-flex h-6 items-center gap-1 whitespace-nowrap rounded-full px-2 text-caption font-medium transition-colors duration-150 [&_svg]:size-4 [&_svg]:shrink-0\",\n        variant === \"tint\" ? tint[tone] : outline[tone],\n        className\n      )}\n      {...props}\n    />\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

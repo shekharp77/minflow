@@ -1,1 +1,1 @@
-export * from "@/registry/miniflow/lib/motion";
+export * from "@/registry/minflow/lib/motion";

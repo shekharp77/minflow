@@ -1,1 +1,1 @@
-export * from "@/registry/miniflow/ui/progress-steps";
+export * from "@/registry/minflow/ui/progress-steps";

@@ -7,7 +7,7 @@ import { CopyLine } from "@/components/site/copy-line";
 import { Reveal } from "@/components/site/reveal";
 
 export const metadata: Metadata = {
-  title: "miniflow - a minimalist React component library",
+  title: "minflow - a minimalist React component library",
   description:
     "A from-scratch minimalist React component library: one accent per view, whitespace instead of boxes, and motion that earns its milliseconds.",
   alternates: { canonical: "/" },
@@ -33,7 +33,7 @@ export default function Home() {
             that earns its milliseconds.
           </p>
           <div className="mt-8">
-            <CopyLine command="npx shadcn@latest add @miniflow/button" />
+            <CopyLine command="npx shadcn@latest add @minflow/button" />
           </div>
         </Reveal>
 

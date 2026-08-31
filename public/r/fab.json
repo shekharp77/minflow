@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fab",
+  "title": "Floating action button",
+  "description": "One unmissable action hovering above the content.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/tooltip",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/fab.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion, type HTMLMotionProps } from \"motion/react\";\nimport { Tooltip } from \"@/components/ui/tooltip\";\nimport { enter, pressScale, useHoverCapable, useMotionEnabled } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Floating action button: the one unmissable action that hovers over\n * content. Rises a breath on hover, presses on tap.\n */\nexport interface FabProps extends HTMLMotionProps<\"button\"> {\n  label: string;\n}\n\nexport function Fab({ label, className, children, ...props }: FabProps) {\n  const motionOk = useMotionEnabled();\n  const hoverOk = useHoverCapable();\n\n  return (\n    <Tooltip label={label}>\n      <motion.button\n        type=\"button\"\n        aria-label={label}\n        /*\n         * The lift is gated on a real pointer: on a touchscreen the synthetic\n         * hover fires on tap and never leaves, so the button would simply sit\n         * 2px high for the rest of the session.\n         */\n        whileHover={hoverOk ? { y: -2 } : undefined}\n        whileTap={motionOk ? { scale: pressScale } : undefined}\n        transition={enter}\n        className={cn(\n          \"flex size-12 items-center justify-center rounded-full bg-fg text-bg shadow-overlay outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&_svg]:size-5\",\n          className\n        )}\n        {...props}\n      >\n        {children}\n      </motion.button>\n    </Tooltip>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

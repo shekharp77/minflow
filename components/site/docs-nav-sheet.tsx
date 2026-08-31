@@ -3,8 +3,8 @@
 import * as React from "react";
 import { usePathname } from "next/navigation";
 import { PanelLeft } from "lucide-react";
-import { Button } from "@/registry/miniflow/ui/button";
-import { Sheet } from "@/registry/miniflow/ui/sheet";
+import { Button } from "@/registry/minflow/ui/button";
+import { Sheet } from "@/registry/minflow/ui/sheet";
 import { DocsSidebar } from "@/components/site/docs-sidebar";
 
 /*

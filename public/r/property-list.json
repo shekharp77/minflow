@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "property-list",
+  "title": "Property list",
+  "description": "Definition rows on the open canvas, with unset values as the add affordance.",
+  "dependencies": [
+    "lucide-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "@minflow/field",
+    "@minflow/icon-button",
+    "@minflow/menu",
+    "@minflow/motion",
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/property-list.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion } from \"motion/react\";\nimport { ChevronDown, Plus } from \"lucide-react\";\nimport { IconButton } from \"@/components/ui/icon-button\";\nimport { Menu } from \"@/components/ui/menu\";\nimport { FieldChevron } from \"@/registry/minflow/ui/field\";\nimport { morph, roll } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Property panel: open definition rows on the canvas, no card chrome.\n * Unset values render as muted placeholders that are themselves the\n * click-to-edit affordance; completeness is incremental.\n */\nexport interface PropertyProps {\n  label: string;\n  icon?: React.ReactNode;\n  /** Renders the value as a quiet add-affordance. */\n  muted?: boolean;\n  onClick?: () => void;\n  /**\n   * Menu items. Turns the value into a dropdown trigger, which is how a\n   * property with a fixed set of possible values gets edited in place.\n   */\n  menu?: React.ReactNode;\n  children: React.ReactNode;\n}\n\nconst valueRow =\n  \"flex min-h-6 min-w-0 items-center gap-2 rounded-control text-left text-body outline-none transition-colors duration-150 [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-fg-2\";\nconst valueInteractive =\n  \"cursor-pointer hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent\";\n\nexport function Property({\n  label,\n  icon,\n  muted,\n  onClick,\n  menu,\n  children,\n}: PropertyProps) {\n  const [open, setOpen] = React.useState(false);\n\n  return (\n    <div className=\"grid h-8 grid-cols-[88px_1fr] items-center gap-3\">\n      <span className=\"text-caption text-text-2\">{label}</span>\n      {menu ? (\n        <Menu\n          align=\"start\"\n          open={open}\n          onOpenChange={setOpen}\n          trigger={\n            <button\n              type=\"button\"\n              aria-haspopup=\"menu\"\n              className={cn(\n                valueRow,\n                valueInteractive,\n                muted ? \"text-text-2\" : \"text-text\"\n              )}\n            >\n              {icon}\n              {children}\n              <FieldChevron open={open} />\n            </button>\n          }\n        >\n          {menu}\n        </Menu>\n      ) : onClick ? (\n        <button\n          type=\"button\"\n          onClick={onClick}\n          className={cn(\n            valueRow,\n            valueInteractive,\n            muted ? \"text-text-2\" : \"text-text\"\n          )}\n        >\n          {icon}\n          {children}\n        </button>\n      ) : (\n        <span className={cn(valueRow, muted ? \"text-text-2\" : \"text-text\")}>\n          {icon}\n          {children}\n        </span>\n      )}\n    </div>\n  );\n}\n\nexport interface PropertyListProps {\n  title?: string;\n  onAdd?: () => void;\n  className?: string;\n  children: React.ReactNode;\n}\n\nexport function PropertyList({\n  title = \"Properties\",\n  onAdd,\n  className,\n  children,\n}: PropertyListProps) {\n  const [open, setOpen] = React.useState(true);\n\n  return (\n    <div className={cn(\"w-72\", className)}>\n      <div className=\"flex items-center\">\n        <button\n          type=\"button\"\n          aria-expanded={open}\n          onClick={() => setOpen((v) => !v)}\n          className=\"flex min-h-6 items-center gap-1 rounded-control text-caption font-medium text-text-2 outline-none transition-colors duration-150 hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent\"\n        >\n          {title}\n          <motion.span\n            aria-hidden\n            initial={false}\n            animate={{ rotate: open ? 0 : -90 }}\n            transition={roll}\n          >\n            <ChevronDown className=\"size-4\" />\n          </motion.span>\n        </button>\n        {onAdd && (\n          <IconButton label=\"Add property\" className=\"ml-auto size-8\" onClick={onAdd}>\n            <Plus />\n          </IconButton>\n        )}\n      </div>\n      <AnimatePresence initial={false}>\n        {open && (\n          <motion.div\n            initial={{ height: 0, opacity: 0 }}\n            animate={{ height: \"auto\", opacity: 1 }}\n            exit={{ height: 0, opacity: 0 }}\n            transition={morph}\n            className=\"overflow-hidden\"\n          >\n            <div className=\"flex flex-col pt-2\">{children}</div>\n          </motion.div>\n        )}\n      </AnimatePresence>\n    </div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}
