@@ -111,7 +111,7 @@ console.log(`- Rewrote aliases in ${rewritten} files.`);
  * at is a client component, and a server file re-exporting them would make the
  * boundary depend on which component you happened to pull.
  *
- * Prefer the subpath (`@shekharp77/minflow/button`) in real apps: it is the
+ * Prefer the subpath (`@shekharsingh/minflow/button`) in real apps: it is the
  * form that cannot pull in anything you did not ask for.
  */
 const components = readdirSync(UI_SRC)

@@ -57,16 +57,16 @@ package. This is the trade the registry route avoids: you get upgrades for
 free, and you cannot edit a component without forking.
 
 ```bash
-npm install @shekharp77/minflow
+npm install @shekharsingh/minflow
 ```
 
 ```tsx
-import "@shekharp77/minflow/styles.css";
-import { Button } from "@shekharp77/minflow/button";
+import "@shekharsingh/minflow/styles.css";
+import { Button } from "@shekharsingh/minflow/button";
 ```
 
 Import from the subpath rather than the package root where you can: every
-component is its own entry point, so `@shekharp77/minflow/button` cannot pull
+component is its own entry point, so `@shekharsingh/minflow/button` cannot pull
 in anything else. `react` and `react-dom` are peer dependencies.
 
 ## Use
