@@ -2,8 +2,14 @@ import type { MetadataRoute } from "next";
 import { COMPONENTS } from "@/lib/catalog";
 import { SITE_URL } from "@/lib/site";
 
-/* Every route is statically known, so the sitemap is generated from the same
- * catalog the pages are, and cannot drift out of sync with them. */
+/*
+ * Every route is statically known, so the sitemap is generated from the same
+ * catalog the pages are and cannot drift out of sync with them. Under
+ * `output: "export"` a route handler must also declare itself static, or the
+ * build cannot collect sitemap.xml at all.
+ */
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const guides = ["", "/introduction", "/installation"];
 

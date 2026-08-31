@@ -60,14 +60,15 @@ jobs:
       - name: Build
         run: pnpm build
 
-      # Serves the built site and proves the registry is actually installable,
+      # Serves the STATIC EXPORT (out/) exactly as Cloudflare will, and proves
+      # the registry is actually installable from it,
       # rather than merely well-formed: a real `shadcn add` into a scratch
       # project, with every rewritten import checked against the filesystem.
       # This is the check that catches namespace and alias regressions, which
       # schema validation cannot see.
       - name: Verify a real install
         run: |
-          pnpm start &
+          pnpm preview &
           for i in $(seq 1 30); do
             curl -sf http://localhost:3000/r/button.json >/dev/null && break
             sleep 1
