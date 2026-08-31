@@ -129,8 +129,21 @@ jobs:
           fi
           echo "Tarball install verified."
 
+      # NPM_TOKEN must be a Granular Access Token with "Bypass 2FA" enabled, or a
+      # classic Automation token. A classic *Publish* token is not enough on an
+      # account with 2FA enforced: the registry rejects the PUT with
+      #   403 ... Two-factor authentication or granular access token with
+      #   bypass 2fa enabled is required to publish packages
+      # which is a token-shape problem and not a permissions one, so it looks
+      # like an access error and is not.
+      #
+      # The condition covers both entry points on purpose: a tag push (where
+      # `inputs.dry_run` is empty) publishes, a manual run publishes only when
+      # dry_run is explicitly false. That means a release that failed at the
+      # publish step can be retried by re-running this workflow once the token
+      # is fixed, instead of deleting and re-pushing the tag.
       - name: Publish to npm
-        if: startsWith(github.ref, 'refs/tags/v') && github.event.inputs.dry_run != 'true'
+        if: github.event.inputs.dry_run != 'true'
         run: pnpm publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
