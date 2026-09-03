@@ -5,6 +5,13 @@ name: Release
 # refactor is a release decision, and the version in package.json stops meaning
 # anything. Pushing `v0.1.0` is the decision, and it is a separate act.
 on:
+  # A GitHub Release cut from a tag that ALREADY EXISTS fires no push event, so
+  # a tag-only trigger silently does nothing on exactly the workflow the
+  # maintainer actually uses. Listening for the published release as well
+  # covers both routes; `github.ref` is still refs/tags/v* either way, so the
+  # tag/package.json check below is unaffected.
+  release:
+    types: [published]
   push:
     tags: ["v*"]
   workflow_dispatch:
