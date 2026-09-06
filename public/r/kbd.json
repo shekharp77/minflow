@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "title": "Keyboard key",
+  "description": "A small key-cap for inline keyboard shortcuts.",
+  "registryDependencies": [
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/kbd.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * A keycap for inline shortcuts. It stays text-sized so it can sit inside a\n * sentence, while the quiet fill and hairline edge keep it recognisable as a\n * physical key rather than another word.\n */\nexport interface KbdProps extends React.ComponentProps<\"kbd\"> {}\n\nexport function Kbd({ className, children, ...props }: KbdProps) {\n  return (\n    <kbd\n      data-slot=\"kbd\"\n      className={cn(\n        \"inline-flex h-5 min-w-5 items-center justify-center rounded-control border border-border-strong bg-bg-2 px-1 font-mono text-caption font-medium leading-none text-text-2\",\n        className\n      )}\n      {...props}\n    >\n      {children}\n    </kbd>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

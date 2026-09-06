@@ -48,6 +48,10 @@ const UNDOCUMENTED = {
     description:
       "The shared shell for list fields: the boundary, the placeholder and the chevron.",
   },
+  kbd: {
+    title: "Keyboard key",
+    description: "A small key-cap for inline keyboard shortcuts.",
+  },
 };
 
 /*

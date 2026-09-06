@@ -708,6 +708,22 @@
       ]
     },
     {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Keyboard key",
+      "description": "A small key-cap for inline keyboard shortcuts.",
+      "registryDependencies": [
+        "@minflow/tokens",
+        "@minflow/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/minflow/ui/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "lightbox",
       "type": "registry:ui",
       "title": "Lightbox",
