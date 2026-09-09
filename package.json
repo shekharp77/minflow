@@ -51,10 +51,11 @@
     "build": "pnpm registry:build && next build",
     "typecheck": "next typegen && tsc --noEmit",
     "registry:build": "node scripts/build-registry.mjs && shadcn build",
-    "registry:validate": "shadcn registry validate",
+    "registry:validate": "shadcn registry validate && pnpm registry:check-files",
     "package:build": "node scripts/build-package.mjs",
     "package:check": "node scripts/check-package.mjs",
-    "preview": "serve out -l 3000"
+    "preview": "serve out -l 3000",
+    "registry:check-files": "node scripts/check-registry-files.mjs"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.10.0",
