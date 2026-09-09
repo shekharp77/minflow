@@ -149,3 +149,5 @@ Nunito for titles and focal numbers.
 ## Licence
 
 [Apache 2.0](LICENSE) &copy; [Shekhar Singh](https://www.linkedin.com/in/shekhar-singh-pundir/)
+
+Registry components are listed in registry.json.
