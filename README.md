@@ -146,6 +146,6 @@ Next.js, React, Tailwind CSS v4, [motion](https://motion.dev),
 `@formkit/auto-animate`, and `lucide-react`. Inter for everything functional,
 Nunito for titles and focal numbers.
 
-## Licence
+## License
 
-[Apache 2.0](LICENSE) &copy; [Shekhar Singh](https://www.linkedin.com/in/shekhar-singh-pundir/)
+SPDX-License-Identifier: MIT
