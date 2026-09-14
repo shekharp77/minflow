@@ -149,3 +149,10 @@ Nunito for titles and focal numbers.
 ## Licence
 
 [Apache 2.0](LICENSE) &copy; [Shekhar Singh](https://www.linkedin.com/in/shekhar-singh-pundir/)
+
+## Release Notes
+
+v0.1.0
+
+- Initial release: project scaffold and README
+- Added a Release Notes section to README.md
