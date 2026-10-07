@@ -150,6 +150,11 @@ export const selectionComponents: ComponentDoc[] = [
         title: "With bounds",
         when: "When the value has a real minimum or maximum, so the controls disable at the ends instead of failing silently.",
       },
+      {
+        id: "in-form",
+        title: "Inside a form",
+        when: "When the value must submit with a surrounding form: pass name and a hidden input carries it.",
+      },
     ],
   },
   {
