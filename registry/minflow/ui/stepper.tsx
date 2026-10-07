@@ -62,6 +62,7 @@ export function Stepper({
     >
       <IconButton
         label="Decrease"
+        type="button"
         disabled={val <= min}
         onClick={() => commit(val - step)}
         className="relative size-8 after:absolute after:-inset-1"
@@ -86,6 +87,7 @@ export function Stepper({
       </span>
       <IconButton
         label="Increase"
+        type="button"
         disabled={val >= max}
         onClick={() => commit(val + step)}
         className="relative size-8 after:absolute after:-inset-1"
