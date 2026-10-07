@@ -18,6 +18,8 @@ export interface StepperProps {
   value?: number;
   defaultValue?: number;
   onValueChange?: (value: number) => void;
+  /** Form field name. When set, a hidden input submits the current value. */
+  name?: string;
   label?: string;
   className?: string;
 }
@@ -29,6 +31,7 @@ export function Stepper({
   value,
   defaultValue,
   onValueChange,
+  name,
   label = "Quantity",
   className,
 }: StepperProps) {
@@ -44,14 +47,22 @@ export function Stepper({
     onValueChange?.(clamped);
   };
 
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
+    e.preventDefault();
+    commit(e.key === "ArrowUp" ? val + step : val - step);
+  };
+
   return (
     <div
       role="group"
       aria-label={label}
+      onKeyDown={onKeyDown}
       className={cn("inline-flex items-center gap-1", className)}
     >
       <IconButton
         label="Decrease"
+        type="button"
         disabled={val <= min}
         onClick={() => commit(val - step)}
         className="relative size-8 after:absolute after:-inset-1"
@@ -76,12 +87,14 @@ export function Stepper({
       </span>
       <IconButton
         label="Increase"
+        type="button"
         disabled={val >= max}
         onClick={() => commit(val + step)}
         className="relative size-8 after:absolute after:-inset-1"
       >
         <Plus />
       </IconButton>
+      {name ? <input type="hidden" name={name} value={val} /> : null}
     </div>
   );
 }

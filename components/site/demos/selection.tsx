@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Columns3, LayoutGrid, List } from "lucide-react";
+import { Button } from "@/registry/minflow/ui/button";
 import { Checkbox } from "@/registry/minflow/ui/checkbox";
 import { Combobox } from "@/registry/minflow/ui/combobox";
 import { Listbox } from "@/registry/minflow/ui/listbox";
@@ -27,6 +28,27 @@ function SwitchRow({ label, defaultOn }: { label: string; defaultOn?: boolean })
       <span className="text-body text-text">{label}</span>
       <Switch defaultChecked={defaultOn} aria-label={label} />
     </div>
+  );
+}
+
+function StepperFormDemo() {
+  const [submitted, setSubmitted] = React.useState<string | null>(null);
+  return (
+    <form
+      className="flex flex-col items-start gap-3"
+      onSubmit={(e) => {
+        e.preventDefault();
+        setSubmitted(String(new FormData(e.currentTarget).get("quantity")));
+      }}
+    >
+      <Stepper name="quantity" defaultValue={1} min={1} max={10} label="Quantity" />
+      <Button type="submit" size="sm">
+        Add to cart
+      </Button>
+      <p aria-live="polite" className="text-caption text-text-2">
+        {submitted === null ? "Submits quantity with the form." : `Submitted quantity=${submitted}`}
+      </p>
+    </form>
   );
 }
 
@@ -136,6 +158,7 @@ export const selectionDemos: DemoSet = {
   "minimilist-stepper": {
     default: <Stepper defaultValue={2} label="Replicas" />,
     bounded: <Stepper defaultValue={1} min={1} max={3} label="Seats" />,
+    "in-form": <StepperFormDemo />,
   },
 
   "minimilist-select": {
