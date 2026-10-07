@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "price-tag",
+  "title": "Price tag",
+  "description": "One formatted price, with a struck-through old price and a Sale badge when it is marked down.",
+  "registryDependencies": [
+    "@minflow/tokens",
+    "@minflow/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/minflow/ui/price-tag.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * PriceTag: one way to show a price. The amount is formatted by Intl for the\n * given currency and locale; a higher compare-at price renders struck through\n * beside a \"Sale\" badge, and without one neither appears.\n */\nexport interface PriceTagProps {\n  amount: number;\n  /** The pre-sale price. Only shown when it is higher than `amount`. */\n  compareAt?: number;\n  currency?: string;\n  locale?: string;\n  className?: string;\n}\n\nexport function PriceTag({\n  amount,\n  compareAt,\n  currency = \"USD\",\n  locale = \"en-US\",\n  className,\n}: PriceTagProps) {\n  const format = React.useMemo(\n    () => new Intl.NumberFormat(locale, { style: \"currency\", currency }),\n    [locale, currency],\n  );\n  const onSale = compareAt !== undefined && compareAt > amount;\n\n  return (\n    <span\n      className={cn(\"inline-flex items-baseline gap-2 tabular-nums\", className)}\n    >\n      <span className=\"text-emphasis font-medium text-text\">\n        {format.format(amount)}\n      </span>\n      {onSale && (\n        <>\n          <s className=\"text-body text-text-2\">\n            <span className=\"sr-only\">Was </span>\n            {format.format(compareAt)}\n          </s>\n          <span className=\"rounded-full bg-fg px-2 text-caption font-medium leading-5 text-bg\">\n            Sale\n          </span>\n        </>\n      )}\n    </span>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

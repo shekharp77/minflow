@@ -17,6 +17,7 @@ import { DataTable, type Column } from "@/registry/minflow/ui/data-table";
 import { DeviceMockup } from "@/registry/minflow/ui/device-mockup";
 import { ImageList } from "@/registry/minflow/ui/image-list";
 import { List } from "@/registry/minflow/ui/list";
+import { PriceTag } from "@/registry/minflow/ui/price-tag";
 import { Terminal } from "@/registry/minflow/ui/terminal";
 import { Text, TypeScale } from "@/registry/minflow/ui/typography";
 import type { DemoSet } from "@/components/site/demos/types";
@@ -157,6 +158,17 @@ function PhoneDemo() {
 }
 
 export const dataDisplayDemos: DemoSet = {
+  "minimilist-price-tag": {
+    default: <PriceTag amount={48} />,
+    sale: <PriceTag amount={36} compareAt={48} />,
+    locale: (
+      <div className="flex flex-col gap-3">
+        <PriceTag amount={1299.5} currency="EUR" locale="de-DE" />
+        <PriceTag amount={4800} compareAt={5600} currency="JPY" locale="ja-JP" />
+      </div>
+    ),
+  },
+
   "minimilist-avatar": {
     sizes: (
       <div className="flex items-center gap-4">
