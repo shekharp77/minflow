@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
@@ -49,7 +51,11 @@ export function PriceTag({
   className,
 }: PriceTagProps) {
   const format = React.useMemo(() => formatterFor(locale, currency), [locale, currency]);
-  const onSale = compareAt !== undefined && compareAt > amount;
+  const onSale =
+    compareAt !== undefined &&
+    Number.isFinite(compareAt) &&
+    Number.isFinite(amount) &&
+    compareAt > amount;
 
   return (
     <span
