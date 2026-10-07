@@ -209,4 +209,34 @@ export const dataDisplayComponents: ComponentDoc[] = [
       },
     ],
   },
+  {
+    slug: "minimilist-price-tag",
+    name: "Price tag",
+    category: "Display",
+    summary: "One formatted price, with a struck-through old price and a Sale badge when it is marked down.",
+    description:
+      "Prices were formatted by hand on every page, and every page showed a sale differently. This formats the amount with Intl for a currency and locale, so separators and symbols follow the reader rather than the developer. Give it a compare-at price that is higher than the price and the old figure is struck through beside a Sale badge; give it anything else and the tag stays a plain price.",
+    whereToUse: [
+      "Product cards, the cart and checkout: anywhere a single price is shown.",
+      "Pass the currency and locale of the shopper, not of the store; the defaults are USD and en-US.",
+      "Not for a price range or a per-unit rate; compose those from text, since a range has no single amount to mark down.",
+    ],
+    variants: [
+      {
+        id: "default",
+        title: "Standard",
+        when: "The default. A single price with no markdown, which is most of the catalogue.",
+      },
+      {
+        id: "sale",
+        title: "On sale",
+        when: "When the item has been marked down. The compare-at price must be higher than the price, otherwise the tag shows the price alone.",
+      },
+      {
+        id: "locale",
+        title: "Currency and locale",
+        when: "For shoppers outside the US. The same amount renders with the symbol, grouping and decimal separators of their locale.",
+      },
+    ],
+  },
 ];
